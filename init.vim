@@ -1,0 +1,1 @@
+/home/rinz/.vim/.vimrc

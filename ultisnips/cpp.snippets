@@ -1,0 +1,49 @@
+priority 99
+# cpp
+# vim:ft=snippets
+
+extends c
+
+# PreProc
+snippet ifc "c" b
+#ifdef __cplusplus
+extern "c" {
+#endif
+${0:${VISUAL}}
+#ifdef __cplusplus
+}
+#endif
+endsnippet
+
+# ForLoop(C++11)
+snippet fori "for loop(C++11)" b
+for(auto &${1:i}: iterable)
+{
+	${0:${VISUAL}}
+}
+endsnippet
+
+# I/O
+snippet cout "std:cout"
+std::cout << ${0} << std::endl;
+endsnippet
+snippet cin "std:cin"
+std::cin >> ${0};
+endsnippet
+
+# Class
+snippet c "class" b
+class ${1:ClassName}
+{
+  public:
+	${0}
+};
+endsnippet
+snippet cl "class" b
+class ${1:ClassName}
+{
+  public:
+	${0}
+  private:
+};
+endsnippet

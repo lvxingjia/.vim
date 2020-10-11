@@ -1,0 +1,249 @@
+# vim:fenc=utf-8:ff=unix:ft=snippets:
+
+# vimrc
+# <F1> <End><CR><C-i> ${0}
+
+# format
+snippet b "bold" b
+*${0:${VISUAL}}*
+endsnippet
+snippet 粗 "bold" b
+*${0:${VISUAL}}*
+endsnippet
+snippet 粗体 "bold" b
+*${0:${VISUAL}}*
+endsnippet
+snippet i "italic" b
+**${0:${VISUAL}}**
+endsnippet
+snippet 斜 "italic" b
+**${0:${VISUAL}}**
+endsnippet
+snippet 斜体 "italic" b
+**${0:${VISUAL}}**
+endsnippet
+snippet bi "bold italic" b
+***${0:${VISUAL}}***
+endsnippet
+snippet 粗斜 "bold italic" b
+***${0:${VISUAL}}***
+endsnippet
+snippet 粗斜体 "bold italic" b
+***${0:${VISUAL}}***
+endsnippet
+
+# title
+snippet h "title" b
+### ${0:${VISUAL}}
+endsnippet
+snippet 标题 "title" b
+### ${0:${VISUAL}}
+endsnippet
+snippet h1 "h1" b
+# ${0:${VISUAL}}
+endsnippet
+snippet 一级标题 "h1" b
+# ${0:${VISUAL}}
+endsnippet
+snippet h2 "h2" b
+## ${0:${VISUAL}}
+endsnippet
+snippet 二级标题 "h2" b
+## ${0:${VISUAL}}
+endsnippet
+snippet h3 "h3" b
+### ${0:${VISUAL}}
+endsnippet
+snippet 三级标题 "h3" b
+### ${0:${VISUAL}}
+endsnippet
+snippet h4 "h4" b
+#### ${0:${VISUAL}}
+endsnippet
+snippet 四级标题 "h4" b
+#### ${0:${VISUAL}}
+endsnippet
+snippet h5 "h5" b
+##### ${0:${VISUAL}}
+endsnippet
+snippet 五级标题 "h5" b
+##### ${0:${VISUAL}}
+endsnippet
+snippet h6 "h6" b
+###### ${0:${VISUAL}}
+endsnippet
+snippet 六级标题 "h6" b
+###### ${0:${VISUAL}}
+endsnippet
+
+# comment
+snippet n "comment"
+<!-- ${0:${VISUAL}} -->
+endsnippet
+snippet 注释 "comment"
+<!-- ${0:${VISUAL}} -->
+endsnippet
+
+# line
+snippet ln "line" b
+---
+${0}
+endsnippet
+snippet 分隔线 "line" b
+---
+${0}
+endsnippet
+snippet d "del line"
+~~${0:${VISUAL}}~~
+endsnippet
+snippet 删除 "del line"
+~~${0:${VISUAL}}~~
+endsnippet
+snippet 删除线 "del line"
+~~${0:${VISUAL}}~~
+endsnippet
+snippet u "underline"
+<u>${0:${VISUAL}}</u>
+endsnippet
+snippet 下划线 "underline"
+<u>${0:${VISUAL}}</u>
+endsnippet
+
+# foot note
+snippet fn "foot note"
+[^${1}]
+[^$1]:${0}
+endsnippet
+snippet 脚注 "foot note"
+[^${1}]
+[^$1]:${0}
+endsnippet
+
+# list & block
+# - TODO
+# > TODO
+
+# code
+snippet c "code"
+\`${0}\`
+endsnippet
+snippet cd "code block" b
+\`\`\`${0:javascript}
+${0}
+\`\`\`
+endsnippet
+snippet cc "c code" b
+\`\`\`c
+${0}
+\`\`\`
+endsnippet
+snippet cpp "cpp code" b
+\`\`\`cpp
+${0}
+\`\`\`
+endsnippet
+snippet java "java code" b
+\`\`\`java
+${0}
+\`\`\`
+endsnippet
+snippet py "python code" b
+\`\`\`python
+${0}
+\`\`\`
+endsnippet
+snippet js "javascript code" b
+\`\`\`javascript
+${0}
+\`\`\`
+endsnippet
+snippet html "html code" b
+\`\`\`html
+${0}
+\`\`\`
+endsnippet
+
+# link
+snippet a "link"
+[${1:text}](${0:url})
+endsnippet
+snippet lk "link"
+<$0:url>
+endsnippet
+snippet v "link"
+[${1:text}][${2:var}]
+[$2]:${0:url}
+endsnippet
+
+# image
+snippet img "image"
+![alt ${1:text}](${2:url} "${0:title}")
+endsnippet
+
+# tab
+snippet t "table" b
+|${1:a}|${2:b}|${3:c}|
+|:----:|-----:|-----:|
+|${4:x}|      |      |
+|${0:y}|      |      |
+endsnippet
+snippet 表 "table" b
+|${1}|${2}|${3}|
+|:----:|-----:|-----:|
+|${4}|      |      |
+|${0}|      |      |
+endsnippet
+snippet 表格 "table" b
+|${1}|${2}|${3}|
+|:----:|-----:|-----:|
+|${4}|      |      |
+|${0}|      |      |
+endsnippet
+snippet 3t "3x3 table" b
+|${1:a}|${2:b}|${3:c}|
+|:----:|-----:|-----:|
+|${4:x}|      |      |
+|${0:y}|      |      |
+endsnippet
+snippet 三列 "3x3 table" b
+|${1}|${2}|${3}|
+|:----:|-----:|-----:|
+|${4}|      |      |
+|${0}|      |      |
+endsnippet
+snippet 4t "3x4 table" b
+|${1:a}|${2:b}|${3:c}|${4:d}|
+|:----:|-----:|-----:|-----:|
+|${5:x}|      |      |      |
+|${0:y}|      |      |      |
+endsnippet
+snippet 四列 "3x4 table" b
+|${1}|${2}|${3}|${4}|
+|:----:|-----:|-----:|-----:|
+|${5}|      |      |      |
+|${0}|      |      |      |
+endsnippet
+snippet 5t "3x4 table" b
+|${1:a}|${2:b}|${3:c}|${4:d}|${5:e}|
+|:----:|-----:|-----:|-----:|-----:|
+|${6:x}|      |      |      |      |
+|${0:y}|      |      |      |      |
+endsnippet
+snippet 五列 "3x4 table" b
+|${1}|${2}|${3}|${4}|${5}|
+|:----:|-----:|-----:|-----:|-----:|
+|${6}|      |      |      |      |
+|${0}|      |      |      |      |
+endsnippet
+
+# html
+snippet kbd "kbd"
+<kbd>${0:${VISUAL}}</kbd>
+endsnippet
+
+# LaTeX
+snippet m "LaTeX"
+$$
+{0:${VISUAL}}
+$$
+endsnippet
