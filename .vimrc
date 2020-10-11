@@ -487,6 +487,8 @@ func! <SID>Ftsettings()
         imap <Plug>newline <Plug>block
     elseif &filetype == 'text' || &filetype == 'markdown'
         setlocal wrap
+        inoremap <Plug>block <C-m><C-m>
+        inoremap <Plug>newline <Space><Space><C-m>
     elseif &filetype == 'c' || &filetype == 'cpp'
         setlocal foldmethod=syntax
         inoremap <Plug>block <End><Space>{<CR>}<Esc>O
