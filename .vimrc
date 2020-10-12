@@ -44,8 +44,8 @@ if has('win32') || has('win64')
     let $VIMHOME = $VIM . '/vimfiles'
 endif
 nnoremap <Leader><Leader>r :w<CR>:source $MYVIMRC<CR>
-nnoremap <Leader><Leader>m :tabnew ~/.vim/.vimrc<CR>
-nnoremap <Leader><Leader>c :tabnew ~/.vim/colors/rinz.vim<CR>
+nnoremap <Leader><Leader>m :call <SID>Myvimrc()<CR>
+nnoremap <Leader><Leader>c :call <SID>ColorFile()<CR>
 nnoremap <Leader><Leader>s :call <SID>SyntaxFile()<CR>
 nnoremap <Leader><Leader>u :call <SID>UltiSnipsFile()<CR>
 nnoremap <Leader><Leader>f :call <SID>Ftsettings()<CR>:call <SID>FtsettingsMsg()<CR>
@@ -125,7 +125,7 @@ nnoremap <Leader><Leader>2 yiw:match MatchColor2 '<C-r>0'<CR>
 nnoremap <Leader><Leader>3 yiw:match MatchColor3 '<C-r>0'<CR>
 nnoremap <Leader><Leader>q yiw:call matchadd('Function','<C-r>0')<CR>
 nnoremap <Leader><Leader>w yiw:call matchadd('Class','<C-r>0')<CR>
-nnoremap <Leader><Leader>e yiw:call matchadd('Variable','<C-r>0')<CR>
+nnoremap <Leader><Leader>e yiw:call matchadd('Constant','<C-r>0')<CR>
 
 nnoremap <F12> :call LightOrDark()<CR>
 func! LightOrDark()
@@ -254,11 +254,11 @@ set softtabstop=4
 set backspace=eol,start,indent
 nnoremap <expr><BS> (foldlevel(line('.'))>0) ? 'zaj' : 'jza'
 
-"Space
+" Space    "}j
 if has('nvim')
     nnoremap <silent><Space> :noh<CR>zR
 else
-    nnoremap <silent><Space> :call <SID>SpaceMethod()<CR>:noh<CR>zR}j
+    nnoremap <silent><Space> :call <SID>SpaceMethod()<CR>:noh<CR>zR
 endif
 func! <SID>SpaceMethod()
     if term_list() != [] && $filetype == ''
@@ -434,7 +434,7 @@ func! AutoSetFileHead()
     elseif expand('%:e') == 'c'
         call setline(1, "#include<stdio.h>")
         call setline(2, "")
-    elseif expand('%:e') == 'cpp'
+    elseif expand('%:e') == 'cpp' || expand('%:e') == 'cc'
         call setline(1, "#include<iostream>")
         call setline(2, "using namespace std;")
         call setline(3, "")
@@ -699,19 +699,34 @@ func! NumberRelat(count) abort
 endfunc
 com! -count NR call NumberRelat(<count>)
 
+func! <SID>Myvimrc()
+    if has('win32') || has('win64')
+        let file = "~/.vimrc"
+    endif
+    let file = $VIMHOME . "/.vimrc"
+    exec 'tabnew ' . file
+endfunc
+func! <SID>ColorFile()
+    let file = $VIMHOME . "/colors/rinz.vim"
+    exec 'tabnew ' . file
+endfunc
 func! <SID>SyntaxFile()
-    let file = "~/.vim/syntax/" . &filetype . ".vim"
-    exec 'tabnew' . file
+    let file = $VIMHOME . "/syntax/" . &filetype . ".vim"
+    exec 'tabnew ' . file
 endfunc
 func! <SID>UltiSnipsFile()
-    let file = "~/.vim/ultisnips/" . &filetype . ".snippets"
+    let file = $VIMHOME . "/ultisnips/" . &filetype . ".snippets"
     exec 'tabnew ' . file
 endfunc
 
 " ============================================= "
 " ================== Plugins ================== "
 " ============================================= "
-call plug#begin('~/.vim/bundle')
+if(g:rinzmode)
+    call plug#begin($VIMHOME.'/bundle')
+else
+    silent! call plug#begin($VIMHOME.'/bundle')
+endif
 Plug 'gmarik/Vundle.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'tmhedberg/SimpylFold'

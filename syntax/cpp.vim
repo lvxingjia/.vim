@@ -2,76 +2,15 @@
 " Language:	Cpp
 " Maintainer:	Rinz
 " Last Change:	2020 Sep 9
-
-
 if exists("b:current_syntax")
   finish
 endif
-
 let s:cpo_save = &cpo
 set cpo&vim
-" runtime! syntax/c.vim
-" C++ extensions
-
+source $VIMHOME/syntax/c.vim
+let s:ft = matchstr(&ft, '^\([^.]\)\+')
 
 " ========================================================================= "
-syn keyword cStorageClass   auto extern register static _Thread_local
-syn keyword cQualifiedType  const volatile restrict inline _Alignas _Atomic _Noreturn
-syn keyword cTypeDef        typedef
-syn keyword cStatement      break case continue default goto return
-syn keyword cType           char double float int long short signed unsigned void
-syn keyword cType           _Bool bool _Complex complex _Imaginary imaginary
-syn keyword cStructure      enum struct union
-syn keyword cRepeat         do else for if switch while
-syn keyword cOperator       sizeof _Alignof alignof _Generic _Static_assert
-syn keyword cConstant       NULL true false
-syn match   cMain           "\%(\s\)main("me=e-1
-
-syn region  cComment        start="//" end="$" skip="\\$" keepend
-syn region  cComment        start="/\*" end="\*/"
-syn match   cCharacter      "'\w\?'"
-
-syn region  cString         start=+\%(L\|u\|u8\|U\|R\|LR\|u8R\|uR\|UR\)\="+ skip=+\\\\\|\\"+ end=+"+ contains=cSpecial,cFormat,@Spell extend
-syn region  cString         start=+\%(L\|u\|u8\|U\|R\|LR\|u8R\|uR\|UR\)\="+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end='$' contains=cSpecial,cFormat,@Spell
-syn match   cFormat         display "%\%(\d\+\$\)\=[-+' #0*]*\%(\d*\|\*\|\*\d\+\$\)\%(\.\%(\d*\|\*\|\*\d\+\$\)\)\=\%([hlLjzt]\|ll\|hh\)\=\%([aAbdiuoxXDOUfFeEgGcCsSpn]\|\[\^\=.[^]]*\]\)" contained
-syn match   cFormat         display "%%" contained
-syn match   cSpecial        "\\\%(\o\{1,3}\|[xX]\x\{2}\|\\\|\'\|\"\|?\)"
-syn match   cSpecial        "\\[abfnrtv]"
-
-syn match   cNumber         "\<\d\+\%(\.\d\+\)\=[fF]\=\>"
-syn match   cNumber         "\<\d\%(\.\d\+\)\=[eE][+-]\=\d\+[fF]\=\>"
-syn match   cNumber         "\<\.\d\+[eE][+-]\=\d\+[fF]\=\>"
-syn match   cNumber         "\<0[xX]\x\%(\.\x\+\)\=[pP][+-]\=\d\+\>"
-syn match   cNumber         "\<0[xX]\.\x\+[pP][+-]\=\d\+\>"
-syn match   cNumber         "\%(\%(=\|,\|{\)\s*\)\@<=-\<\d\+\%(\.\d\+\)\=\>"
-syn match   cNumber         "\%(\d\)\@<=[lLuU]"
-syn match   cNumber         "\%(\d\)\@<=\%(ll\|LL\)"
-syn match   cNumber         "\%(\d\)\@<=\%([lL][uU]\|[uU][lL]\|[uU]ll\|[uU]LL\|ll[uU]\|LL[uU]\)"
-syn match   cNumber         "\<0\o\+\>"
-syn match   cNumber         "\<0[xX]\x\+\>"
-syn match   cNumber         "\<0[bB]\[01]\+\>"
-
-syn match   cInclude        "^#include"
-syn match   cIncluded       "\%(^#include\)\@<=<.*>"
-syn match   cPreProc        "#\%(define\|undef\|if\|ifdef\|ifndef\|else\|elif\|endif\|line\|error\|pragma\)"
-syn match   cMacro          "\%(^#define\s\)\@<=\S*\s"
-syn match   cLabel          "^\<\w\+\>\s*:"
-syn match   cLabel          "\%(goto\s*\)\@<=\<\w\+\>"
-
-if(g:rinzsyntax)
-    syn match   cEnd            "\%(\%(for\|if\|while\).*\)\@<=[^)]*;$" contains=ALLBUT,cEnd
-    syn match   cEnd            ";$"
-    syn match   cBrackets       "\%(\%(for\|if\|while\)\s*\)\@<=("
-    syn match   cBrackets       "\%(\%(for\|if\|while\)\s*(\%([^()]*([^()]*)\)*[^()]*\)\@<=)"
-    syn match   cBrackets       "\%(\%(for\|if\|while\)\s*\%(([^()]*\)\{3}\%()[^()]*\)\{2}\)\@<=)"
-    syn match   cBrackets       "\%(\%(for\|if\|while\)\s*\%(([^()]*\)\{3}\%()[^()]*\)\{2}([^()]*)[^()]*\)\@<=)"
-    syn match   cBrackets       "\%(\%(for\|if\|while\)\s*\%(([^()]*\)\{2})[^()]*\%(([^()]*\)\{2}\%()[^()]*\)\{2}\)\@<=)"
-    syn match   cSemicolon      "\%(for[^;]*\)\@<=;"
-    syn match   cSemicolon      "\%(for[^;]*;[^;]*\)\@<=;"
-    syn match   cMacro          "\%(^#define\s\S\+\s\)\@<=("
-    syn match   cMacro          "\%(^#define\s\S\+\s(\S*\)\@<=)$"
-endif
-
 
 " ========================================================================= "
 syn match   cppClass            "\%(\%(union\|struct\|class\)\s\+\)\@<=\<\w\+\>"
@@ -162,3 +101,8 @@ hi def link cComment            Comment
 hi def link cBrackets           Statement
 hi def link cSemicolon          Statement
 hi def link cMain               Statement
+
+let b:current_syntax = "c"
+unlet s:ft
+let &cpo = s:cpo_save
+unlet s:cpo_save

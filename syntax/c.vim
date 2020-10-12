@@ -19,22 +19,31 @@ syn match   cQualifiedType  "\%(\<\)\@<=const\%(\s\)\@="
 syn match   cQualifiedType  "\*\+const\%(\s\)\@="
 syn keyword cTypeDef        typedef
 syn keyword cStatement      break case continue default goto return
-syn match   cType           "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\%(\%(\s*\*\+\w\|\s\+\w\|$\)\)\@="
+syn match   cType           "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\%(\%(\s*\*\+\w\|\s\+\w\|\s*$\)\)\@="
 syn match   cppReference    "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\s*&"
 syn match   cSpecialType    "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\s*\*\+\%(\s\+\w\)\@="
+syn match   cSpecialType    "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\s*\[\]\%(\s\+\w\)\@="
+
 syn keyword cBasicType      long short signed unsigned
 syn keyword cBasicType      wchar_t _Bool bool _Complex complex _Imaginary imaginary
 syn match   cArgs           "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\s*\**\%(\s*\%(,\|)\)\)\@="
+syn match   cArgs           "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\s*\[\]\%(\s*\%(,\|)\)\)\@="
+syn match   cArgs           "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\s*(\*)\[\d\+\]\%(\s*\%(,\|)\)\)\@="
 syn match   cArgs           "\%(\.\.\.\)\%()\)\@="
 syn match   cArgs           "\%(\<\)\@<=\%(struct\|union\|enum\)\s\+\w\+\s*\*\%(\s*\%(,\|)\)\)\@="
 syn match   cArgs           "\%(\<\)\@<=[A-Z_]\w*\s*\*\%(\s*\%(,\|)\)\)\@="
+
+
 syn keyword cSpecialType    size_t ptrdiff_t jmp_buf FILE fpos_t div_t ldiv_t
-syn match   cTypeCasing     "(\%(char\|double\|float\|int\|void\)\**)\%(\s\*\=\w\)\@="
 syn keyword cRepeat         do else for if switch while
 syn keyword cOperator       sizeof typeof _Alignof alignof _Generic _Static_assert
 syn keyword cConstant       NULL true false
 syn keyword cMacro          EOF
 syn match   cMain           "\%(\s\)main("me=e-1
+
+syn match   cTypeCasing     "(\%(char\|double\|float\|int\|void\)\**)\%(\s*\*\=\w\)\@="
+syn match   cTypeCasing     "(\%(struct\|union\|enum\)\s\+\w\+\*)\%(\%(\s*\*\=\w\|\s*$\)\)\@="
+syn match   cTypeCasing     "([A-Z_]\w*\*)\%(\%(\s*\*\=\w\|\s*$\)\)\@="
 
 syn match   cOperator       "\%(&&\|||\|!\|?\|:\)"
 syn region  cComment        start="//" end="$" skip="\\$" keepend
@@ -49,9 +58,8 @@ syn match   cEscape         "\\\%(\o\{1,3}\|[xX]\x\{2}\|\\\|\'\|\"\|?\)"
 syn match   cEscape         "\\[abfnrtv]"
 
 syn match   cStruct         "\%(\<\)\@<=\%(struct\|union\|enum\)\s\+\w\+\%(\s\|{\|$\)\@="
-syn match   cStructName     "\%(\<\)\@<=[A-Z_]\w*\%(\s\|;\)\@="
-syn match   cStructName     "\%(\<\)\@<=[A-Z_]\w*\*\%(\s\+\w\)\@="
-
+syn match   cStructName     "\%(\<\)\@<=[A-Z_]\w*\%(\%(\s*\*\+\w\|\s\+\w\|\s*$\|\s*;\)\)\@="
+syn match   cSpecialName    "\%(\<\)\@<=[A-Z_]\w*\s*\*\%(\s\+\w\)\@="
 
 " syn match   cPointer        "(\s*\*\%(\s*\w\+)\)\@="
 " syn match   cPointer        "\%((\s*\*\s*\w\+\)\@<=)"
@@ -130,6 +138,7 @@ hi def link cMain               Statement
 hi def link cppReference        SpecialItalic
 hi def link cArgs               FuncArgs
 hi def link cStructName         Comment
+hi def link cSpecialName        SpecialItalic
 " hi def link cPointer            Special
 
 " ========================================================================= "
