@@ -219,7 +219,7 @@ set guioptions-=T
 "     \endif<CR>
 nnoremap <F11> :call GuiSwitch()<CR>
 func! GuiSwitch()
-    if &guioptions = ~#'T'
+    if &guioptions =~# 'T'
         set guioptions-=T
         set guioptions-=m
     else
@@ -433,30 +433,51 @@ func! AutoSetFileHead()
         call setline(1, "\#!/bin/bash")
     elseif expand('%:e') == 'c'
         call setline(1, "#include<stdio.h>")
+        call setline(2, "#include<stdlib.h>")
+        call setline(3, "#include\"" . expand("%:t:r") . ".h\"")
+        call setline(4, "")
+        normal G
+    elseif expand('%:e') == 'cpp'
+        call setline(1, "#include<iostream>")
         call setline(2, "")
-    elseif expand('%:e') == 'cpp' || expand('%:e') == 'cc'
+        normal G
+    elseif expand('%:e') == 'cc'
         call setline(1, "#include<iostream>")
         call setline(2, "using namespace std;")
         call setline(3, "")
+        normal G
     elseif expand('%:e') == 'h'
-        call setline(1, "#pragma once")
+        call setline(1, "// vim: ft=c ff=unix fenc=utf-8")
+        call setline(2, "#ifndef _" . toupper(expand("%:t:r")) . "_H")
+        call setline(3, "#define _" . toupper(expand("%:t:r")) . "_H")
+        call setline(4, "#ifdef __cplusplus")
+        call setline(5, "extern \"C\" {")
+        call setline(6, "#endif")
+        call setline(7, "")
+        call setline(8, "#ifdef __cplusplus")
+        call setline(9, "}")
+        call setline(10, "#endif")
+        call setline(11, "#endif  /*  " . expand("%:t:r") . ".h  */")
+        normal 7gg
     elseif expand('%:e') == 'hpp'
-        call setline(1, "#ifndef _" . toupper(expand("%:t:r")) . "_H")
-        call setline(2, "#define _" . toupper(expand("%:t:r")) . "_H")
-        call setline(3, "#ifdef __cplusplus")
-        call setline(4, "extern \"C\" {")
-        call setline(5, "#endif")
-        call setline(6, "")
-        call setline(7, "#ifdef __cplusplus")
-        call setline(8, "}")
-        call setline(9, "#endif")
-        call setline(10, "#endif //" . toupper(expand("%:t:r")) . "_H")
+        call setline(1, "// vim: ft=cpp ff=unix fenc=utf-8")
+        call setline(2, "#ifndef _" . toupper(expand("%:t:r")) . "_H")
+        call setline(3, "#define _" . toupper(expand("%:t:r")) . "_H")
+        call setline(4, "#ifdef __cplusplus")
+        call setline(5, "extern \"C\" {")
+        call setline(6, "#endif")
+        call setline(7, "")
+        call setline(8, "#ifdef __cplusplus")
+        call setline(9, "}")
+        call setline(10, "#endif")
+        call setline(11, "#endif    //" . expand("%:t:r") . ".hpp")
+        normal 7gg
     elseif expand('%:e') == 'py' || expand('%:e') == 'pyx'
         call setline(1, "#!/usr/bin/env python3")
         call setline(2, "# -*- coding:utf-8 -*-")
         call setline(3, "")
+        normal G
     endif
-    normal G
 endfunc
 
 if has('autocmd')
@@ -489,7 +510,12 @@ func! <SID>Ftsettings()
         setlocal wrap
         inoremap <Plug>block <C-m><C-m>
         inoremap <Plug>newline <Space><Space><C-m>
-    elseif &filetype == 'c' || &filetype == 'cpp'
+    elseif &filetype == 'c'
+        setlocal foldmethod=syntax
+        inoremap <Plug>block <End><Space>{<CR>}<Esc>O
+        inoremap <Plug>newline <End>;<C-m>
+        inoremap <Plug>brackets <++><Esc>yiw/<++><CR>c4l->vptr-><++>()<Esc>hp?<++><CR>c4l
+    elseif &filetype == 'cpp'
         setlocal foldmethod=syntax
         inoremap <Plug>block <End><Space>{<CR>}<Esc>O
         inoremap <Plug>newline <End>;<C-m>
@@ -564,11 +590,11 @@ func! RunOnBuiltinTerminal()
                 exec 'ter tcc -run %'
             else
                 exec '!gcc % -o %<'
-                exec 'ter %<'
+                exec 'ter ./%<'
             endif
         elseif &filetype == 'cpp'
             exec '!g++ % -o %<'
-            exec 'ter %<'
+            exec 'ter ./%<'
         elseif &filetype == 'java'
             exec '!javac %'
             exec 'ter java %:r'

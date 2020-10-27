@@ -11,6 +11,13 @@ source $VIMHOME/syntax/c.vim
 let s:ft = matchstr(&ft, '^\([^.]\)\+')
 
 " ========================================================================= "
+syn match   cppClass        "\%(\<\)\@<=class\s\+\w\+\%(\s\|{\|$\)\@="
+hi def link cppClass            Comment
+
+syn match   cppReference    "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\s*&"
+syn keyword cppAuto         auto
+hi def link cppReference        SpecialItalic
+hi def link cppAuto             Special
 
 " ========================================================================= "
 syn match   cppClass            "\%(\%(union\|struct\|class\)\s\+\)\@<=\<\w\+\>"

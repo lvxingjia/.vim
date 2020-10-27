@@ -14,12 +14,13 @@ set cpo&vim
 
 " C11 keywords
 syn keyword cStorageClass   auto extern register static _Thread_local
-syn keyword cQualifiedType  volatile restrict inline _Alignas _Atomic _Noreturn
-syn match   cQualifiedType  "\%(\<\)\@<=const\%(\s\)\@="
-syn match   cQualifiedType  "\*\+const\%(\s\)\@="
+syn keyword cQualifiedType  inline _Alignas _Atomic _Noreturn
+syn match   cQualifiedType  "\%(\<\)\@<=\%(const\|volatile\)\%(\%(\s\|\*\)\)\@="
+syn match   cQualifiedType  "\*\+\s*\%(const\|restrict\|volatile\)\%(\s\)\@="
+syn match   cQualifiedType  "\%(\*\s*\)\@<=restrict\%(\s\|,\|(\|)\)\@="
 syn keyword cTypeDef        typedef
 syn keyword cStatement      break case continue default goto return
-syn match   cType           "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\%(\%(\s*\*\+\w\|\s\+\w\|\s*$\)\)\@="
+syn match   cType           "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\%(\%(\s*\*\+\w\|\s\+\w\|\s*$\|\s*(\|\s*{\)\)\@="
 syn match   cppReference    "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\s*&"
 syn match   cSpecialType    "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\s*\*\+\%(\s\+\w\)\@="
 syn match   cSpecialType    "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\s*\[\]\%(\s\+\w\)\@="
@@ -30,22 +31,28 @@ syn match   cArgs           "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\s*\*
 syn match   cArgs           "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\s*\[\]\%(\s*\%(,\|)\)\)\@="
 syn match   cArgs           "\%(\<\)\@<=\%(char\|double\|float\|int\|void\)\s*(\*)\[\d\+\]\%(\s*\%(,\|)\)\)\@="
 syn match   cArgs           "\%(\.\.\.\)\%()\)\@="
-syn match   cArgs           "\%(\<\)\@<=\%(struct\|union\|enum\)\s\+\w\+\s*\*\%(\s*\%(,\|)\)\)\@="
+syn match   cArgs           "\%(\<\)\@<=\%(struct\|union\|enum\)\s\+\w\+\s*\**\%(\s*\%(,\|)\)\)\@="
 syn match   cArgs           "\%(\<\)\@<=[A-Z_]\w*\s*\*\%(\s*\%(,\|)\)\)\@="
+syn match   cArgs           "\%(\<\)\@<=\%(const\s\+\)\=\%(char\|double\|float\|int\|void\)\s*\**\%(\s*\%(,\|)\)\)\@="
+syn match   cArgs           "\%(\<\)\@<=\%(const\s\+\)\=\%(char\|double\|float\|int\|void\)\s*\**\s*\%(restrict\|volatile\)\%(\s*\%(,\|)\)\)\@="
+syn match   cArgs           "\%(\<\)\@<=\%(const\s\+\)\=\%(char\|double\|float\|int\|void\)\s*\**\%(\s*\%(,\|)\)\)\@="
+syn match   cArgs           "\%(\<\)\@<=\%(const\s\+\)\=\%(char\|double\|float\|int\|void\)\s*\**\s*\%(restrict\|volatile\)\%(\s*\%(,\|)\)\)\@="
 
 
 syn keyword cSpecialType    size_t ptrdiff_t jmp_buf FILE fpos_t div_t ldiv_t
 syn keyword cRepeat         do else for if switch while
 syn keyword cOperator       sizeof typeof _Alignof alignof _Generic _Static_assert
+syn match   cOperator       "\%(&&\|||\|!\|?\|:\)"
+syn match   cOperator       "\%(==\|!=\|>=\|<=\)"
+syn match   cOperator       "\%(\w\s*\)\@<=\%(>\|<\)\%(\s*\w\)\@="
 syn keyword cConstant       NULL true false
 syn keyword cMacro          EOF
 syn match   cMain           "\%(\s\)main("me=e-1
 
-syn match   cTypeCasing     "(\%(char\|double\|float\|int\|void\)\**)\%(\s*\*\=\w\)\@="
-syn match   cTypeCasing     "(\%(struct\|union\|enum\)\s\+\w\+\*)\%(\%(\s*\*\=\w\|\s*$\)\)\@="
+syn match   cTypeCasing     "(\%(char\|double\|float\|int\|void\)\**)\%(\s*\*\=\w\|\s*&\)\@="
+syn match   cTypeCasing     "(\%(struct\|union\|enum\)\s\+\w\+\*)\%(\%(\s*\*\=\w\|\s*$\|\s*{\)\)\@="
 syn match   cTypeCasing     "([A-Z_]\w*\*)\%(\%(\s*\*\=\w\|\s*$\)\)\@="
 
-syn match   cOperator       "\%(&&\|||\|!\|?\|:\)"
 syn region  cComment        start="//" end="$" skip="\\$" keepend
 syn region  cComment        start="/\*" end="\*/"
 syn region  cCharacter      start="'" end="'"
@@ -57,12 +64,30 @@ syn match   cFormat         display "%%" contained
 syn match   cEscape         "\\\%(\o\{1,3}\|[xX]\x\{2}\|\\\|\'\|\"\|?\)"
 syn match   cEscape         "\\[abfnrtv]"
 
-syn match   cStruct         "\%(\<\)\@<=\%(struct\|union\|enum\)\s\+\w\+\%(\s\|{\|$\)\@="
 syn match   cStructName     "\%(\<\)\@<=[A-Z_]\w*\%(\%(\s*\*\+\w\|\s\+\w\|\s*$\|\s*;\)\)\@="
-syn match   cSpecialName    "\%(\<\)\@<=[A-Z_]\w*\s*\*\%(\s\+\w\)\@="
+syn match   cStructName     "\%((\s*\)\@<=[A-Z_]\w*\%(\s*)\)\@="
+syn match   cStructName     "\<[A-Z_]\w*\%(\s*(\s*\*\)\@="
+syn match   cSpecialName    "\%(\<\)\@<=[A-Z_]\w*\s*\*\+\%(\s\+\w\)\@="
+syn match   cStruct         "struct"
+syn match   cUnion          "union"
+syn match   cEnum           "enum"
+syn match   cStruct         "\%(\<struct\s\+\)\@<=\w\+\**\%(\s\|{\|;\|$\)\@="
+syn match   cUnion          "\%(\<union\s\+\)\@<=\w\+\**\%(\s\|{\|;\|$\)\@="
+syn match   cEnum           "\%(\<enum\s\+\)\@<=\w\+\**\%(\s\|{\|;\|$\)\@="
 
-" syn match   cPointer        "(\s*\*\%(\s*\w\+)\)\@="
-" syn match   cPointer        "\%((\s*\*\s*\w\+\)\@<=)"
+syn match   cPointer        "(\s*\*\%(\s*\w\+\s*)\s*(\)\@="
+syn match   cPointer        "\%((\s*\*\s*\w\+\s*\)\@<=)\%(\s*(\)\@="
+"class"
+syn match   cArg            "\**\<\%(self\|other\|cls\|me\)\>"
+syn match   cPoint          "\%(this\|that\|me\)\s*->"
+syn match   cMethod         "->\%(\w\+\s*\.\)\=\s*vptr\s*->"
+syn match   cMethod         "\%(self\|me\)\s*->\s*\%(\w\+\s*\.\s*\)\=vptr\%(\%(\s*=\|;\)\)\@="
+syn match   cMethod         "\*\=\%(self\|me\)\s*->\%(\w\+\s*\.\s*\)\=\s*vptr\s*->\%(\s*\w\)\@="
+syn match   cVTable         "\w\+_vtbl"
+syn match   cVTable         "\<vtbl\>"
+syn match   cArg            "\%(->\s*vptr\s*->\s*\w\+(\)\@<=\w\+\%(->\w\+\)*\%(\s*,\|\s*)\)\@="
+syn match   cAttrs          "self\s*->\%(\s*vptr\)\@!"
+
 syn match   cNumber         "\<\d\+\%(\.\d\+\)\=[fF]\=\>"
 syn match   cNumber         "\<\d\%(\.\d\+\)\=[eE][+-]\=\d\+[fF]\=\>"
 syn match   cNumber         "\<\.\d\+[eE][+-]\=\d\+[fF]\=\>"
@@ -77,7 +102,7 @@ syn match   cNumber         "\<0[xX]\x\+\>"
 syn match   cNumber         "\<0[bB]\[01]\+\>"
 
 syn match   cInclude        "^#include"
-syn match   cIncluded       "\%(^#include\)\@<=<.*>"
+syn match   cIncluded       "\%(^#include\s*\)\@<=<.*>"
 syn match   cPreProc        "#\%(define\|undef\|ifdef\|ifndef\|if\|else\|elif\|endif\|line\|error\|pragma\)"
 syn match   cMacro          "\%(^#define\s\)\@<=\S*\s"
 syn match   cLabel          "^\<\w\+\>\s*:"
@@ -117,7 +142,6 @@ hi def link cRepeat             StatementItalic
 hi def link cLabel              Constant
 hi def link cPreProc            Statement
 hi def link cType               Type
-hi def link cEnum               Type
 hi def link cNumber             Number
 hi def link cOperator           Operator
 hi def link cInclude            Include
@@ -132,14 +156,19 @@ hi def link cBasicType          Type
 hi def link cTypeCasing         Special
 hi def link cFormat             Special
 hi def link cComment            Comment
-hi def link cStruct             Special
-hi def link cUnion              Comment
 hi def link cMain               Statement
 hi def link cppReference        SpecialItalic
-hi def link cArgs               FuncArgs
-hi def link cStructName         Comment
+hi def link cArgs               Constant
 hi def link cSpecialName        SpecialItalic
-" hi def link cPointer            Special
+hi def link cStructName         Special
+hi def link cStruct             String
+hi def link cUnion              Builtin
+hi def link cEnum               Number
+hi def link cAttrs              SpecialItalic
+hi def link cMethod             Special
+hi def link cVTable             Special
+hi def link cPoint              Special
+hi def link cPointer            Special
 
 " ========================================================================= "
 let b:current_syntax = "basic"
