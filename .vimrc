@@ -233,6 +233,7 @@ endfunc
 " ============================================= "
 set history=2000
 set textwidth=999
+set clipboard=unnamedplus
 " set lines=24 columns=79
 auto InsertEnter * set norelativenumber number
 auto InsertLeave * set relativenumber
@@ -616,8 +617,17 @@ vmap <F6> <Esc>:call RunOnNeovimTerminal()<CR>
 func! RunOnNeovimTerminal()
     exec 'wa'
     if &filetype == 'c'
-        exec '!gcc % -o %<'
-        exec 'ter ./%<'
+"         exec '!gcc % -o %<'
+"         exec 'ter ./%<'
+        normal G
+        call append(line("."), "")
+        call append(line(".") + 1, "/********************")
+        call append(line(".") + 2, "")
+        normal G
+        exec 'r !tcc -run %'
+        normal G
+        call append(line("."), "")
+        call append(line(".") + 1, "********************/")
     elseif &filetype == 'cpp'
         exec '!g++ % -o %<'
         exec 'ter ./%<'
@@ -760,7 +770,10 @@ Plug 'Yggdroot/indentLine'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'lilydjwg/fcitx.vim'
+" Plug 'gabrielelana/vim-markdown'
+Plug 'joker1007/vim-markdown-quote-syntax'
 if(g:rinzmode)
+" Plug 'Valloric/YouCompleteMe'
 Plug 'majutsushi/tagbar'
 Plug 'davidhalter/jedi-vim'
 Plug 'SirVer/ultisnips'

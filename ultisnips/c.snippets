@@ -141,18 +141,19 @@ int ${1:func_name}(${2:void})
 }
 
 endsnippet
-snippet sfv "static void func" b
-static void ${1:func_name}(${2:void})
+snippet ff "float func" b
+float ${1:func_name}(${2:void})
 {
 	${0}
+	return 0f;
 }
 
 endsnippet
-snippet fi "int func" b
-static int ${1:func_name}(${2:void})
+snippet fd "double func" b
+double ${1:func_name}(${2:void})
 {
 	${0}
-	return 0;
+	return 0f;
 }
 
 endsnippet
@@ -161,6 +162,21 @@ char *${1:func_name}(${2:void})
 {
 	${0}
 	return NULL;
+}
+
+endsnippet
+snippet sfv "static void func" b
+static void ${1:func_name}(${2:void})
+{
+	${0}
+}
+
+endsnippet
+snippet sfi "static int func" b
+static int ${1:func_name}(${2:void})
+{
+	${0}
+	return 0;
 }
 
 endsnippet
@@ -207,7 +223,7 @@ endsnippet
 
 
 # Struct
-snippet s "struct" i
+snippet s "struct"
 struct 
 endsnippet
 snippet st "struct" b

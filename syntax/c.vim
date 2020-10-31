@@ -64,7 +64,7 @@ syn match   cFormat         display "%%" contained
 syn match   cEscape         "\\\%(\o\{1,3}\|[xX]\x\{2}\|\\\|\'\|\"\|?\)"
 syn match   cEscape         "\\[abfnrtv]"
 
-syn match   cStructName     "\%(\<\)\@<=[A-Z_]\w*\%(\%(\s*\*\+\w\|\s\+\w\|\s*$\|\s*;\)\)\@="
+syn match   cStructName     "\%(\<\)\@<=[A-Z_]\w*\%(\%(\s*\*\+\w\|\s\+\w\|\s*$\|\s*;\|\s*)\)\)\@="
 syn match   cStructName     "\%((\s*\)\@<=[A-Z_]\w*\%(\s*)\)\@="
 syn match   cStructName     "\<[A-Z_]\w*\%(\s*(\s*\*\)\@="
 syn match   cSpecialName    "\%(\<\)\@<=[A-Z_]\w*\s*\*\+\%(\s\+\w\)\@="
