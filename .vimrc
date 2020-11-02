@@ -634,7 +634,9 @@ imap <F6> <Esc>:call RunOnNeovimTerminal()<CR>
 vmap <F6> <Esc>:call RunOnNeovimTerminal()<CR>
 func! RunOnNeovimTerminal()
     exec 'wa'
-    if &filetype == 'c'
+    if &filetype == 'sh'
+        exec 'ter bash %'
+    elseif &filetype == 'c'
 "         exec '!gcc % -o %<'
 "         exec 'ter ./%<'
         normal G
