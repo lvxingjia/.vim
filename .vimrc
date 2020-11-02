@@ -62,6 +62,7 @@ set mouse=a
 set mousehide
 set autoread
 set nobackup
+set nowritebackup
 set noundofile
 set noswapfile
 
@@ -74,7 +75,7 @@ set termencoding=utf-8
 set formatoptions+=m
 set formatoptions+=B
 set ambiwidth=double
-" set shortmess=atI
+set shortmess+=c
 
 augroup filetypedetect
     auto BufRead,BufNewFile *.snippets set filetype=snippets
@@ -102,6 +103,11 @@ set matchtime=2
 let loaded_matchparen=1
 set nocursorline
 set nocursorcolumn
+if has('nvim')
+    set signcolumn=number
+else
+    set signcolumn=yes
+endif
 
 " windows
 set title
@@ -253,7 +259,6 @@ set softtabstop=4
 " Backspace
 " set backspace=2
 set backspace=eol,start,indent
-nnoremap <expr><BS> (foldlevel(line('.'))>0) ? 'zaj' : 'jza'
 
 " Space    "}j
 if has('nvim')
@@ -266,6 +271,9 @@ func! <SID>SpaceMethod()
         exec 'close'
     endif
 endfunc
+" auto snippets
+" inoremap <C-Space> @@@
+
 
 " Indent
 " set smartindent
@@ -388,14 +396,14 @@ nnoremap tf ve"zy:Tab/<C-r>z<CR>
 
 " Edit
 nnoremap s cw
-nnoremap S ?\W<CR>l:nohlsearch<CR>cw
-nnoremap e o<++><CR><Esc>?<++><CR>:nohlsearch<CR>c4l
-nnoremap E O<+++><Esc>O<++><Esc>/<+++><CR>d5l/<++><CR>:nohlsearch<CR>c4l
+nnoremap S ?\W<CR>l:noh<CR>cw
+nnoremap e o<CR><Esc>?<++><CR>:noh<CR>c4l
+nnoremap E O<+++><Esc>O<++><Esc>/<+++><CR>d5l/<++><CR>:noh<CR>c4l
 nnoremap H ^i
 nnoremap L $a
 
-nnoremap <C-k> i<++><Esc>O<Esc>/<++><CR>:nohlsearch<CR>d4l
-nnoremap <C-j> i<++><Esc>o<Esc>/<++><CR>:nohlsearch<CR>d4l
+nnoremap <C-k> i<++><Esc>O<Esc>/<++><CR>:noh<CR>d4l
+nnoremap <C-j> i<++><Esc>o<Esc>/<++><CR>:noh<CR>d4l
 nnoremap <C-h> <<
 nnoremap <C-l> >>
 
@@ -438,14 +446,14 @@ func! AutoSetFileHead()
         call setline(3, "#include\"" . expand("%:t:r") . ".h\"")
         call setline(4, "")
         normal G
-    elseif expand('%:e') == 'cpp'
-        call setline(1, "#include<iostream>")
-        call setline(2, "")
-        normal G
     elseif expand('%:e') == 'cc'
         call setline(1, "#include<iostream>")
         call setline(2, "using namespace std;")
         call setline(3, "")
+        normal G
+    elseif expand('%:e') == 'cpp' || expand('%:e') == 'cxx'
+        call setline(1, "#include<iostream>")
+        call setline(2, "")
         normal G
     elseif expand('%:e') == 'h'
         call setline(1, "// vim: ft=c ff=unix fenc=utf-8")
@@ -458,12 +466,12 @@ func! AutoSetFileHead()
         call setline(8, "#ifdef __cplusplus")
         call setline(9, "}")
         call setline(10, "#endif")
-        call setline(11, "#endif  /*  " . expand("%:t:r") . ".h  */")
+        call setline(11, "#endif  /*  " . expand("%:t") . "  */")
         normal 7gg
-    elseif expand('%:e') == 'hpp'
+    elseif expand('%:e') == 'hh' || expand('%:e') == 'hpp' || expand('%:e') == 'hxx'
         call setline(1, "// vim: ft=cpp ff=unix fenc=utf-8")
-        call setline(2, "#ifndef _" . toupper(expand("%:t:r")) . "_H")
-        call setline(3, "#define _" . toupper(expand("%:t:r")) . "_H")
+        call setline(2, "#ifndef _" . toupper(expand("%:t:r")) . "_" . toupper(expand('%:e')))
+        call setline(3, "#define _" . toupper(expand("%:t:r")) . "_" . toupper(expand('%:e')))
         call setline(4, "#ifdef __cplusplus")
         call setline(5, "extern \"C\" {")
         call setline(6, "#endif")
@@ -471,7 +479,7 @@ func! AutoSetFileHead()
         call setline(8, "#ifdef __cplusplus")
         call setline(9, "}")
         call setline(10, "#endif")
-        call setline(11, "#endif    //" . expand("%:t:r") . ".hpp")
+        call setline(11, "#endif    //" . expand("%:t"))
         normal 7gg
     elseif expand('%:e') == 'py' || expand('%:e') == 'pyx'
         call setline(1, "#!/usr/bin/env python3")
@@ -521,7 +529,7 @@ func! <SID>Ftsettings()
         inoremap <Plug>block <End><Space>{<CR>}<Esc>O
         inoremap <Plug>newline <End>;<C-m>
         inoremap <Plug>brackets *()<Esc>i
-    elseif &filetype == 'java' || &filetype == 'go'
+    elseif &filetype == 'cs' || &filetype == 'java' || &filetype == 'go'
         setlocal foldmethod=syntax
         inoremap <Plug>block <End><Space>{<CR>}<Esc>O
         inoremap <Plug>newline <End>;<C-m>
@@ -572,11 +580,16 @@ func! RunOnBash()
     elseif &filetype == 'cpp'
         exec '!g++ % -o %<'
         exec '!time ./%<'
+    elseif &filetype == 'cs'
+        exec '!mcs %'
+        exec '!time mono %:r.exe'
     elseif &filetype == 'java'
         exec '!javac %'
         exec '!time java %<'
+    elseif &filetype == 'javascript'
+        exec '!time node %'
     elseif &filetype == 'python'
-        exec '!python3 %'
+        exec '!time python3 %'
     elseif &filetype == 'go'
         exec '!time go run %'
     elseif &filetype == 'markdown'
@@ -596,9 +609,14 @@ func! RunOnBuiltinTerminal()
         elseif &filetype == 'cpp'
             exec '!g++ % -o %<'
             exec 'ter ./%<'
+        elseif &filetype == 'cs'
+            exec '!mcs %'
+            exec '!ter mono %:r.exe'
         elseif &filetype == 'java'
             exec '!javac %'
             exec 'ter java %:r'
+        elseif &filetype == 'javascript'
+            exec 'ter node %'
         elseif &filetype == 'python'
             exec '!ter python3 %'
         elseif &filetype == 'go'
@@ -631,9 +649,14 @@ func! RunOnNeovimTerminal()
     elseif &filetype == 'cpp'
         exec '!g++ % -o %<'
         exec 'ter ./%<'
+    elseif &filetype == 'cs'
+        exec '!mcs %'
+        exec 'ter mono %:r.exe'
     elseif &filetype == 'java'
         exec '!javac %'
         exec 'ter java ./%:r'
+    elseif &filetype == 'javascript'
+        exec 'ter node %'
     elseif &filetype == 'python'
         exec 'ter python3 ./%'
     elseif &filetype == 'go'
@@ -759,59 +782,73 @@ endfunc
 " ================== Plugins ================== "
 " ============================================= "
 if(g:rinzmode)
-    call plug#begin($VIMHOME.'/bundle')
+    call plug#begin($VIMHOME . '/bundle')
 else
-    silent! call plug#begin($VIMHOME.'/bundle')
+    silent! call plug#begin($VIMHOME . '/bundle')
 endif
 Plug 'gmarik/Vundle.vim'
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'tmhedberg/SimpylFold'
 Plug 'Yggdroot/indentLine'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'lilydjwg/fcitx.vim'
-" Plug 'gabrielelana/vim-markdown'
 Plug 'joker1007/vim-markdown-quote-syntax'
 if(g:rinzmode)
-" Plug 'Valloric/YouCompleteMe'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'majutsushi/tagbar'
-Plug 'davidhalter/jedi-vim'
+" Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'suan/vim-instant-markdown'
+Plug 'honza/vim-snippets', {'for': 'none'}
+Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 endif
 call plug#end()
 
 " NerdTree
 map <F4> :NERDTreeToggle<CR>
-let g:NERDTreeDirArrowExpandable='+'
-let g:NERDTreeDirArrowCollapsible='-'
-let g:NERDTreeWinPos='left'
-let g:NERDTreeSize=30
-let g:NERDTreeShowLineNumbers=1
-let g:NERDTreeHidden=0
+let g:NERDTreeDirArrowExpandable = '+'
+let g:NERDTreeDirArrowCollapsible = '-'
+let g:NERDTreeWinPos = 'left'
+let g:NERDTreeSize = 30
+let g:NERDTreeShowLineNumbers = 1
+let g:NERDTreeHidden = 0
 
 " SimpylFold
-let g:SimpylFold_docstring_preview=1
+let g:SimpylFold_docstring_preview = 1
 
 " IndentLine
-let g:indentLine_enabled=1
+let g:indentLine_enabled = 1
 " let g:indentLine_char='â'
 
 " Tabular -> :Tab/=[symbol]<CR>
 
+" Coc
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm()
+            \: "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+if (g:rinzmode)
+    nmap <silent> <BS> <Plug>(coc-diagnostic-next)
+else
+    nnoremap <expr><BS> (foldlevel(line('.'))>0) ? 'zaj' : 'jza'
+endif
+let g:coc_snippet_next = '<Tab>'
+let g:coc_snippet_prev = '<S-Tab>'
+
 " Tagbar
 nnoremap T :TagbarToggle<CR>
-let g:tagbar_ctags_bin='/usr/bin/ctags'
-let g:tagbar_width=45
-let g:tagbar_left=0
-let g:tagbar_aotofocus=1
+let g:tagbar_ctags_bin = '/usr/bin/ctags'
+let g:tagbar_width = 45
+let g:tagbar_left = 0
+let g:tagbar_aotofocus = 1
 
 " Jedi
 " let g:jedi#completions_enabled=0
-let g:jedi#popup_on_dot=0
-let g:jedi#completions_command='<C-Space>'
-let g:jedi#show_call_signatures='1'
+let g:jedi#popup_on_dot = 0
+let g:jedi#completions_command = '<C-Space>'
+let g:jedi#show_call_signatures = '1'
 " auto FileType python,pyrex setlocal completeopt-=preview
 
 " Surround
@@ -821,10 +858,10 @@ let g:jedi#show_call_signatures='1'
 " ys add surround
 
 " UltiSnips
-let g:UltiSnipsExpandTrigger='<Tab>'
-let g:UltiSnipsJumpForwardTrigger='<Tab>'
-let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/ultisnips']
+let g:UltiSnipsExpandTrigger = '<Tab>'
+let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+let g:UltiSnipsSnippetDirectories = [$HOME.'/.vim/ultisnips']
 
 "  _____ _          _____           _  "
 " |_   _| |__   ___| ____|_ __   __| | "

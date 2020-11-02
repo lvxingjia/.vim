@@ -94,7 +94,7 @@ exe "hi! LineNr"         .s:fg_dgrey        .s:bg_backg        .s:fmt_n
 exe "hi! CursorLineNr"   .s:fg_dgrey        .s:bg_backg        .s:fmt_n
 exe "hi! Folded"         .s:fg_white        .s:bg_selec        .s:fmt_b
 exe "hi! FoldColumn"     .s:fg_cyan         .s:bg_lgrey        .s:fmt_n
-exe "hi! SignColumn"     .s:fg_cyan         .s:bg_lgrey        .s:fmt_n
+exe "hi! SignColumn"     .s:fg_cyan         .s:bg_none        .s:fmt_n
 exe "hi! ColorColumn"    .s:fg_cyan         .s:bg_lgrey        .s:fmt_n
 exe "hi! Ignore"         .s:fg_lgrey        .s:bg_backg        .s:fmt_n
 exe "hi! Todo"           .s:fg_white        .s:bg_yellow       .s:fmt_n
@@ -147,10 +147,14 @@ exe "hi! FuncArgs"       .s:fg_magenta      .s:bg_backg        .s:fmt_i
 exe "hi! Exception"      .s:fg_tred         .s:bg_backg        .s:fmt_n
 exe "hi! PreProc"        .s:fg_magenta      .s:bg_backg        .s:fmt_n
 
-exe "hi! MatchColor1"    .s:fg_orange        .s:bg_backg        .s:fmt_r
+exe "hi! MatchColor1"    .s:fg_orange       .s:bg_backg        .s:fmt_r
 exe "hi! MatchColor2"    .s:fg_magenta      .s:bg_backg        .s:fmt_r
 exe "hi! MatchColor3"    .s:fg_special      .s:bg_backg        .s:fmt_r
 
+exe "hi! CocErrorSign"   .s:fg_tred         .s:bg_backg        .s:fmt_n
+exe "hi! CocWraningSign" .s:fg_orange       .s:bg_backg        .s:fmt_n
+exe "hi! CocHintSign"    .s:fg_blue         .s:bg_backg        .s:fmt_n
+exe "hi! CocInfoSign"    .s:fg_magenta      .s:bg_backg        .s:fmt_n
 
 
 hi link pyrexType Number
