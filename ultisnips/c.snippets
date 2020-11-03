@@ -45,12 +45,13 @@ endsnippet
 
 # Branch
 snippet i "if"
-if (${1:condition})
-endsnippet
-snippet if "if then" b
-if (${1:condition}) {
-	${0:${VISUAL}}
+if (${1:condition}) 
+{
+	${2:${VISUAL}}
 }
+endsnippet
+snippet if "if then" Ab
+if (${0})
 endsnippet
 snippet ie "if else" b
 if (${1:condition}) {
@@ -68,6 +69,9 @@ snippet ei "else if" b
 else if(${1:condition}) {
 	${0:${VISUAL}}
 }
+endsnippet
+snippet elif "else if" A
+else if (${0})
 endsnippet
 
 snippet = "val1 or val2" b
@@ -104,7 +108,7 @@ endsnippet
 snippet f "for" b
 for (int ${2:i} = 0; $2 < ${1:n}; ${3:++}$2)
 endsnippet
-snippet for "for loop" b
+snippet for "for loop" A
 for (${1}; ${2}; ${3}) {
 	${0:${VISUAL}}
 }
@@ -112,6 +116,9 @@ endsnippet
 
 snippet w "while" b
 while (${1:condition})
+endsnippet
+snippet while "while then" Ab
+while (${0})
 endsnippet
 snippet wh "while loop" b
 while (${1:condition}) {
@@ -308,8 +315,8 @@ endsnippet
 snippet r "return"
 return 
 endsnippet
-snippet rt "return" b
-return ${0:res}
+snippet rt "return" Ab
+return ${0:res};
 endsnippet
 snippet td "typedef" b
 typedef 

@@ -41,7 +41,7 @@ syn match   cArgs           "\%(\<\)\@<=\%(const\s\+\)\=\%(char\|double\|float\|
 
 syn keyword cRepeat         do else for if switch while
 syn keyword cOperator       sizeof typeof _Alignof alignof _Generic _Static_assert
-syn match   cOperator       "\%(&&\|||\|!\|?\|:\)"
+syn match   cOperator       "\%(&&\|||\|!\|?\|:\|#\)"
 syn match   cOperator       "\%(==\|!=\|>=\|<=\)"
 syn match   cOperator       "\%(\w\s*\)\@<=\%(>\|<\)\%(\s*\w\)\@="
 syn keyword cConstant       true false
@@ -108,12 +108,12 @@ syn match   cLabel          "\%(goto\s*\)\@<=\<\w\+\>"
 
 
 " assert.h
-syn match   cMacro          "assert\s*("me=e-1
+syn match   cMacro          "\%(\<\)\@<=assert\s*("me=e-1
 syn keyword cMacro          NDEBUG
 " ctype.h
-syn match   cBuiltin        "\%(isalnum\|isalpha\|iscntrl\|isdigit\|isgraph\)\s*("me=e-1
-syn match   cBuiltin        "\%(islower\|isprint\|ispunct\|isspace\|isupper\)\s*("me=e-1
-syn match   cBuiltin        "\%(isxdigit\|tolower\|toupper\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(isalnum\|isalpha\|iscntrl\|isdigit\|isgraph\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(islower\|isprint\|ispunct\|isspace\|isupper\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(isxdigit\|tolower\|toupper\)\s*("me=e-1
 " errno.h
 syn keyword cMacro          errno EDOM ERANGE
 " float.h
@@ -133,24 +133,24 @@ syn keyword cMacro          MB_LEN.MAX SHRT_MIN SHRT_MAX USHRT_MAX
 syn keyword cMacro          INT_MIN INT_MAX UINT_MAX LONG_MIN LONG_MAX ULONG_MAX
 " locale.h
 syn keyword cMacro          LC_ALL LC_COLLATE LC_CTYPE LC_MONETARY LC_NUMERIC LC_TIME
-syn match   cBuiltin        "\%(setlocale\|lconv\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(setlocale\|lconv\)\s*("me=e-1
 syn keyword cSpecialType    lconv
 " math.h
 syn keyword cMacro          HUGE_VAL
-syn match   cBuiltin        "\%(acos\|asin\|atan\|atan2\|cos\|cosh\|sin\|sinh\tan\|tanh\|exp\)\s*("me=e-1
-syn match   cBuiltin        "\%(frexp\|ldexp\|log\|log10\|modf\|pow\|sqrt\ceil\|fabs\|floor\|fmod\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(acos\|asin\|atan\|atan2\|cos\|cosh\|sin\|sinh\tan\|tanh\|exp\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(frexp\|ldexp\|log\|log10\|modf\|pow\|sqrt\ceil\|fabs\|floor\|fmod\)\s*("me=e-1
 " setjmp.h
 syn keyword cSpecialType    jmp_buf
-syn match   cMacro          "setjmp\s*("me=e-1
-syn match   cBuiltin        "longjmp\s*("me=e-1
+syn match   cMacro          "\%(\<\)\@<=setjmp\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=longjmp\s*("me=e-1
 " signal.h
 syn keyword cSpecialType    sig_atomic_t
 syn keyword cMacro          SIG_DFL SIG_ERR SIG_IGN
 syn keyword cMacro          SIGABRT SIGFPE SIGILL SIGINT SIGSEGV SIGTERM
-syn match   cBuiltin        "\%(signal\|raise\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(signal\|raise\)\s*("me=e-1
 " stdarg.h
 syn keyword cSpecialType    va_list
-syn match   cMacro          "\%(va_start\|va_arg\|va_end\|va_copy\)\s*("me=e-1
+syn match   cMacro          "\%(\<\)\@<=\%(va_start\|va_arg\|va_end\|va_copy\)\s*("me=e-1
 " stddef.h
 syn keyword cSpecialType    wchar_t size_t ptrdiff_t
 syn keyword cMacro          NULL
@@ -159,24 +159,24 @@ syn match   cMacro          "offsetof\s*("me=e-1
 syn keyword cSpecialType    FILE fpos_t
 syn keyword cMacro          _IOFBF _IOLBF _IONBF BUFSIZ EOF FOPEN_MAX FILENAME_MAX
 syn keyword cMacro          L-tmpnam SEEK_CUR SEEK_END SEEK_SET TMP_MAX stderr stdin stdout
-syn match   cBuiltin        "\%(fclose\|clearerr\|feof\|ferror\|fflush\|fgetpos\|fopen\|fread\|freopen\|fseek\)\s*("me=e-1
-syn match   cBuiltin        "\%(fsetpos\|ftell\|fwrite\|remove\|rename\|rewind\|setbuf\|setvbuf\|tmpfile\|tmpnam\)\s*("me=e-1
-syn match   cBuiltin        "\%(fprintf\|printf\|sprintf\|vfprintf\|vprintf\|vsprintf\|fscanf\|scanf\|sscanf\|fgetc\)\s*("me=e-1
-syn match   cBuiltin        "\%(fgets\|fputc\|fputs\|getc\|getchar\|gets\|putc\|putchar\|puts\|ungetc\|perror\|snprintf\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(fclose\|clearerr\|feof\|ferror\|fflush\|fgetpos\|fopen\|fread\|freopen\|fseek\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(fsetpos\|ftell\|fwrite\|remove\|rename\|rewind\|setbuf\|setvbuf\|tmpfile\|tmpnam\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(fprintf\|printf\|sprintf\|vfprintf\|vprintf\|vsprintf\|fscanf\|scanf\|sscanf\|fgetc\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(fgets\|fputc\|fputs\|getc\|getchar\|gets\|putc\|putchar\|puts\|ungetc\|perror\|snprintf\)\s*("me=e-1
 " stdlib.h
 syn keyword cSpecialType    div_t ldiv_t
 syn keyword cMacro          EXIT_FAILURE EXIT_SUCCESS RAND_MAX MB_CUR_MAX
-syn match   cBuiltin        "\%(atof\|atoi\|atol\|strtod\|strtol\|strtoul\|calloc\|free\|malloc\|realloc\)\s*("me=e-1
-syn match   cBuiltin        "\%(abort\|atexit\|exit\|getenv\|system\|bsearch\|qsort\|abs\|div\|labs\)\s*("me=e-1
-syn match   cBuiltin        "\%(ldiv\|rand\|srand\|mblen\|mbstowcs\|mbtowc\|wsctombs\|wctomb\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(atof\|atoi\|atol\|strtod\|strtol\|strtoul\|calloc\|free\|malloc\|realloc\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(abort\|atexit\|exit\|getenv\|system\|bsearch\|qsort\|abs\|div\|labs\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(ldiv\|rand\|srand\|mblen\|mbstowcs\|mbtowc\|wsctombs\|wctomb\)\s*("me=e-1
 " string.h
-syn match   cBuiltin        "\%(memchr\|memcmp\|memcpy\|memmove\|memset\|strcat\|strncat\|strchr\|strcmp\|strncmp\)\s*("me=e-1
-syn match   cBuiltin        "\%(strcoll\|strcpy\|strncpy\|strcspn\|strerror\|strlen\|strpbrk\|strrchr\|strspn\|strstr\)\s*("me=e-1
-syn match   cBuiltin        "\%(strtok\|strxfrm\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(memchr\|memcmp\|memcpy\|memmove\|memset\|strcat\|strncat\|strchr\|strcmp\|strncmp\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(strcoll\|strcpy\|strncpy\|strcspn\|strerror\|strlen\|strpbrk\|strrchr\|strspn\|strstr\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(strtok\|strxfrm\)\s*("me=e-1
 " time.h
 syn keyword cSpecialType    clock_t time_t tm
 syn keyword cMacro          CLOCK_PER_SEC
-syn match   cBuiltin        "\%(asctime\|clock\|ctime\|difftime\|gmtime\|localtime\|mktime\|strftime\|time\)\s*("me=e-1
+syn match   cBuiltin        "\%(\<\)\@<=\%(asctime\|clock\|ctime\|difftime\|gmtime\|localtime\|mktime\|strftime\|time\)\s*("me=e-1
 
 " ========================================================================= "
 hi def link cStorageClass       Builtin

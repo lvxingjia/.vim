@@ -50,15 +50,15 @@ syn match   pythonFunction	"\h\w*" display contained
 syn match   pythonComment	"#.*$" contains=pythonTodo,@Spell
 
 " Built-in functions
-syn match   pythonBuiltin	"\%(abs\|ascii\|bin\|breakpoint\|callable\)\s*("me=e-1
-syn match   pythonBuiltin	"\%(chr\|compile\|delattr\|dir\|divmod\)\s*("me=e-1
-syn match   pythonBuiltin	"\%(eval\|exec\|filter\|format\|getattr\)\s*("me=e-1
-syn match   pythonBuiltin	"\%(globals\|hasattr\|hash\|help\|hex\)\s*("me=e-1
-syn match   pythonBuiltin	"\%(input\|isinstance\|issubclass\|len\|locals\)\s*("me=e-1
-syn match   pythonBuiltin	"\%(map\|max\|min\|next\|oct\)\s*("me=e-1
-syn match   pythonBuiltin	"\%(open\|ord\|pow\|print\|repr\)\s*("me=e-1
-syn match   pythonBuiltin	"\%(reversed\|round\|setattr\|sorted\|sum\)\s*("me=e-1
-syn match   pythonBuiltin	"\%(vars\|zip\|__import__\|iter\)\s*("me=e-1
+syn match   pythonBuiltin	"\%(\<\)\@<=\%(abs\|ascii\|bin\|breakpoint\|callable\)\s*("me=e-1
+syn match   pythonBuiltin	"\%(\<\)\@<=\%(chr\|compile\|delattr\|dir\|divmod\)\s*("me=e-1
+syn match   pythonBuiltin	"\%(\<\)\@<=\%(eval\|exec\|filter\|format\|getattr\)\s*("me=e-1
+syn match   pythonBuiltin	"\%(\<\)\@<=\%(globals\|hasattr\|hash\|help\|hex\)\s*("me=e-1
+syn match   pythonBuiltin	"\%(\<\)\@<=\%(input\|isinstance\|issubclass\|len\|locals\)\s*("me=e-1
+syn match   pythonBuiltin	"\%(\<\)\@<=\%(map\|max\|min\|next\|oct\)\s*("me=e-1
+syn match   pythonBuiltin	"\%(\<\)\@<=\%(open\|ord\|pow\|print\|repr\)\s*("me=e-1
+syn match   pythonBuiltin	"\%(\<\)\@<=\%(reversed\|round\|setattr\|sorted\|sum\)\s*("me=e-1
+syn match   pythonBuiltin	"\%(\<\)\@<=\%(vars\|zip\|__import__\|iter\)\s*("me=e-1
 " Built-in methods
 syn match   pythonBuiltin	"\%(\.append\|\.clear\|\.count\|\.copy\|\.extend\)\s*("me=e-1
 syn match   pythonBuiltin	"\%(\.index\|\.insert\|\.pop\|\.remove\|\.sort\)\s*("me=e-1
@@ -224,18 +224,18 @@ hi def link pythonOperator			Statement
 hi def link pythonInclude			Statement
 hi def link pythonAsync				Statement
 hi def link pythonDecorator			Statement
-hi def link pythonDecoratorName		Statement
+hi def link pythonDecoratorName			Statement
 hi def link pythonException			StatementCyan
 hi def link pythonFunction			Normal
 hi def link pythonClass				Comment
 hi def link pythonComment			Comment
 hi def link pythonTodo				Todo
-hi def link pythonTripleQuotes		pythonQuotes
+hi def link pythonTripleQuotes			pythonQuotes
 hi def link pythonBuiltin			Builtin
 hi def link pythonModule			Builtin
-hi def link pythonExceptions		Exception
+hi def link pythonExceptions			Exception
 hi def link pythonExcepting			Exception
-hi def link pythonSpaceError		Exception
+hi def link pythonSpaceError			Exception
 hi def link pythonEscape			Special
 hi def link pythonDoctest			Special
 hi def link pythonDoctestValue	Define
