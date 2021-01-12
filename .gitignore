@@ -1,2 +1,6 @@
 /bundle/
+/files/
+/others/
 /push.sh
+/.netrwhist
+/.gitignore

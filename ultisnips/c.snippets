@@ -4,10 +4,22 @@ priority 99
 
 # Header
 snippet inc "include module" b
-#include<${1:module}.h>
+#include <${1:module}.h>
 endsnippet
 snippet include "include file" b
-#include"${0:file}"
+#include "${0:file}"
+endsnippet
+snippet de "MACRO" b
+#define ${1:MACRO}(${2:args}) \
+	do{ \
+		${0} \
+	} while(0)
+endsnippet
+snippet _G "generic" b
+#define ${1:MACRO}(${2:T}) _Generic($2, \
+	${3:type}: ${4:val}, \
+	default: NULL \
+	)
 endsnippet
 snippet def "define" b
 #define ${0}
@@ -44,7 +56,7 @@ snippet cmt "cmt"
 endsnippet
 
 # Branch
-snippet i "if"
+snippet i "if" b
 if (${1:condition}) 
 {
 	${2:${VISUAL}}
@@ -60,7 +72,7 @@ if (${1:condition}) {
 	${3}
 }
 endsnippet
-snippet el "else" b
+snippet el "else"
 else {
 	${0:${VISUAL}}
 }
@@ -73,22 +85,28 @@ endsnippet
 snippet elif "else if" A
 else if (${0})
 endsnippet
+snippet else "else" A
+else
+	${0}
+endsnippet
 
-snippet = "val1 or val2" b
+snippet = "val1 or val2"
 = ${1:condition} ? ${2:val1} : ${0:val2}
 endsnippet
-snippet t "ternary operator" b
+snippet to "ternary operator"
 ${1:condition} ? ${2:exp1} : ${0:exp2}
 endsnippet
 
-snippet swi "switch" b
+snippet sw "switch" b
 switch (${1:variable}) {
 	case ${2:constant} :
-		${0}
+		${3}
 		break;
+	default:
+		${0}
 }
 endsnippet
-snippet switch "switch" b
+snippet switch "switch" bA
 switch (${1:variable}) {
 	case ${2:constant} :
 		${3}
@@ -107,28 +125,32 @@ endsnippet
 # Loop
 snippet f "for" b
 for (int ${2:i} = 0; $2 < ${1:n}; ${3:++}$2)
+	${0:${VISUAL}}
 endsnippet
-snippet for "for loop" A
+snippet fo "for loop" b
 for (${1}; ${2}; ${3}) {
 	${0:${VISUAL}}
 }
 endsnippet
+snippet for "for" Ab
+for (${1}; ${2}; ${3})
+endsnippet
 
 snippet w "while" b
-while (${1:condition})
+while (${1:1})
 endsnippet
 snippet while "while then" Ab
-while (${0})
+while (${0:1})
 endsnippet
 snippet wh "while loop" b
-while (${1:condition}) {
+while (${1:1}) {
 	${0:${VISUAL}}
 }
 endsnippet
 snippet do "do loop" b
 do {
 	${0:${VISUAL}}
-} while (${1:condition});
+} while (${1:0});
 endsnippet
 
 
@@ -204,10 +226,18 @@ static inline ${1:int} ${2:func_name}(${3:void})
 
 endsnippet
 snippet fn "def func" b
-${1:int} ${2:func_name}(${3:void})
+${1:int} $1_${2:method_name}(${3:void})
 {
 	${0}
-	return $1;
+	return ($1*)me;
+}
+
+endsnippet
+snippet sfn "def static func" b
+static ${1:int} $1_${2:method_name}(${3:void})
+{
+	${0}
+	return ($1*)me;
 }
 
 endsnippet
@@ -230,7 +260,7 @@ endsnippet
 
 
 # Struct
-snippet s "struct"
+snippet s "struct" i
 struct 
 endsnippet
 snippet st "struct" b
@@ -287,27 +317,24 @@ endsnippet
 
 # Enum
 snippet en "enum" b
-enum ${1:ENUM_NAME} {
-	${0}
+enum {
+	ENUM_START = 0, //cmt
+	ENUM_FINISH //cmt
 };
 
 endsnippet
 snippet te "typedef enum" b
 typedef enum ${1:ENUM_NAME} {
-	/*${3:struct StructName}
-	 *
-	 */
-	${0}
-} ${2};
+	ENUM_START = 0, //cmt
+	ENUM_FINISH //cmt
+} ${0};
 
 endsnippet
 snippet enum "enum with comment" b
 typedef enum ${1:ENUM_NAME} {
-	/*${3:struct StructName}
-	 *
-	 */
-	${0}
-} ${2};
+	ENUM_START = 0, //cmt
+	ENUM_FINISH //cmt
+} ${0};
 
 endsnippet
 
@@ -316,25 +343,40 @@ snippet r "return"
 return 
 endsnippet
 snippet rt "return" Ab
-return ${0:res};
+return ${0:ret};
 endsnippet
 snippet td "typedef" b
 typedef 
 endsnippet
+snippet so "sizeof"
+sizeof(${0})
+endsnippet
+snippet sz "size_t"
+size_t 
+endsnippet
 snippet co "const" i
 const 
 endsnippet
-snippet cc "const *const" i
-const ${1} *const ${0}
+# snippet cc "const *const" i
+# const ${1} *const ${0}
+# endsnippet
+snippet cc "const char *" i
+const char *
 endsnippet
 snippet cr "restrict" i
-const *restrict 
+const ${1} *restrict ${0}
+endsnippet
+snippet *r "restrict" i
+*restrict ${0}
 endsnippet
 snippet vol "volatile" i
 volatile 
 endsnippet
 snippet si "static inline" b
 static inline 
+endsnippet
+snippet t "ADT type" i
+_t 
 endsnippet
 
 
@@ -367,6 +409,9 @@ snippet ca "calloc"
 ($2*) calloc(${1:size}, sizeof(${2:int}));
 endsnippet
 # Special
+snippet null "null" A
+NULL
+endsnippet
 snippet vtbl "VTable" b
 struct ${1:Class}Vtbl vtbl = {
 	${0:.func = void (*foo)(),}
