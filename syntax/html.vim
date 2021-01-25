@@ -1,22 +1,23 @@
 " Vim syntax file
-" Language:	HTML
-" Maintainer:	Rinz
-" Last Change:	2020 Dec 20
+" Language:     HTML
+" Maintainer:   Rinz
+" Last Change:  2020 Dec 20
 
-" if exists("b:current_syntax")
-"   finish
-" endif
 if !exists("main_syntax")
   if exists("b:current_syntax")
     finish
   endif
   let main_syntax = 'html'
+elseif exists('b:current_syntax') && b:current_syntax == 'html'
+  finish
 endif
 
 let s:cpo_save = &cpo
 set cpo&vim
 " ========================================================================= "
+if main_syntax == "html"
 syn match   htmlError       "[<>&]"
+endif
 syn cluster htmlTagContent  contains=htmlTagName,htmlGlobalAttr
 syn cluster htmlTagContent  add=htmlString,htmlOperator,htmlGlobalAttr
 syn cluster htmlTagContent  add=htmlStyle,htmlCssStr,htmlEvent,htmlJsStr,htmlScriptStr
@@ -33,7 +34,7 @@ syn match   htmlTagName     contained "\%(\<\)\@<=\%(figcaption\|figure\|audio\|
 syn match   htmlTagName     contained "\%(\<\)\@<=\%(ul\|ol\|li\|dl\|dt\|dd\|menu\|command\|table\|caption\)\%(\>\)\@="
 syn match   htmlTagName     contained "\%(\<\)\@<=\%(th\|tr\|td\|thead\|tbody\|tfoot\|col\|colgroup\|div\|span\)\%(\>\)\@="
 syn match   htmlTagName     contained "\%(\<\)\@<=\%(header\|footer\|section\|article\|aside\|details\|dialog\|summary\|head\|meta\)\%(\>\)\@="
-syn match   htmlTagName     contained "\%(\<\)\@<=\%(base\|embed\|object\|param\)\%(\>\)\@="
+syn match   htmlTagName     contained "\%(\<\)\@<=\%(base\|embed\|object\|param\|font\|strike\|center\|big\)\%(\>\)\@="
 
 syn match   htmlGlobalAttr  contained "\%(\<\)\@<=\%(accesskey\|class\|contenteditable\|contextmenu\|data-[\w-]\+\)\%(=\)\@="
 syn match   htmlGlobalAttr  contained "\%(\<\)\@<=\%(dir\|draggable\|dropzone\|hidden\|id\)\%(=\)\@="

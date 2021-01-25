@@ -3,12 +3,12 @@
 " Maintainer:   Rinz
 " Last Change:  2020 Nec 29
 
-if !exists("main_syntax")
-  if exists("b:current_syntax")
+if !exists('main_syntax')
+  if exists('b:current_syntax')
     finish
   endif
   let main_syntax = 'css'
-elseif exists("b:current_syntax") && b:current_syntax == "css"
+elseif exists('b:current_syntax') && b:current_syntax == 'css'
   finish
 endif
 
@@ -60,8 +60,7 @@ hi def link cssNumber       Number
 hi def link cssOperator     Operator
 
 
-let b:current_syntax = "css"
-
+let b:current_syntax = 'css'
 if main_syntax == 'css'
   unlet main_syntax
 endif

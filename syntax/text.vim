@@ -4,10 +4,18 @@
 " Filenames:    *.txt
 " Last Change:  2020 Dec 03
 
-if exists("b:current_syntax")
+if !exists('main_syntax')
+  if exists('b:current_syntax')
+    finish
+  endif
+  let main_syntax = 'text'
+elseif exists('b:current_syntax') && b:current_syntax == 'text'
   finish
 endif
 " source $VIMHOME/syntax/html.vim
+
+let s:cpo_save = &cpo
+set cpo&vim
 
 " ========================================================================= "
 syn match   textNumber      /\%(-\)\=\d\+\%(\.\%(\d\)\+\)\=/
@@ -18,8 +26,8 @@ syn match   textQuantifier  /\%(\d\)\@<=\%(元\|万元\|亿元\|美元\|万美�
 syn match   textPercent     /%/
 syn match   textPercent     /[一二三四五六七八九十]分之[一二三四五六七八九十]/
 syn match   textPercent     /[一二三四五六七八九十半1-9]成/
-syn match   textSerial      /第[一二三四五六七八九十半1-9]\%(，\)\@=/
-syn match   textSerial      /[一二三四五六七八九十半]是/
+syn match   textSerial      /\%(第\|其\)[一二三四五六七八九十1-9]，/
+syn match   textSerial      /[一二三四五六七八九十]是/
 syn match   textSerial      /首先\|其次\|再次\|最后/
 syn match   textStatement   /\%(，\|。\)\@<=\%(但是\|然而\|而且\|并且\|且\|其实\|实际上\|事实上\|同时\)\%(，\)\=/
 syn match   textStatement   /\%(，\|。\)\@<=\%(因此\|所以\|然后\|总之\|综上\|综上所述\)\%(，\)\=/
@@ -71,3 +79,11 @@ syn match   textVimcmd       "\%(vim\|vi\|ex\)\s*:.*$" contained
 syn match   textComment       "#.*$" contains=textVimcmd
 hi def link textVimcmd      SpecialComment
 hi def link textComment     Comment
+" ========================================================================= "
+let b:current_syntax = 'text'
+if main_syntax == 'text'
+  unlet main_syntax
+endif
+
+let &cpo = s:cpo_save
+unlet s:cpo_save

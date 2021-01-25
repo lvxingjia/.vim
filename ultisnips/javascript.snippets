@@ -2,6 +2,10 @@ priority 99
 # JavaScript
 # vim:ft=snippets
 
+snippet cmt "comment"
+/* ${0} */
+endsnippet
+
 snippet wa "window.alert" b
 window.alert(${0});
 endsnippet
@@ -26,11 +30,30 @@ document.write(${0})
 endsnippet
 
 snippet f "keyword function"
-function(${0})
+function(${1}) {
+	${0}
+};
 endsnippet
 snippet vf "constructor"
 var ${1:Class} = function(${2:args}) {
 	${0}
 };
 endsnippet
+snippet lf "constructor"
+let ${1:Class} = function(${2:args}) {
+	${0}
+};
+endsnippet
 
+snippet while "while" Ab
+while (${0})
+endsnippet
+snippet if "if then" Ab
+if (${0})
+endsnippet
+snippet elif "else if" Ab
+else if (${0})
+endsnippet
+snippet for "for" Ab
+for (let ${2:i} = 0; $2 < ${1:arr}.length; ${0:++$2})
+endsnippet

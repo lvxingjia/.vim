@@ -1,10 +1,14 @@
 " Vim syntax file
 " Language:     Python
-" Authon:       Rinz
-" Create Time:  2020 Jul 17
-" Last Change:  2020 Dec 24
+" Maintainer:   Rinz
+" Last Change:  2020 Jul 17
 
-if exists("b:current_syntax")
+if !exists('main_syntax')
+  if exists('b:current_syntax')
+    finish
+  endif
+  let main_syntax = 'python'
+elseif exists('b:current_syntax') && b:current_syntax == 'python'
   finish
 endif
 
@@ -213,8 +217,11 @@ hi def link pyFunctions     Function
 hi def link numpyType       Type
 hi def link numpyBuiltin    Function
 
-
-let b:current_syntax = "python"
+" ========================================================================= "
+let b:current_syntax = 'python'
+if main_syntax == 'python'
+  unlet main_syntax
+endif
 
 let &cpo = s:cpo_save
 unlet s:cpo_save

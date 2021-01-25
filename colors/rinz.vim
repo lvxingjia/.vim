@@ -127,7 +127,7 @@ exe "hi! Comment"           .s:fg_red        .s:bg_none       .s:fmt_n
 exe "hi! Others"            .s:fg_red        .s:bg_none       .s:fmt_b
 " Group2
 exe "hi! Constant"          .s:fg_magenta    .s:bg_none       .s:fmt_n
-exe "hi! Charracter"        .s:fg_magenta    .s:bg_none       .s:fmt_n
+exe "hi! Character"         .s:fg_magenta    .s:bg_none       .s:fmt_n
 exe "hi! Boolean"           .s:fg_pink       .s:bg_none       .s:fmt_n
 exe "hi! String"            .s:fg_green      .s:bg_none       .s:fmt_n
 exe "hi! Number"            .s:fg_blue       .s:bg_none       .s:fmt_n
@@ -190,10 +190,12 @@ exe "hi! NormalBoldItalic"  .s:fg_foreg      .s:bg_none       .s:fmt_bi
 exe "hi! NormalUnderlined"  .s:fg_foreg      .s:bg_none       .s:fmt_u
 exe "hi! NormalIgnore"      .s:fg_dgrey      .s:bg_none       .s:fmt_n
 exe "hi! NormalNote"        .s:fg_foreg      .s:bg_lgrey      .s:fmt_n
+exe "hi! NormalKeyboard"    .s:fg_foreg      .s:bg_white      .s:fmt_n
 exe "hi! Blue"              .s:fg_blue       .s:bg_none       .s:fmt_n
 exe "hi! BlueBold"          .s:fg_blue       .s:bg_none       .s:fmt_b
 exe "hi! BlueItalic"        .s:fg_blue       .s:bg_none       .s:fmt_i
-exe "hi! BlueUnderlined"    .s:fg_blue       .s:bg_none       .s:fmt_i
+exe "hi! BlueUnderlined"    .s:fg_blue       .s:bg_none       .s:fmt_u
+exe "hi! BlueItaUnder"      .s:fg_blue       .s:bg_none       .s:fmt_iu
 exe "hi! Green"             .s:fg_green      .s:bg_none       .s:fmt_n
 exe "hi! GreenBold"         .s:fg_green      .s:bg_none       .s:fmt_b
 exe "hi! GreenItalic"       .s:fg_green      .s:bg_none       .s:fmt_i

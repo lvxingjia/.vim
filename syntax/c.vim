@@ -1,8 +1,8 @@
 " Vim syntax file
-" Language:	C
-" Author:	Rinz
-" Create Time:	2020 Sep 9
-" Last Change:	2020 Dec 22
+" Language:     C
+" Maintainer:   Rinz
+" Last Change:  2020 Sep 9
+
 
 if !exists('main_syntax')
   if exists('b:current_syntax')
@@ -30,7 +30,7 @@ syn match   cConstant       "\%(\<\)\@<=_\=[_A-Z][_A-Z]\+\>\%(\s*(\)\@!"
 syn match   cNumber         "\<\d\+\%(\.\d\+\)\=[fF]\=\>"
 syn match   cNumber         "\<\d\+\%(\.\d\+\)\=[uU]\=[lL]\=[lL]\="
 syn match   cNumber         "\<\.\d\+[fF]\=\>"
-syn match   cNumber         "\%(\%(=\|?\|:\|,\|{\)\s*\)\@<=-\<\d\+\%(\.\d\+\)\=\>"
+syn match   cNumber         "\%(\%(=\|?\|:\|,\|{\|(\|\s\)\s*\)\@<=-\<\d\+\%(\.\d\+\)\=\>"
 syn match   cNumber         "\<\d\%(\.\d\+\)\=[eE][+-]\=\d\+[fF]\=\>"
 syn match   cNumber         "\<\.\d\+[eE][+-]\=\d\+[fF]\=\>"
 syn match   cNumber         "\<0\o\+\>"
@@ -110,14 +110,14 @@ syn match   cArgs           "\%(\<\)\@<=\%(\%(signed\|unsigned\)\s\+\)\=\%(\%(lo
 syn match   cArgs           "\%(\<\)\@<=\%(\%(signed\|unsigned\)\s\+\)\=\%(long\|short\)\s*()\[\d\+\]\%(\s*\%(,\|)\|>\)\)\@="
 syn match   cArgs           "\%(\<\)\@<=\%(\%(signed\|unsigned\)\s\+\)\=long\s\+long\%(\s\+int\)\=\s*()\[\d\+\]\%(\s*\%(,\|)\|>\)\)\@="
 " cTypeCasting\(\s*type\s*\**\)(?=\s*(\*?\w|\())
-syn match   cTypeCasting    "(\s*\%(void\|bool\|float\|signed\|unsigned\)\s*\**)\%(\s*\%(\**\w\|(\)\)\@="
-syn match   cTypeCasting    "(\s*\%(\%(signed\|unsigned\)\s\+\)\=char\s*\**)\%(\s*\%(\**\w\|(\)\)\@="
-syn match   cTypeCasting    "(\s*\%(long\s\+\)\=double\s*\**)\%(\s*\%(\**\w\|(\)\)\@="
-syn match   cTypeCasting    "(\s*\%(\%(signed\|unsigned\)\s\+\)\=\%(\%(long\|short\)\s\+\)\=int\s*\**)\%(\s*\%(\**\w\|(\)\)\@="
-syn match   cTypeCasting    "(\s*\%(\%(signed\|unsigned\)\s\+\)\=\%(long\|short\)\s*\**)\%(\s*\%(\**\w\|(\)\)\@="
-syn match   cTypeCasting    "(\s*\%(\%(signed\|unsigned\)\s\+\)\=long\s\+long\%(\s\+int\)\=\s*\**)\%(\s*\%(\**\w\|(\)\)\@="
-syn match   cTypeCasting    "(\s*\%(struct\|union\|enum\)\s\+\w\+\s*\**)\%(\s*\%(\**\w\|(\)\)\@="
-syn match   cTypeCasting    "(\s*[A-Z_]\w*\s*\**)\%(\s*\%(\**\w\|(\)\)\@="
+syn match   cTypeCasting    "(\s*\%(void\|bool\|float\|signed\|unsigned\)\s*\**)\%(\s*\%(\**\w\|(\|&\)\)\@="
+syn match   cTypeCasting    "(\s*\%(\%(signed\|unsigned\)\s\+\)\=char\s*\**)\%(\s*\%(\**\w\|(\|&\)\)\@="
+syn match   cTypeCasting    "(\s*\%(long\s\+\)\=double\s*\**)\%(\s*\%(\**\w\|(\|&\)\)\@="
+syn match   cTypeCasting    "(\s*\%(\%(signed\|unsigned\)\s\+\)\=\%(\%(long\|short\)\s\+\)\=int\s*\**)\%(\s*\%(\**\w\|(\|&\)\)\@="
+syn match   cTypeCasting    "(\s*\%(\%(signed\|unsigned\)\s\+\)\=\%(long\|short\)\s*\**)\%(\s*\%(\**\w\|(\|&\)\)\@="
+syn match   cTypeCasting    "(\s*\%(\%(signed\|unsigned\)\s\+\)\=long\s\+long\%(\s\+int\)\=\s*\**)\%(\s*\%(\**\w\|(\|&\)\)\@="
+syn match   cTypeCasting    "(\s*\%(struct\|union\|enum\)\s\+\w\+\s*\**)\%(\s*\%(\**\w\|(\|&\)\)\@="
+syn match   cTypeCasting    "(\s*[A-Z_]\w*\s*\**)\%(\s*\%(\**\w\|(\|&\)\)\@="
 
 syn keyword cStorageClass   extern register static _Thread_local thread_local
 syn keyword cSpecifier      inline _Alignas alignas _Atomic _Noreturn noreturn __attribute__
@@ -137,7 +137,12 @@ syn match   cLabel          "\%(goto\s*\)\@<=\<\w\+\>"
 syn keyword cOperator       sizeof typeof _Alignof alignof _Generic generic _Static_assert static_assert __real__ __imag__
 syn match   cOperator       "\%(&&\|||\|!\|?\|#\)"
 syn match   cOperator       "\%(:\)\@<!:\%(:\)\@!"
-syn match   cOperator       "\%(==\|!=\|>\|>=\|<\|<=\)"
+syn match   cOperator       "\%(-\)\@<!\%(>\|<\)\%(>\|<\)\@!"
+syn match   cOperator       "\%(==\|!=\|>=\|<=\)"
+syn match   cParens         "\%(\%(for\|while\|switch\)\s*\)\@<=("
+syn match   cParens         "\%(\%(for\|while\|switch\).*\)\@<=)\%(\%(\s*{\)\=\s*$\)\@="
+syn match   cSemicolon      "\%(\%(for\|while\|switch\).*\)\@<=;"
+syn match   cBraces         "^[\{\}]$"
 " syn match   cOperator       "\%(\w\s*\)\@<=\%(>\|<\)\%(\s*\%(\w\|\d\|\'\)\)\@="
 syn match   cSizeof         "\%(sizeof\s*(\s*\)\@<=\%(\%(struct\|union\|enum\)\s\+\)\=\w\+\s*\**\%(\s*)\)\@="
 syn match   cSizeof         "\%(sizeof\s\+\)\@<=\%(\%(struct\|union\|enum\)\s\+\)\=\w\+\%(\>\)\@="
@@ -146,7 +151,7 @@ syn match   cSizeofBrackets "\%(sizeof\s*(\s*\%(\%(struct\|union\|enum\)\s\+\)\=
 
 syn match   cStructure      "\%(\<\)\@<=[A-Z_]\w*\%(\%(\s*\*\+\w\|\s\+\w\|\s*$\|\s*;\|\s*(\s*\*\)\)\@="
 syn match   cGenericStrc    "\%(\%(^\|,\)\s*\)\@<=[A-Z_]\w*\**\s*:"
-syn match   cSpecialStrc    "\%(\<\)\@<=[A-Z_]\w*\s*\*\+\%(\s\+\w\)\@="
+syn match   cSpecialStrc    "\%(\<\)\@<=[A-Z_]\w*\s*\*\+\%(\%(\s\+\w\)\|\s*$\)\@="
 syn match   cStrcArgs       "\%(\<\)\@<=\%([A-Z_]\w*\)\s*\**\%(\s*\%(,\|)\)\)\@="
 syn match   cStruct         "\%(\<\)\@<=struct\%(\>\)\@="
 syn match   cUnion          "\%(\<\)\@<=union\%(\>\)\@="
@@ -311,6 +316,9 @@ hi def link cRepeat         Repeat
 hi def link cRepeatDelim    Statement
 hi def link cLabel          Label
 hi def link cOperator       Operator
+hi def link cParens         Operator
+hi def link cSemicolon      Operator
+hi def link cBraces         Function
 hi def link cSizeof         SpecialItalic
 hi def link cSizeofBrackets Special
 hi def link cStructure      Structure
@@ -338,7 +346,7 @@ hi def link cLibFunc        Function
 hi def link cLibType        SpecialType
 hi def link cLibOpr         Operator
 hi def link cSelfPtr        SelfRef
-hi def link cAttrs          Attribute
+hi def link cAttrs          SelfRef
 hi def link cMethod         Methond
 hi def link cVTable         Structure
 

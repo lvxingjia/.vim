@@ -84,7 +84,12 @@ set directory=$VIMHOME/files/swap/
 set updatecount=100
 set undofile
 set undodir=$VIMHOME/files/undo/
-set viminfo='100,n$VIMHOME/files/info/viminfo'
+if has('nvim')
+" set viminfo='100,n$VIMHOME/files/info/viminfo'
+    set viminfo+=n$VIMHOME/files/info/nviminfo
+else
+    set viminfo+=n$VIMHOME/files/info/viminfo
+endif
 
 " ================== Encoding ================= "
 set encoding=utf-8
@@ -97,9 +102,13 @@ set formatoptions+=B
 set ambiwidth=double
 set shortmess+=c
 
-augroup filetypedetect
-    auto BufRead,BufNewFile *.snippets set filetype=snippets
-augroup END
+" augroup filetypedetect
+"     auto BufRead,BufNewFile *.snippets set filetype=snippets
+" augroup END
+auto BufRead,BufNewFile *.snippets setf snippets
+auto BufRead,BufNewFile *.mermaid,*.mer,*.mr setf mermaid
+auto BufRead,BufNewFile *.flow,*.flw,*.mr setf flow
+auto BufRead,BufNewFile *.UML,*.uml setf UML
 
 " =================== Sounds ================== "
 set novisualbell
@@ -381,9 +390,10 @@ func! <SID>SyntaxGroup()
     echo "Syntax: " . syn_name . '->'. synIDattr(tran_id, "name")
     echohl None
 endfunc
+nmap <C-q> <C-s>
 " FuncKey
 map <F1> <nop>
-inoremap <F2> <End><C-m>
+inoremap <F2> <nop>
 nnoremap <F3> :%s/
 
 " Split
@@ -620,6 +630,7 @@ func! <SID>Ftsettings()
         imap <Plug>newline <Plug>block
     elseif &filetype == 'text' || &filetype == 'markdown'
         setlocal wrap
+        setlocal autoindent
         setlocal cc=0
         setlocal scrolloff=0
         setlocal sidescrolloff=0
@@ -629,6 +640,8 @@ func! <SID>Ftsettings()
         vnoremap k gk
         inoremap <Plug>block <C-m><C-m>
         inoremap <Plug>newline <Space><Space><C-m>
+    elseif &filetype == 'scheme'
+        inoremap ' '()<Esc>i
     elseif &filetype == 'c'
         setlocal foldmethod=syntax
         inoremap <Plug>block <End><Space>{<CR>}<Esc>O
@@ -663,6 +676,8 @@ func! <SID>Ftsettings()
         inoremap < <
         inoremap <Plug>block <End><Space>{<CR>}<Esc>O
         inoremap <Plug>newline <End>;<C-m>
+"         inoremap <Plug>newline <++><Esc>jA;<Esc>?<++><CR>c4l
+        inoremap <Plug>brackets <End><Space>{<CR>};<Esc>O
     elseif &filetype == 'html' || &filetype == 'css'
         setlocal tabstop=2 shiftwidth=2 softtabstop=2
         inoremap < <><Esc>i
@@ -704,6 +719,8 @@ func! RunOnBash()
     exec 'wa'
     if &filetype == 'sh'
         :!time bash %
+"     elseif &filetype == 'scheme'
+"         exec '!mit-scheme (load "./' . expand('%') . '")'
     elseif &filetype == 'c'
         exec '!gcc % -o %<'
         exec '!time ./%<'
@@ -726,6 +743,9 @@ func! RunOnBash()
         endif
     elseif &filetype == 'javascript'
         exec '!time node %'
+    elseif &filetype == 'typescript'
+        exec '!tsc %'
+        exec '!time node ' . expand('%:r') . '.js'
     elseif &filetype == 'python'
         exec '!time python3 %'
     elseif &filetype == 'go'

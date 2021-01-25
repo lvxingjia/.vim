@@ -82,10 +82,10 @@ else if(${1:condition}) {
 	${0:${VISUAL}}
 }
 endsnippet
-snippet elif "else if" A
+snippet elif "else if" Ab
 else if (${0})
 endsnippet
-snippet else "else" A
+snippet else "else" Ab
 else
 	${0}
 endsnippet
@@ -375,9 +375,9 @@ endsnippet
 snippet si "static inline" b
 static inline 
 endsnippet
-snippet t "ADT type" i
-_t 
-endsnippet
+# snippet t "ADT type" i
+# _t 
+# endsnippet
 
 
 # Functions
@@ -394,6 +394,10 @@ snippet ps "printf %s" b
 printf("*$1: %s\n", ${1:var});
 endsnippet
 
+snippet mac "ADT malloc"
+${2:T} ${3:me} = ($2) malloc(sizeof(${1:ADT}));
+${0}
+endsnippet
 snippet sm "struct malloc"
 ${1:struct name} *${2:self} = ($1*) malloc(sizeof($1));
 ${0}

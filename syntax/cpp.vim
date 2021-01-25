@@ -1,10 +1,17 @@
 " Vim syntax file
-" Language:	Cpp
-" Maintainer:	Rinz
-" Last Change:	2020 Sep 9
-if exists("b:current_syntax")
+" Language:     C++
+" Maintainer:   Rinz
+" Last Change:  2020 Sep 9
+
+if !exists('main_syntax')
+  if exists('b:current_syntax')
+    finish
+  endif
+  let main_syntax = 'cpp'
+elseif exists('b:current_syntax') && b:current_syntax == 'cpp'
   finish
 endif
+
 let s:cpo_save = &cpo
 set cpo&vim
 source $VIMHOME/syntax/c.vim
@@ -77,7 +84,11 @@ hi def link cppDelimiter    Delimiter
 hi def link cppRawString    String
 hi def link cppNumber       Number
 
-let b:current_syntax = "c"
-unlet s:ft
+" ========================================================================= "
+let b:current_syntax = 'cpp'
+if main_syntax == 'cpp'
+  unlet main_syntax
+endif
+
 let &cpo = s:cpo_save
 unlet s:cpo_save
