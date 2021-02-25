@@ -1,8 +1,7 @@
 " Vim syntax file
 " Language:     Markdown
-" Maintainer:   Rinz <voidrinz@foxmail.com>
-" Filenames:    *.markdown
-" Last Change:  2020 Dec 03
+" Author:       Rinz
+" Create Time:  2020 Dec 03
 
 if !exists('main_syntax')
   if exists('b:current_syntax')
@@ -72,8 +71,12 @@ syn match   mkdTable        "\%(|\s*\)\@<=\%(:\)\=----*\%(:\)\=\%(\s*|\)\@="
 syn match   mkdNewline      "\%(^.\+\)\@<=\s\s$"
 
 " ========================================================================= "
+syn include @SCHEME $VIMHOME/syntax/scheme.vim
+syn region  mkdSCHEME  matchgroup=mkdLanguage start="^```scheme" keepend end="^```" contains=@SCHEME
 syn include @C $VIMHOME/syntax/c.vim
 syn region  mkdC  matchgroup=mkdLanguage start="^```c" keepend end="^```" contains=@C
+syn include @MAKE $VIMHOME/syntax/make.vim
+syn region  mkdMAKE  matchgroup=mkdLanguage start="^```make" keepend end="^```" contains=@MAKE
 syn include @HTML $VIMHOME/syntax/html.vim
 syn region  mkdHTML  matchgroup=mkdLanguage start="^```html" keepend end="^```" contains=@HTML
 syn include @CSS $VIMHOME/syntax/css.vim

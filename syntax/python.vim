@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:     Python
-" Maintainer:   Rinz
-" Last Change:  2020 Jul 17
+" Author:       Rinz
+" Create Time:  2020 Jul 17
 
 if !exists('main_syntax')
   if exists('b:current_syntax')

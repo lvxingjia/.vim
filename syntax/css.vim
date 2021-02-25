@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:     CSS
-" Maintainer:   Rinz
-" Last Change:  2020 Nec 29
+" Author:       Rinz
+" Create Time:  2020 Nec 29
 
 if !exists('main_syntax')
   if exists('b:current_syntax')

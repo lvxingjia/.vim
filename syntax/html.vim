@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:     HTML
-" Maintainer:   Rinz
-" Last Change:  2020 Dec 20
+" Author:       Rinz
+" Create Time:  2020 Dec 20
 
 if !exists("main_syntax")
   if exists("b:current_syntax")

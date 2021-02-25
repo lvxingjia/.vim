@@ -31,7 +31,7 @@ let s:palette.gui.violet     = {'dark': "#af87ff", 'light': "#5f87ff"}
 let s:palette.gui.special    = {'dark': "#6464c8", 'light': "#6464c8"}
 let s:palette.gui.unique     = {'dark': "#d7515f", 'light': "#d75f00"}
 
-let s:palette.cterm.foreg    = {'dark': "233", 'light': "012"}
+let s:palette.cterm.foreg    = {'dark': "233", 'light': "000"}
 let s:palette.cterm.backg    = {'dark': "007", 'light':"NONE"}
 let s:palette.cterm.selec    = {'dark': "119", 'light': "147"}
 let s:palette.cterm.white    = {'dark': "255", 'light': "015"}

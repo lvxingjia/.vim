@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:     C++
-" Maintainer:   Rinz
-" Last Change:  2020 Sep 9
+" Author:       Rinz
+" Create Time:  2020 Sep 9
 
 if !exists('main_syntax')
   if exists('b:current_syntax')

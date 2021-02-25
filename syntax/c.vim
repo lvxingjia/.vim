@@ -1,8 +1,7 @@
 " Vim syntax file
 " Language:     C
-" Maintainer:   Rinz
-" Last Change:  2020 Sep 9
-
+" Author:       Rinz
+" Create Time:  2020 Sep 9
 
 if !exists('main_syntax')
   if exists('b:current_syntax')
@@ -22,8 +21,8 @@ syn match   cSymbol         "\%(!\|@\|#\|$\|%\|^\|&\|\*\|(\|)\)"
 syn match   cSymbol         "\%(`\|\~\|+\|-\|=\|{\|}\|\[\|\]\|\\\||\)"
 syn match   cSymbol         +\%(;\|:\|'\|"\|.\|,\|<\|>\|\/\|?\)+
 
-syn region  cComment        start="//" end="$" skip="\\$" keepend contains=cSpecialComment
-syn region  cComment        start="/\*" end="\*/" contains=cSpecialComment
+syn region  cComment        start="//" end="$" skip="\\$" keepend contains=cVimCmd
+syn region  cComment        start="/\*" end="\*/" contains=cVimCmd
 syn match   cVimCmd         "^//.*\%(ex\|vi\|vim\)\s*:.*$" contained
 
 syn match   cConstant       "\%(\<\)\@<=_\=[_A-Z][_A-Z]\+\>\%(\s*(\)\@!"
@@ -132,7 +131,7 @@ syn keyword cConditonal     if else switch
 syn keyword cRepeat         do for while
 syn match   cRepeatDelim    "\%(^for.*\)\@<=;"
 syn match   cLabel          "^\<\w\+\>\s*:\s*$"
-syn match   cLabel          "\%(goto\s*\)\@<=\<\w\+\>"
+syn match   cLabel          "\%(goto\s\+\)\@<=\<\w\+\>"
 
 syn keyword cOperator       sizeof typeof _Alignof alignof _Generic generic _Static_assert static_assert __real__ __imag__
 syn match   cOperator       "\%(&&\|||\|!\|?\|#\)"
@@ -142,17 +141,21 @@ syn match   cOperator       "\%(==\|!=\|>=\|<=\)"
 syn match   cParens         "\%(\%(for\|while\|switch\)\s*\)\@<=("
 syn match   cParens         "\%(\%(for\|while\|switch\).*\)\@<=)\%(\%(\s*{\)\=\s*$\)\@="
 syn match   cSemicolon      "\%(\%(for\|while\|switch\).*\)\@<=;"
-syn match   cBraces         "^[\{\}]$"
+syn match   cBraces         "^{$"
+syn match   cBraces         "\%(^\S.*\)\@<={$"
+syn match   cBraces         "^}\%(;\)\=$"
 " syn match   cOperator       "\%(\w\s*\)\@<=\%(>\|<\)\%(\s*\%(\w\|\d\|\'\)\)\@="
 syn match   cSizeof         "\%(sizeof\s*(\s*\)\@<=\%(\%(struct\|union\|enum\)\s\+\)\=\w\+\s*\**\%(\s*)\)\@="
 syn match   cSizeof         "\%(sizeof\s\+\)\@<=\%(\%(struct\|union\|enum\)\s\+\)\=\w\+\%(\>\)\@="
 syn match   cSizeofBrackets "\%(sizeof\s*\)\@<=(\%(\s*\%(\%(struct\|union\|enum\)\s\+\)\=\w\+\s*\**\s*)\)\@="
 syn match   cSizeofBrackets "\%(sizeof\s*(\s*\%(\%(struct\|union\|enum\)\s\+\)\=\w\+\s*\**\s*\)\@<=)"
 
-syn match   cStructure      "\%(\<\)\@<=[A-Z_]\w*\%(\%(\s*\*\+\w\|\s\+\w\|\s*$\|\s*;\|\s*(\s*\*\)\)\@="
+syn match   cStructure      "\%(\<\)\@<=[A-Z][A-Za-z0-9]*\%(\%(\s*\*\+\w\|\s\+\w\|\s*$\|\s*;\|\s*(\s*\*\)\)\@="
+syn match   cStructure      "\%(\<\)\@<=[A-Z][A-Za-z0-9]*_[A-Z]\w*\%(\%(\s*\*\+\w\|\s\+\w\|\s*$\|\s*;\|\s*(\s*\*\)\)\@="
 syn match   cGenericStrc    "\%(\%(^\|,\)\s*\)\@<=[A-Z_]\w*\**\s*:"
 syn match   cSpecialStrc    "\%(\<\)\@<=[A-Z_]\w*\s*\*\+\%(\%(\s\+\w\)\|\s*$\)\@="
-syn match   cStrcArgs       "\%(\<\)\@<=\%([A-Z_]\w*\)\s*\**\%(\s*\%(,\|)\)\)\@="
+" syn match   cStrcArgs       "\%(^\S.*\)\@<=\<\%([A-Z_]\w*\)\s*\**\%(\s*\%(,.*);$\|);$\)\)\@="
+syn match   cStrcArgs       "\%(^\S.*\)\@<=\<\%([A-Z_]\w*\)\s*\**\%(\s*\%(,.*\)\=);$\)\@="
 syn match   cStruct         "\%(\<\)\@<=struct\%(\>\)\@="
 syn match   cUnion          "\%(\<\)\@<=union\%(\>\)\@="
 syn match   cEnum           "\%(\<\)\@<=enum\%(\>\)\@="
@@ -171,13 +174,15 @@ syn match   cInclude        "^#include"
 syn match   cModule         "\%(^#include\s*\)\@<=<.*>"
 syn match   cDefine         "^#\%(define\|undef\)"
 syn match   cPreCondit      "#\%(ifdef\|ifndef\|if\|else\|elif\|endif\|line\|error\|pragma\)"
-syn match   cMacro          "\%(^#define\s\)\@<=\S*\s"
+syn match   cMacro          "\%(^\s*#define\s\+\)\@<=\S*\s"
+syn match   cMacro          "\%(^\s*#undef\s\+\)\@<=\w\+"
 syn match   cMacro          "\%(\<\)\@<=_\=[_A-Z][_A-Z]\+\%(\s*(\)\@="
 syn match   cMacro          "\%(^\s*\)\@<=[_A-Z]\w*\%(\s*\\$\)\@="
 syn keyword cMacro          __LINE__ __FILE__ __DATE__ __TIME__ __FUNCTION__ __VER__ __func__ __VA_ARGS__
 
 " ADT (\b\w_t\b)
 syn match   cAdtType        "\%(\<\)\@<=\%(\w\+_[Tt]\>\)\%(\s*\*\+\w\|\s\+\w\|\s*$\|s*(\|\s*{\)\@="
+syn match   cAdtAbbr        "\%(\s\)\@<=\*\%(\w\+_\)\=T\>"
 syn match   cGenericType    "\%(\%(^\|,\)\s*\)\@<=\%(\<\w\+_[Tt]\>\)\s*\**\s*:"
 syn match   cSpecialType    "\%(\<\)\@<=\%(\w\+_[Tt]\>\)\s*\*\+\%(\s\+\w\)\@="
 syn match   cppReference    "\%(\<\)\@<=\%(\w\+_[Tt]\>\)\s*&"
@@ -226,8 +231,7 @@ syn match   cLibFunc        "\%(\<\)\@<=\%(acos\|asin\|atan\|atan2\|cos\|cosh\|s
 syn match   cLibFunc        "\%(\<\)\@<=\%(frexp\|ldexp\|log\|log10\|modf\|pow\|sqrt\ceil\|fabs\|floor\|fmod\)\s*("me=e-1
 " setjmp.h
 syn keyword cLibType        jmp_buf
-syn match   cLibMacro       "\%(\<\)\@<=setjmp\s*("me=e-1
-syn match   cLibFunc        "\%(\<\)\@<=longjmp\s*("me=e-1
+syn match   cLibFunc        "\%(\<\)\@<=\%(setjmp\|longjmp\)\s*("me=e-1
 " signal.h
 syn keyword cLibType        sig_atomic_t
 syn keyword cLibMacro       SIG_DFL SIG_ERR SIG_IGN
@@ -340,6 +344,7 @@ hi def link cPreCondit      PreCondit
 hi def link cMacro          Macro
 hi def link cMain           Statement
 hi def link cAdtType        SpecialType
+hi def link cAdtAbbr        Special
 hi def link cOther          Others
 hi def link cLibMacro       Macro
 hi def link cLibFunc        Function

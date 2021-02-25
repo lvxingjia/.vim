@@ -2,6 +2,95 @@ priority 99
 # scheme
 # vim:ft=snippets
 
-snippet cons "cons" A
+snippet cmt "comment"
+#| ${0} |#
+endsnippet
+
+snippet cons "cons"
 (cons ${0})
+endsnippet
+snippet car "car"
+(car ${0})
+endsnippet
+snippet cdr "cdr"
+(cdr ${0})
+endsnippet
+
+snippet quote "quote" A
+(quote ${0})
+endsnippet
+snippet list "list"
+(list${0})
+endsnippet
+
+snippet d "define" b
+(define ${0})
+endsnippet
+snippet define "define" A
+(define ${0})
+endsnippet
+snippet lam "lambda" i
+(lambda ${0})
+endsnippet
+snippet lambda "lambda" A
+(lambda ${0})
+endsnippet
+snippet dl "def lambda" i
+(define ${1} (lambda (${2})
+		${0}))
+endsnippet
+snippet def "def" i
+(define (${1})
+	${0})
+endsnippet
+
+
+snippet not "not" i
+(not ${0})
+endsnippet
+snippet and "and" i
+(and ${0})
+endsnippet
+snippet or "or" i
+(or ${0})
+endsnippet
+snippet if "if" i
+(if (${1})
+	${0})
+endsnippet
+snippet when "when" i
+(when (${1})
+	${0})
+endsnippet
+snippet unless "unless" i
+(unless (${1})
+	${0})
+endsnippet
+snippet cond "cond" i
+(cond
+	((${1}) ${2})
+	(else ${0}))
+endsnippet
+snippet case "case" i
+(case ${1}
+	((${2}) ${3})
+	(else ${0}))
+endsnippet
+
+snippet let "let" i
+(let ((${1}))
+	${0})
+endsnippet
+snippet do "do" i
+(do ((${1}))
+	((${2}) ${0}))
+endsnippet
+
+
+snippet disp "display" i
+(display ${0})
+endsnippet
+snippet nl "newline" i
+(newline)
+${0}
 endsnippet

@@ -1,8 +1,7 @@
 " Vim syntax file
 " Language:     Text
-" Maintainer:   Rinz <voidrinz@foxmail.com>
-" Filenames:    *.txt
-" Last Change:  2020 Dec 03
+" Author:       Rinz
+" Create Time:  2020 Dec 03
 
 if !exists('main_syntax')
   if exists('b:current_syntax')
@@ -53,6 +52,13 @@ syn match   textTitle5      /^\s*（\d\+）[^。:]*/
 syn match   textTitle5      /^\s*(\d\+)[^。:]*/
 syn match   textTitle6      /^\s*[①②③④⑤⑥⑦⑧⑨⑩][^。:]*/
 
+syn match   textTitle1      /^\s*第[一二三四五六七八九十\d]\+卷.*$/
+syn match   textTitle2      /^\s*第[一二三四五六七八九十\d]\+章.*$/
+syn match   textTitle3      /^\s*第[一二三四五六七八九十\d]\+篇.*$/
+syn match   textTitle4      /^\s*第[一二三四五六七八九十\d]\+节.*$/
+syn match   textTitle5      /^\s*附录[一二三四五六七八九十\d]\+.*$/
+syn match   textTitle6      /^\s*\%(目录\|索引\|前言\|导读\|\%(作\|编\|译\)者序\)\s*$/
+
 hi def link textTitle1      RedBold
 hi def link textTitle2      BlueBold
 hi def link textTitle3      Tag
@@ -75,10 +81,11 @@ hi def link textQuestion    Comment
 hi def link textExclamation Statement
 
 " ========================================================================= "
-syn match   textVimcmd       "\%(vim\|vi\|ex\)\s*:.*$" contained
+syn match   textVimcmd       "#\%(vim\|vi\|ex\)\s*:.*$" contained
 syn match   textComment       "#.*$" contains=textVimcmd
 hi def link textVimcmd      SpecialComment
 hi def link textComment     Comment
+
 " ========================================================================= "
 let b:current_syntax = 'text'
 if main_syntax == 'text'
