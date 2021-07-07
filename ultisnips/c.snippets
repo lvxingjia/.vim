@@ -43,7 +43,7 @@ int main(void)
 }
 endsnippet
 snippet main "main()" b
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
 	${0:${VISUAL}}
 	return 0;
@@ -62,7 +62,7 @@ if (${1:condition})
 	${2:${VISUAL}}
 }
 endsnippet
-snippet if "if then" Ab
+snippet if "if then" b
 if (${0})
 endsnippet
 snippet ie "if else" b
@@ -82,7 +82,7 @@ else if(${1:condition}) {
 	${0:${VISUAL}}
 }
 endsnippet
-snippet elif "else if"
+snippet elif "else if" Ai
 else if (${0})
 endsnippet
 snippet else "else" Ab
@@ -100,19 +100,19 @@ endsnippet
 snippet sw "switch" b
 switch (${1:variable}) {
 	case ${2:constant} :
-		${3}
+		${0}
 		break;
 	default:
-		${0}
+		break;
 }
 endsnippet
 snippet switch "switch" bA
 switch (${1:variable}) {
 	case ${2:constant} :
-		${3}
+		${0}
 		break;
 	default:
-		${0}
+		break;
 }
 endsnippet
 snippet case "case" b
@@ -132,14 +132,14 @@ for (${1}; ${2}; ${3}) {
 	${0:${VISUAL}}
 }
 endsnippet
-snippet for "for" Ab
+snippet for "for" b
 for (${1}; ${2}; ${3})
 endsnippet
 
 snippet w "while" b
 while (${1:1})
 endsnippet
-snippet while "while then" Ab
+snippet while "while then" b
 while (${0:1})
 endsnippet
 snippet wh "while loop" b
@@ -255,7 +255,7 @@ static ${1:int} ${2:func_name}(${3:void})
 	 *Args:`!p
 snip.rv = ""
 snip >> 1
-write_args(3,snip)
+func_args(3,snip)
 `
 	 *Return:$1
 	 */
@@ -270,25 +270,10 @@ endsnippet
 snippet s "struct"
 struct 
 endsnippet
-snippet st "struct" b
-struct ${1:StructName} {
-	${0}
-};
-
-endsnippet
 snippet ts "typedef struct" b
-typedef struct ${1:StructName} {
+typedef struct $1 {
 	${0}
-} ${2};
-
-endsnippet
-snippet struct "struct with comment" b
-typedef struct ${1:StructName} {
-	/*${3:struct StructName}
-	 *
-	 */
-	${0}
-} ${2};
+} *${1:StructName};
 
 endsnippet
 
@@ -323,25 +308,11 @@ endsnippet
 
 
 # Enum
-snippet en "enum" b
+snippet enum "enum" b
 enum {
-	ENUM_START = 0, //cmt
-	ENUM_FINISH //cmt
+	ENUM_START = 0,
+	ENUM_FINISH
 };
-
-endsnippet
-snippet te "typedef enum" b
-typedef enum ${1:ENUM_NAME} {
-	ENUM_START = 0, //cmt
-	ENUM_FINISH //cmt
-} ${0};
-
-endsnippet
-snippet enum "enum with comment" b
-typedef enum ${1:ENUM_NAME} {
-	ENUM_START = 0, //cmt
-	ENUM_FINISH //cmt
-} ${0};
 
 endsnippet
 
@@ -438,17 +409,17 @@ endsnippet
 global !p
 
 
-class Arg(object):
+class FuncArg(object):
 	def __init__(self,arg):
 		nt = arg.split('=')[0].strip().split(" ")
 		self.name = nt[-1] if len(nt) != 1 else nt[0]
 		self.type = nt[0] if len(nt) != 1 else 'void'
 
 
-def write_args(x,snip):
+def func_args(x,snip):
 	arglyst = t[x]
-	argnames = [Arg(a).name for a in arglyst.split(',') if a]
-	argtypes = [Arg(a).type for a in arglyst.split(',') if a]
+	argnames = [FuncArg(a).name for a in arglyst.split(',') if a]
+	argtypes = [FuncArg(a).type for a in arglyst.split(',') if a]
 	if not argnames:
 		snip.rv = 'void'
 	for idx,n in enumerate(argnames):

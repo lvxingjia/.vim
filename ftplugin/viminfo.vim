@@ -1,16 +1,13 @@
-" yaml
+" viminfo
 
-syntax off
-setlocal foldmethod=indent
-setlocal noexpandtab
+setlocal cursorline
 
 inoremap ( ()<Esc>i
 inoremap [ []<Esc>i
 inoremap { {}<Esc>i
 inoremap " ""<Esc>i
 inoremap ' ''<Esc>i
-inoremap < <
 
 inoremap <Plug><C-j> <C-m>
 inoremap <Plug><C-k> <End><C-m>
-inoremap <Plug><C-g> ()<Esc>i
+inoremap <Plug><C-g> \%(\)<Esc>hi

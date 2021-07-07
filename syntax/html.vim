@@ -90,7 +90,7 @@ hi def link htmlOperator    Operator
 hi def link htmlString      String
 hi def link htmlEvent       Variable
 hi def link htmlTag         Tag
-hi def link htmlEndTag      SpecialTag
+hi def link htmlEndTag      Special
 hi def link htmlParen       Tag
 hi def link htmlSimpleTag   Tag
 hi def link htmlComment     Comment

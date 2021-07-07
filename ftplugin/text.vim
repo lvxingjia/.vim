@@ -17,6 +17,7 @@ inoremap [ []<Esc>i
 inoremap { {}<Esc>i
 inoremap " ""<Esc>i
 inoremap ' ''<Esc>i
+inoremap < <
 
 inoremap <Plug><C-j> <C-m><C-m>
 inoremap <Plug><C-k> <C-m>

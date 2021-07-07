@@ -7,8 +7,8 @@
 " |___________________________________________| "
 "
 
-let $USER = 'Rinz' "          Neovim on Linux   "
-let g:plugtype = 1 "          GVim on Windows   "
+let $USER = 'Rinz'         "  Neovim on Linux   "
+let g:plugtype = 1         "  GVim on Windows   "
 
 "                  My Configs                   "
 " ~                                             "
@@ -20,7 +20,7 @@ let g:plugtype = 1 "          GVim on Windows   "
 "   - colors         using rinz.vim             "
 "   - plugin         global plugins             "
 "   - ftplugin                                  "
-"   - syntax          {&filetype}.vim           "
+"   - syntax         {&filetype}.vim            "
 "   - ultisnips                                 "
 "   - files          (ignore)                   "
 "   - others         (ignore)                   "
@@ -28,7 +28,7 @@ let g:plugtype = 1 "          GVim on Windows   "
 " vimrc                                         "
 " - System Settings                             "
 "   - Encoding                                  "
-"   - Sounds                                    "
+"   - File Type                                 "
 " - Display Options                             "
 "   - Theme                                     "
 "   - Status/Command Bar                        "
@@ -48,11 +48,11 @@ else
 endif
 nnoremap <Leader><Leader>r :w<CR>:source $MYVIMRC<CR>
 nnoremap <Leader><Leader>m :call <SID>Myvimrc()<CR>
+nnoremap <Leader><Leader>a :call <SID>UserScripts()<CR>
 nnoremap <Leader><Leader>c :call <SID>ColorFile()<CR>
 nnoremap <Leader><Leader>s :call <SID>SyntaxFile()<CR>
 nnoremap <Leader><Leader>f :call <SID>FtpluginFile()<CR>
 nnoremap <Leader><Leader>u :call <SID>UltiSnipsFile()<CR>
-nnoremap <Leader><Leader>a :call <SID>UserScripts()<CR>
 nnoremap <leader><leader>t :call <SID>TestMode()<CR>
 nnoremap <Leader><Leader>d :call <SID>DebugMode()<CR>
 nnoremap <Leader><Leader>h :call <SID>HelpMe()<CR>
@@ -61,8 +61,8 @@ if empty(glob($VIMHOME . '/autoload/plug.vim'))
         \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-let g:testmode_wid = -1 " use for TestMode()
-let g:debugmode_key = 0 " use for HTML view
+let g:testmode_wid = -1    " use for Test  Mode "
+let g:debugmode_key = 0    " use for Debug Mode "
 " ============================================= "
 " ============== System Settings ============== "
 " ============================================= "
@@ -71,15 +71,24 @@ filetype on
 filetype indent on
 filetype plugin on
 filetype plugin indent on
+
 set mouse=a
 set mousehide
-set autoread
 
+" sounds
+set novisualbell
+set noerrorbells
+set t_vb= 
+set visualbell t_vb= 
+set timeoutlen=500
+
+set autoread
+set backup
+set writebackup
+" log files
 if !isdirectory($VIMHOME . '/files') && exists('*mkdir')
     call mkdir($VIMHOME . '/files')
 endif
-set backup
-set writebackup
 set backupdir=$VIMHOME/files/backup/
 set swapfile
 set directory=$VIMHOME/files/swap/
@@ -87,7 +96,6 @@ set updatecount=100
 set undofile
 set undodir=$VIMHOME/files/undo/
 if has('nvim')
-" set viminfo='100,n$VIMHOME/files/info/viminfo'
     set viminfo+=n$VIMHOME/files/info/nviminfo
 else
     set viminfo+=n$VIMHOME/files/info/viminfo
@@ -104,21 +112,13 @@ set formatoptions+=B
 set ambiwidth=double
 set shortmess+=c
 
-" augroup filetypedetect
-"     auto BufRead,BufNewFile *.snippets set filetype=snippets
-" augroup END
+" ================= File Type ================= "
 auto BufRead,BufNewFile *.snippets setf snippets
 auto BufRead,BufNewFile *.mermaid,*.mer,*.mr setf mermaid
 auto BufRead,BufNewFile *.flow,*.flw,*.mr setf flow
 auto BufRead,BufNewFile *.UML,*.uml setf UML
 auto BufRead,BufNewFile *.pc,*.pseudocode setf pseudocode
-
-" =================== Sounds ================== "
-set novisualbell
-set noerrorbells
-set t_vb= 
-set visualbell t_vb= 
-set timeoutlen=500
+auto BufRead,BufNewFile *.cy setf cyan
 
 " ============================================= "
 " ============== Display Options ============== "
@@ -136,11 +136,7 @@ let loaded_matchparen=1
 set nocursorline
 set nocursorcolumn
 set colorcolumn=80
-if has('nvim')
-    set signcolumn=number
-else
-    set signcolumn=yes
-endif
+set signcolumn=number
 
 " windows
 set title
@@ -170,8 +166,8 @@ nnoremap <Leader><Leader>q yiw:call matchadd('Function','<C-r>0')<CR>
 nnoremap <Leader><Leader>w yiw:call matchadd('Class','<C-r>0')<CR>
 nnoremap <Leader><Leader>e yiw:call matchadd('Constant','<C-r>0')<CR>
 
-nnoremap <F12> :call LightOrDark()<CR>
-func! LightOrDark()
+nnoremap <F12> :call <SID>LightOrDark()<CR>
+func! <SID>LightOrDark() abort
     if &background == 'light'
         exec 'set background=dark'
     else
@@ -218,8 +214,6 @@ if has('nvim')
     let g:terminal_color_13 = '#ff92d0'
     let g:terminal_color_14 = '#ffaf00'
     let g:terminal_color_15 = '#9aedfe'
-"     let g:terminal_color_background = '#000000'
-"     let g:terminal_color_foreground = '#000000'
 elseif has('gui_running')
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
@@ -228,40 +222,18 @@ elseif has('gui_running')
     else
         auto GUIEnter * call MaximizeWindow()
     endif
-else
-    if has('autocmd')
-    auto VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
-    auto InsertEnter,InsertChange *
-        \ if v:insertmode == 'i' |
-        \   silent execute '!echo -ne "\e[5 q"' | redraw! |
-        \ elseif v:insertmode == 'r' |
-        \   silent execute '!echo -ne "\e[3 q"' | redraw! |
-        \ endif
-    auto VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
-    endif
 endif
-func! MaximizeWindow()
-    silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
-endfunc
 
 if has('win32') || has('win64')
     set guifont=Consolas:h12
 else
-    set guifont=Consolas\ 11
+    set guifont=Consolas\ 12
 endif
-
 
 set guioptions-=m
 set guioptions-=T
-" map <silent> <F12> : if $guioptions=~#'T' <Bar>
-"         \set guioptions-=T <Bar>
-"         \set guioptions-=m <Bar>
-"     \else <Bar>
-"         \set guioptions+=T <Bar>
-"         \set guioptions+=m <Bar>
-"     \endif<CR>
-nnoremap <F11> :call GuiSwitch()<CR>
-func! GuiSwitch()
+nnoremap <F11> :call <SID>GuiSwitch()<CR>
+func! <SID>GuiSwitch() abort
     if &guioptions =~# 'T'
         set guioptions-=T
         set guioptions-=m
@@ -306,9 +278,9 @@ set backspace=eol,start,indent
 if has('nvim')
     nnoremap <silent><Space> :noh<CR>zR
 else
-    nnoremap <silent><Space> :call <SID>SpaceMethod()<CR>:noh<CR>zR
+    nnoremap <silent><Space> :call <SID>SpaceMethod()<CR>:noh<CR>za
 endif
-func! <SID>SpaceMethod()
+func! <SID>SpaceMethod() abort
     if term_list() != [] && $filetype == ''
         exec 'close'
     endif
@@ -343,7 +315,6 @@ exec 'nohlsearch'
 " ================== Mappings ================= "
 " ============================================= "
 " let mapleader='\'
-" auto FileType python,pyrex nnoremap K yiw:terminal python -m pydoc "<C-r>0"<CR>
 
 nnoremap ; :
 vnoremap ; :normal<Space>
@@ -351,7 +322,7 @@ vnoremap ; :normal<Space>
 nnoremap U <C-r>
 " cmap w!! w !sudo tee >/dev/null %
 " cnoremap W w!
-cnoremap Q q!
+" cnoremap Q q!
 nnoremap Q <nop>
 nnoremap t <nop>
 nnoremap dt dt
@@ -363,6 +334,8 @@ nnoremap cT cT
 nnoremap yT yT
 nnoremap <expr>e col('.')==1?'$':'0'
 vnoremap <expr>e col('.')==1?'$':'0'
+nnoremap <expr>E col('.')==col('$')-1?'^':'$'
+vnoremap <expr>E col('.')==col('$')-1?'^':'$'
 nnoremap de d$
 nnoremap ce c$
 nnoremap ye y$
@@ -376,17 +349,17 @@ if has('win32') || has('win64')
 endif
 nnoremap <Leader>p :set paste<CR>"+p:set nopaste<CR>"
 nnoremap <Leader>y "+y
-" nnoremap <C-s> :call <SID>SynStack()<CR>
-" func! <SID>SynStack()
-"     echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')
-" endfunc
-nmap <C-s> <Plug>SyntaxGroup
-map <Plug>SyntaxGroup :call <SID>SyntaxGroup()<CR>
-func! <SID>SyntaxGroup()
+
+nnoremap <C-s> :call <SID>SyntaxStack()<CR>
+func! <SID>SyntaxStack()
+    echo map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')
+endfunc
+nmap <C-q> :call <SID>SyntaxGroup()<CR>
+func! <SID>SyntaxGroup() abort
     let syn_id = synID(line('.'), col('.'), 'synIDattr(v:val,"name")')
     if (!syn_id)
         echohl WarningMsg
-        echo 'no syntax group here'
+        echo 'No syntax group here'
         echohl None
         return
     endif
@@ -396,9 +369,10 @@ func! <SID>SyntaxGroup()
     echo 'Syntax: ' . syn_name . '->'. synIDattr(tran_id, 'name')
     echohl None
 endfunc
-nmap <C-q> <C-s>
 " FuncKey
-map <F1> <nop>
+nmap <F1> <nop>
+imap <F1> <nop>
+vmap <F1> <nop>
 inoremap <F2> <nop>
 nnoremap <F3> :%s/
 
@@ -414,18 +388,30 @@ nnoremap <Left> :vert res -5<CR>
 nnoremap <Right> :vert res +5<CR>
 
 " Tab
-nnoremap tm i<+MARK+><Esc>
-nnoremap tg /<+MARK+><CR>:nohlsearch<CR>c8l
+" nnoremap tm i<+MARK+><Esc>
+nnoremap tm :call<SID>ToMacro()<CR>
+vnoremap tm :call<SID>ToMacro()<CR>
+nnoremap tg /<+MARK+><CR>:noh<CR>c8l
 nnoremap te :tabe<CR>
 nnoremap th :-tabnext<CR>
 nnoremap tl :+tabnext<CR>
 nnoremap tc :close<CR>
 nnoremap to :only<CR>
-nnoremap tn :call ToNote()<CR>
-vnoremap tn :call ToNote()<CR>
-nnoremap tu :call ToUnnote()<CR>
-vnoremap tu :call ToUnnote()<CR>
-func! ToNote()
+nnoremap tn :call <SID>ToNote()<CR>
+vnoremap tn :call <SID>ToNote()<CR>
+nnoremap tu :call <SID>ToUnnote()<CR>
+vnoremap tu :call <SID>ToUnnote()<CR>
+func! <SID>ToMacro() abort
+    if &filetype == 'c' || &filetype == 'cpp'
+        normal A \
+        while col('.') < 79
+            normal $i 
+        endwhile
+    else
+        normal i<+MARK+>
+    endif
+endfunc
+func! <SID>ToNote() abort
     if &filetype == 'vim'
         normal 0i"
         normal lr 
@@ -440,43 +426,14 @@ func! ToNote()
         \ || &filetype == 'html'
         normal 0i// 
         normal 0
-"     elseif &filetype == 'html'
-"         normal 0i<!--
-"         normal lr 
-"         normal A -->
-"         normal <<<<
     else
         normal 0i# 
         normal 0
     endif
 endfunc
-" func! ToNote()
-"     if &filetype == 'vim'
-"         normal 0i"
-"         normal lr 
-"        normal 0
-"     elseif &filetype == 'c' || &filetype == 'cpp'
-"         normal 0i// 
-"         normal 0
-"     elseif &filetype == 'python'
-"         normal 0i# 
-"         normal 0
-"     else
-"         normal 0i# 
-"         normal 0
-"     endif
-" endfunc
-func! ToUnnote()
+func! <SID>ToUnnote() abort
     normal 0df 
 endfunc
-" func! ToUnnote()
-"     if &filetype == 'html'
-"         normal 0df 
-"         normal $dF>
-"     else
-"         normal 0df 
-"     endif
-" endfunc
 
 " Format
 nnoremap tt v"zy:Tab/<C-r>z<CR>
@@ -492,10 +449,10 @@ nnoremap L $a
 " nnoremap <expr>n 'Nn'[v:searchforword]
 " nnoremap <expr>N 'nN'[v:searchforword]
 
-nnoremap <C-k> <C-v>k
-nnoremap <C-j> <C-v>j
-nnoremap <C-h> <C-v>h
-nnoremap <C-l> <C-v>l
+nnoremap <C-k> <C-b>
+nnoremap <C-j> <C-f>
+nnoremap <C-h> 0
+nnoremap <C-l> $
 " nnoremap <C-k> i<++><Esc>O<Esc>/<++><CR>:noh<CR>d4l
 " nnoremap <C-j> i<++><Esc>o<Esc>/<++><CR>:noh<CR>d4l
 " nnoremap <C-h> <<
@@ -529,23 +486,17 @@ imap <C-g> <Plug><C-g>
 " ============================================= "
 " =============== Auto Complete =============== "
 " ============================================= "
-auto BufNewFile *.* call AutoSetFileHead()
-func! AutoSetFileHead()
+auto BufNewFile *.* call <SID>AutoSetFileHead()
+func! <SID>AutoSetFileHead() abort
     if expand('%:e') == 'sh'
         call setline(1, "\#!/bin/bash")
     elseif expand('%:e') == 'pc'
         call setline(1, "\# vim: ft=pseudocode ff=unix fenc=utf-8")
     elseif expand('%:e') == 'c'
-"         call setline(1, "#include <stdio.h>")
-"         call setline(2, "#include <stdlib.h>")
-"         call setline(3, "#include <string.h>")
-"         call setline(4, "#include \"" . expand("%:t:r") . ".h\"")
-"         call setline(5, "")
         call setline(1, "/*  " . expand("%:t") . "  */")
-        call setline(2, "")
-        call setline(3, "#include \"../include/stdc.h\"")
-        call setline(4, "#include \"../include/" . expand("%:t:r") . ".h\"")
-        call setline(5, "")
+        call setline(2, "#include \"../include/stdc.h\"")
+        call setline(3, "#include \"../include/" . expand("%:t:r") . ".h\"")
+        call setline(4, "")
         normal G
     elseif expand('%:e') == 'cc'
         call setline(1, "#include <bits/stdc++.h>")
@@ -558,39 +509,44 @@ func! AutoSetFileHead()
         call setline(7, "}")
         normal 5gg
     elseif expand('%:e') == 'cpp' || expand('%:e') == 'cxx'
-        call setline(1, "#include <iostream>")
-        call setline(2, "#include \"" . expand("%:t:r") . ".hpp\"")
-        call setline(3, "")
+        call setline(1, "/*  " . expand("%:t") . "  */")
+        call setline(2, "#include \"../include/stdcpp.h\"")
+        call setline(3, "#include \"../include/" . expand("%:t:r") . ".hpp\"")
+        call setline(4, "")
         normal G
     elseif expand('%:e') == 'h'
-        call setline(1, "// ../src/" . expand("%:t:r") . ".c")
-        call setline(2, "// vim: ft=c ff=unix fenc=utf-8")
-        call setline(3, "#ifndef __" . toupper(expand("%:t:r")) . "_H__")
-        call setline(4, "#define __" . toupper(expand("%:t:r")) . "_H__")
-        call setline(5, "#ifdef __cplusplus")
-        call setline(6, "extern \"C\" {")
-        call setline(7, "#endif")
-        call setline(8, "")
-        call setline(9, "#include <stddef.h>")
+        call setline(1, "// ../src/" . expand("%:t:r") . ".c" . "  vim: ft=c")
+        call setline(2, "#ifndef " . toupper(expand("%:t:r")) . "_H")
+        call setline(3, "#define " . toupper(expand("%:t:r")) . "_H")
+        call setline(4, "")
+        call setline(5, "#ifndef __debug")
+        call setline(6, "#define __ex extern")
+        call setline(7, "#else")
+        call setline(8, "#define __ex static")
+        call setline(9, "#endif")
         call setline(10, "")
         call setline(11, "#ifdef __cplusplus")
-        call setline(12, "}")
+        call setline(12, "extern \"C\" {")
         call setline(13, "#endif")
-        call setline(14, "#endif  /*  " . expand("%:t") . "  */")
-        normal 9gg
+        call setline(14, "")
+        call setline(15, "")
+        call setline(16, "#ifdef __cplusplus")
+        call setline(17, "}")
+        call setline(18, "#endif")
+        call setline(19, "#undef __ex")
+        call setline(20, "#endif  /*  " . expand("%:t") . "  */")
+        normal 14gg
     elseif expand('%:e') == 'hh' || expand('%:e') == 'hpp' || expand('%:e') == 'hxx'
-        call setline(1, "// vim: ft=cpp ff=unix fenc=utf-8")
-        call setline(2, "#ifndef __" . toupper(expand("%:t:r")) . "_" . toupper(expand('%:e')) . "__")
-        call setline(3, "#define __" . toupper(expand("%:t:r")) . "_" . toupper(expand('%:e')) . "__")
-        call setline(4, "#ifdef __cplusplus")
-        call setline(5, "extern \"C\" {")
-        call setline(6, "#endif")
+        call setline(1, "// ../src/" . expand("%:t:r") . ".cpp")
+        call setline(2, "#ifndef " . toupper(expand("%:t:r")) . "_" . toupper(expand('%:e')))
+        call setline(3, "#define " . toupper(expand("%:t:r")) . "_" . toupper(expand('%:e')))
+        call setline(4, "")
+        call setline(5, "#define " . expand("%:t:r") . " T")
+        call setline(6, "")
         call setline(7, "")
-        call setline(8, "#ifdef __cplusplus")
-        call setline(9, "}")
-        call setline(10, "#endif")
-        call setline(11, "#endif    //" . expand("%:t"))
-        normal 7gg
+        call setline(8, "#undef T")
+        call setline(9, "#endif    //" . expand("%:t"))
+        normal 6gg
     elseif expand('%:e') == 'py' || expand('%:e') == 'pyx'
         call setline(1, "#!/usr/bin/env python3")
         call setline(2, "# -*- coding:utf-8 -*-")
@@ -625,7 +581,7 @@ set completeopt=longest,menu
 auto InsertLeave * if pumvisible() == 0|pclose|endif
 
 auto FileType c,cpp,java,go,php,javascript,python,xml,yml,perl auto BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
-func! <SID>StripTrailingWhitespaces()
+func! <SID>StripTrailingWhitespaces() abort
     let l = line(".")
     let c = col(".")
     %s/\s\+$//e
@@ -638,140 +594,22 @@ if has('autocmd')
     auto Syntax * call matchadd('Continued', '\W\zs\%(\%(<=\+\)\=\s*[Tt]o\s\=[Bb]e\s\=[Cc]ontinued\.*\)')
 endif
 
-" func! <SID>Ftsettings()
-"     inoremap <Plug><C-j> <C-m>
-"     inoremap <Plug><C-k> <End><C-m>
-"     inoremap <Plug><C-g> ()<Esc>i
-"     if &filetype == 'vim'
-"         inoremap <Plug><C-g> \%(\)<Esc>hi
-"         setlocal cursorline
-"     elseif &filetype == 'snippets'
-"         setlocal noexpandtab
-"         setlocal tabstop=8 shiftwidth=8 softtabstop=8
-"         inoremap <Plug><C-j> <CR><space><Esc>vr<c-i>a
-"         imap <Plug><C-k> <Plug><C-j>
-"     elseif &filetype == 'text'
-"         setlocal wrap
-"         setlocal autoindent
-"         setlocal cc=0
-"         setlocal scrolloff=0
-"         setlocal sidescrolloff=0
-"         nnoremap s s
-"         nnoremap j gj
-"         nnoremap k gk
-"         vnoremap j gj
-"         vnoremap k gk
-"         inoremap <Plug><C-j> <C-m><C-m>
-"         inoremap <Plug><C-k> <C-m>
-"     elseif &filetype == 'markdown'
-"         setlocal wrap
-"         setlocal autoindent
-"         setlocal cc=0
-"         setlocal scrolloff=0
-"         setlocal sidescrolloff=0
-"         inoremap ` ``<Esc>i
-"         nnoremap j gj
-"         nnoremap k gk
-"         vnoremap j gj
-"         vnoremap k gk
-"         inoremap <Plug><C-j> <C-m><C-m>
-"         inoremap <Plug><C-k> <Space><Space><C-m>
-"     elseif &filetype == 'pseudocode'
-"         setlocal tabstop=2 shiftwidth=2 softtabstop=2
-"         setlocal autoindent
-"         inoremap <Plug><C-j> <End><Space>{<CR>}<Esc>O
-"         inoremap <Plug><C-k> <End>;<C-m>
-"     elseif &filetype == 'scheme'
-"         setlocal tabstop=2 shiftwidth=2 softtabstop=2
-"         setlocal lisp
-"         inoremap ' '()<Esc>i
-"         inoremap <Plug><C-j> <Esc>^%a<CR>
-"         inoremap <Plug><C-k> <ESc>jI
-"     elseif &filetype == 'yaml'
-"         syntax off
-"         setlocal foldmethod=indent
-"         setlocal noexpandtab
-"     elseif &filetype == 'c'
-"         setlocal foldmethod=syntax
-"         inoremap <Plug><C-j> <End><Space>{<CR>}<Esc>O
-"         inoremap <Plug><C-k> <End>;<C-m>
-" "         inoremap <Plug><C-g> <++><Esc>yiw/<++><CR>c4l->vptr-><++>()<Esc>hp?<++><CR>c4l
-"         inoremap <Plug><C-g> ->
-"     elseif &filetype == 'cpp'
-"         setlocal foldmethod=syntax
-"         inoremap <Plug><C-j> <End><Space>{<CR>}<Esc>O
-"         inoremap <Plug><C-k> <End>;<C-m>
-"         inoremap <Plug><C-g> *()<Esc>i
-"     elseif  &filetype == 'make'
-"         setlocal foldmethod=syntax
-"         setlocal noexpandtab
-"         setlocal tabstop=4 shiftwidth=4 softtabstop=4
-" "     elseif &filetype == 'cs' || &filetype == 'java' || &filetype == 'go'
-" "         setlocal foldmethod=syntax
-" "         inoremap <Plug><C-j> <End><Space>{<CR>}<Esc>O
-" "         inoremap <Plug><C-k> <End>;<C-m>
-"     elseif &filetype == 'cs' || &filetype == 'java'
-"         setlocal foldmethod=syntax
-"         inoremap <Plug><C-j> <End><Space>{<CR>}<Esc>O
-"         inoremap <Plug><C-k> <End>;<C-m>
-"     elseif  &filetype == 'go'
-"         setlocal foldmethod=syntax
-"         setlocal noexpandtab
-"         setlocal tabstop=4 shiftwidth=4 softtabstop=4
-"         inoremap <Plug><C-j> <End><Space>{<CR>}<Esc>O
-"         inoremap <Plug><C-k> <End>;<C-m>
-"     elseif &filetype == 'python' || &filetype == 'pyrex'
-"         setlocal foldmethod=indent
-"         inoremap <Plug><C-j> <End>:<CR>
-"         imap <Plug><C-k> <Plug><C-j>
-"     elseif &filetype == 'javascript'
-"         setlocal tabstop=2 shiftwidth=2 softtabstop=2
-"         inoremap < <
-"         inoremap ` ``<Esc>i
-"         inoremap <Plug><C-j> <End><Space>{<CR>}<Esc>O
-"         inoremap <Plug><C-k> <End>;<C-m>
-" "         inoremap <Plug><C-k> <++><Esc>jA;<Esc>?<++><CR>c4l
-"         inoremap <Plug><C-g> <End><Space>{<CR>};<Esc>O
-"     elseif &filetype == 'html' || &filetype == 'css'
-"         setlocal tabstop=2 shiftwidth=2 softtabstop=2
-"         inoremap < <><Esc>i
-"         inoremap <Plug><C-j> <End><Space>{<CR>}<Esc>O
-"         inoremap <Plug><C-k> <End>;<C-m>
-"         inoremap <Plug><C-g> <Esc>T<ve"0yA</><Esc>"0PF<i
-"     elseif &filetype == 'xml'
-"         setlocal tabstop=2 shiftwidth=2 softtabstop=2
-"         inoremap < <><Esc>i
-"         inoremap <Plug><C-j> <Esc>yi<f>a</><Esc>hpF<i
-"     elseif &filetype == 'json'
-"         inoremap <Plug><C-j> <End>:[<CR>]<Esc>O
-"     endif
-" endfunc
-" func! <SID>FtsettingsMsg()
-"     call <SID>Ftsettings()
-"     echohl MoreMsg
-"     echo "Ftsettings: " . &filetype
-"     echohl None
-" endfunc
-" auto BufRead,BufNewFile *.* call <SID>Ftsettings()
-" auto FileType * call <SID>Ftsettings()
-" auto BufEnter * if exists('source $VIMHOME/ftplugin/' .&ft.'.vim') |
-"     \ exec 'source $VIMHOME/ftplugin/' . &ft .'.vim' | endif
 auto BufEnter *  exec 'source $VIMHOME/ftplugin/' . &ft .'.vim'
 
 " ============================================= "
 " ============== Custom Functions ============= "
 " ============================================= "
 if has('nvim')
-    nmap <F5> mo:call RunOnBash()<CR>
-    imap <F5> <Esc>mo:call RunOnBash()<CR>
-    vmap <F5> <Esc>mo:call RunOnBash()<CR>
+    nmap <F5> :call <SID>RunOnBash()<CR>
+    imap <F5> <Esc>:call <SID>RunOnBash()<CR>
+    vmap <F5> <Esc>:call <SID>RunOnBash()<CR>
 else
-    nmap <F5> :call RunOnBuiltinTerminal()<CR>
-    imap <F5> <Esc>:call RunOnBuiltinTerminal()<CR>
-    vmap <F5> <Esc>:call RunOnBuiltinTerminal()<CR>
+    nmap <F5> :call <SID>RunOnBuiltinTerminal()<CR>
+    imap <F5> <Esc>:call <SID>RunOnBuiltinTerminal()<CR>
+    vmap <F5> <Esc>:call <SID>RunOnBuiltinTerminal()<CR>
 endif
-func! RunOnBash()
-    if g:testmode_wid >= 0
+func! <SID>RunOnBash() abort
+    if g:testmode_wid > 0
         call win_gotoid(g:testmode_wid)
     endif
     exec 'wa'
@@ -780,9 +618,15 @@ func! RunOnBash()
     elseif &filetype == 'scheme'
         exec '!chezscheme %'
     elseif &filetype == 'c'
+"         if g:testmode_wid > 0 && g:workspace !=# 'undefined'
+"             exec '!make -f makefile_' . expand("%:r")
+"             exec '!time ./%<'
+"         elseif g:debugmode_key
         if g:debugmode_key
             normal G
-            exec 'r !tcc -run %'
+"             exec 'r !tcc -run %'
+            exec '!gcc % -o %<'
+            exec '!time ./%<'
         else
             exec '!gcc % -o %<'
             exec '!time ./%<'
@@ -817,7 +661,7 @@ func! RunOnBash()
         exec '!Typora %'
     endif
 endfunc
-func! RunOnBuiltinTerminal()
+func! <SID>RunOnBuiltinTerminal() abort
     if term_list() == []
         if g:testmode_wid >= 0
             call win_gotoid(g:testmode_wid)
@@ -828,6 +672,9 @@ func! RunOnBuiltinTerminal()
         elseif &filetype == 'c'
             if g:plugtype==0
                 exec 'ter tcc -run %'
+            elseif g:testmode_wid > 0
+                exec '!make'
+                exec 'ter ./%<'
             else
                 exec '!gcc % -o %<'
                 exec 'ter ./%<'
@@ -852,7 +699,7 @@ func! RunOnBuiltinTerminal()
                 exec 'ter node %'
             endif
         elseif &filetype == 'python'
-            exec '!ter python3 %'
+            exec 'ter python %'
         elseif &filetype == 'go'
             exec 'ter go run %:r'
         elseif &filetype == 'markdown'
@@ -864,10 +711,16 @@ func! RunOnBuiltinTerminal()
     endif
 endfunc
 
-nmap <F6> :call RunOnNeovimTerminal()<CR>
-imap <F6> <Esc>:call RunOnNeovimTerminal()<CR>
-vmap <F6> <Esc>:call RunOnNeovimTerminal()<CR>
-func! RunOnNeovimTerminal()
+nmap <F6> :call <SID>RunByConfigs()<CR>
+imap <F6> <Esc>:call <SID>RunByConfigs()<CR>
+vmap <F6> <Esc>:call <SID>RunByConfigs()<CR>
+func! <SID>RunByConfigs() abort
+    exec '!sh d.sh'
+endfunc
+" nmap <F6> :call <SID>RunOnNeovimTerminal()<CR>
+" imap <F6> <Esc>:call <SID>RunOnNeovimTerminal()<CR>
+" vmap <F6> <Esc>:call <SID>RunOnNeovimTerminal()<CR>
+func! <SID>RunOnNeovimTerminal() abort
     if g:testmode_wid >= 0
         call win_gotoid(g:testmode_wid)
     endif
@@ -915,10 +768,10 @@ func! RunOnNeovimTerminal()
     endif
 endfunc
 
-map<F7> :call CompileForPy()<CR>
-imap<F7> <Esc>:call CompileForPy()<CR>
-vmap<F7> <Esc>:call CompileForPy()<CR>
-func! CompileForPy()
+map<F7> :call <SID>CompileForPy()<CR>
+imap<F7> <Esc>:call <SID>CompileForPy()<CR>
+vmap<F7> <Esc>:call <SID>CompileForPy()<CR>
+func! <SID>CompileForPy() abort
     exec 'w'
     if &filetype == 'pyrex'   " cython
         exec '!python setup.py build_ext --inplace'
@@ -929,10 +782,10 @@ func! CompileForPy()
     endif
 endfunc
 
-map <F8> :call Autopep8()<CR>
-imap <F8> <Esc>:call Autopep8()<CR>
-vmap <F8> <Esc>:call Autopep8()<CR>
-func! Autopep8()
+map <F8> :call <SID>Autopep8()<CR>
+imap <F8> <Esc>:call <SID>Autopep8()<CR>
+vmap <F8> <Esc>:call <SID>Autopep8()<CR>
+func! <SID>Autopep8() abort
     exec 'w'
     if &filetype == 'python' || &filetype == 'pyrex'
         exec '!autopep8 --in-place --aggressive --aggressive %'
@@ -946,10 +799,10 @@ if has('nvim')
     nnoremap <F9> :echo 'Coming Sooooooon'
     vnoremap <F9> <Esc>:echo 'Coming Sooooooon'
 else
-    nnoremap <F9> :SendToTerminal()<CR>
-    vnoremap <F9> <Esc>:SendToTerminal()<CR>
+    nnoremap <F9> :call <SID>SendToTerminal()<CR>
+    vnoremap <F9> <Esc>:call <SID>SendToTerminal()<CR>
 endif
-func! SendToTerminal()
+func! <SID>SendToTerminal() abort
     let buff_n = term_list()
     if len(buff_n) > 0
         let buff_n = buff_n[0]
@@ -968,7 +821,7 @@ func! SendToTerminal()
 endfunc
 
 
-func! TimeStamp()
+func! TimeStamp() abort
     if &ft == 'vim'
         let cmt = '" '
     elseif &ft == 'c' || &ft == 'cpp' || &ft == 'java'
@@ -1006,7 +859,7 @@ func! NumberRelat(count) abort
 endfunc
 com! -count NR call NumberRelat(<count>)
 
-func! <SID>Resource()
+func! <SID>Resource() abort
 "     let t_m = -1
 "     if g:testmode_wid >= 0
 "         let t_m = g:testmode_wid
@@ -1032,14 +885,12 @@ func! <SID>Myvimrc()
     endif
     exec 'tabnew ' . file
 endfunc
+func! <SID>UserScripts()
+    let file = $VIMHOME . "/autoload/" . tolower($USER) . ".vim"
+    exec 'vs ' . file
+endfunc
 func! <SID>ColorFile()
-    if has('gui_running')
-        let file = $VIMHOME . "/colors/night.vim"
-    elseif has('win32') || has('win64')
-        let file = $VIMHOME . "/colors/winter.vim"
-    else
-        let file = $VIMHOME . "/colors/snow.vim"
-    endif
+    let file = $VIMHOME . "/colors/" . g:colors_name . ".vim"
     exec 'tabnew ' . file
 endfunc
 func! <SID>SyntaxFile()
@@ -1052,10 +903,6 @@ func! <SID>FtpluginFile()
 endfunc
 func! <SID>UltiSnipsFile()
     let file = $VIMHOME . "/ultisnips/" . &filetype . ".snippets"
-    exec 'tabnew ' . file
-endfunc
-func! <SID>UserScripts()
-    let file = $VIMHOME . "/autoload/" . tolower($USER) . ".vim"
     exec 'tabnew ' . file
 endfunc
 func! <SID>HelpMe()
@@ -1075,14 +922,13 @@ endfunc
 let s:statuscolors = {
     \ 'orange': {'gui': "#ff7700", 'cterm': "208"},
     \ 'green' : {'gui': "#32cd32", 'cterm': "040"}}
-func! <SID>StatusColor(mode)
+func! <SID>StatusColor(mode) abort
+    set signcolumn=yes
     if has('gui_running')
         let style = 'guifg=' . s:statuscolors[a:mode]['gui']
     else
         let style = 'ctermfg=' . s:statuscolors[a:mode]['cterm']
     endif
-"     echo g:statuscolors[a:mode][has('gui_running') ? 'gui' : 'cterm']
-"     let color =  g:statuscolors[a:mode][has('gui_running') ? 'gui' : 'cterm']
     exec 'hi StatusLine '     . style
     exec 'hi StatusLineNC '   . style
     exec 'hi Title '          . style
@@ -1091,20 +937,34 @@ func! <SID>StatusColor(mode)
     exec 'hi ModeMsg '        . style
 endfunc
 
-func! <SID>TestMode()
+func! <SID>TestMode() abort
     if &filetype == 'c'
-        let file = expand("%")
-        exec 'vs TEST.c'
-        let g:testmode_wid = win_getid()
-        call setline(4, "#include \"" . file . "\"  /*  C TEST MODE  */")
-        call setline(5, "")
+        let file = expand("%:r")
+        if g:workspace !=# 'undefined'
+            exec 'vs ' . g:workspace . '/test/' . file . '_test.c'
+            let g:testmode_wid = win_getid()
+            call setline(3, "#include \"../src/" . file . ".c\"  /*  C TEST MODE  */")
+            exec 'sp ' . g:workspace . '/test/makefile_' . file
+            call setline(1, "objs := " . file . ".o ../include/" . file . ".h")
+            call setline(2, file . "_test: $(objs)")
+            call setline(3, "	gcc $(objs) -o " . file . "_test")
+            call setline(4, file . ".o: ../src/" . file . ".c ../include/" . file . ".h")
+            call setline(5, "	gcc -c ../src/" . file . ".c")
+            call setline(6, "")
+            call setline(7, ".PHONY: clean")
+            call setline(8, "clean:")
+            call setline(9, "	rm *.o " . file . "_test")
+        else
+            exec 'vs test_' . file . '.sh'
+            let g:testmode_wid = win_getid()
+        endif
     elseif &filetype == 'cpp'
         let file = expand("%")
         exec 'vs TEST.cpp'
         let g:testmode_wid = win_getid()
         call setline(1, "#include <bits/stdc++.h>")
-        call setline(2, "#include \"" . file . "\"  /*  C++ TEST MODE  */")
-        call setline(3, "using namespace std;")
+        call setline(2, "using namespace std;")
+        call setline(3, "#include \"" . file . "\"  /*  C++ TEST MODE  */")
     elseif &filetype == 'python'
         let file = expand("%:r")
         exec 'vs TEST.py'
@@ -1122,13 +982,21 @@ func! <SID>TestMode()
     endif
     call <SID>StatusColor('orange')
 endfunc
-func! <SID>DebugMode()
+func! <SID>DebugMode() abort
     let g:debugmode_key = 1
+    if &filetype == 'c'
+        let file = expand("%")
+        exec 'vs DEBUG.c'
+        let g:testmode_wid = win_getid()
+        call setline(1, "#define __debug  /*  C DEBUG MODE  */")
+        call setline(3, "#include \"" . file . "\"")
+        normal 6gg
+    endif
     call <SID>StatusColor('green')
 endfunc
 
 nmap <Leader><Leader>i :call <SID>Text2Html()<CR>
-func! <SID>Text2Html()
+func! <SID>Text2Html() abort
     exec '%s/^/        <p>/g'
     exec '%s/$/<\/p>\\/g'
     exec '%s/  <p>start<\/p>\\/`\\/g'
@@ -1141,28 +1009,48 @@ func! <SID>CnCharCnt()
     exec '% s/[\u4E00-\u9FCC]/&/g'
 endfunc
 
-let g:workspace = '~/'
+let g:workspace = 'undefined'
 nmap gc :call <SID>Chdir()<CR>
-func! <SID>Chdir()
-    let g:workspace = getcwd()
+func! <SID>Chdir() abort
+    if g:testmode_wid == win_getid()
+        echohl WarningMsg
+        echo 'This is a test file'
+        echohl None
+        return
+    endif
+    if g:workspace ==# 'undefined'
+        let g:workspace = getcwd()
+    endif
     set autochdir
     if expand('%:e') == 'h' && &ft == 'c'
         set nospr
-        exec 'vs ../src/' . expand('%:r') . '.c'
+        exec 'e ../src/' . expand('%:r') . '.c'
         set spr
     elseif expand('%:e') == 'c'
         set nospr
-        exec 'vs ../include/' . expand('%:r') . '.h'
+        exec 'e ../include/' . expand('%:r') . '.h'
         set spr
     endif
     echo 'Curdir: ' . getcwd()
 endfunc
 
 nmap gw :call <SID>Work()<CR>
-func! <SID>Work()
-    exec 'cd ' . g:workspace
-    echo 'Workspace: ' . getcwd()
+func! <SID>Work() abort
+    if g:workspace !=# 'undefined'
+        exec 'cd ' . g:workspace
+        echo 'Workspace: ' . getcwd()
+    else
+        exec 'cd ~/'
+        echo 'Workspace: empty.'
+    endif
 endfunc
+
+func! Header() abort
+    exec 'sav! ' . expand("%:t:r") . '__header.h'
+    exec 'v/^\w.*)$/d'
+    exec 'g//normal A;'
+endfunc
+com! Header call Header()
 
 " ============================================= "
 " ================== Plugins ================== "
@@ -1183,8 +1071,12 @@ Plug 'lilydjwg/colorizer', {'for': ['css']}
 " Plug 'skywind3000/quickmenu.vim'
 " Plug 'joker1007/vim-markdown-quote-syntax'
 " Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
+" Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app && yarn install'}
+" Plug 'suan/vim-instant-markdown', {'do': 'yarn install'}
 if g:plugtype
+if !has('gui_running')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+endif
 Plug 'majutsushi/tagbar'
 " Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'SirVer/ultisnips'
@@ -1228,7 +1120,7 @@ nmap <silent> gr <Plug>(coc-references)
 if g:plugtype
     nmap <silent><BS> <Plug>(coc-diagnostic-next)
 else
-    nnoremap <expr><BS> (foldlevel(line('.'))>0) ? 'zaj' : 'jza'
+    nnoremap <expr><BS> (foldlevel(line('.'))>0) ? 'zM' : 'zR'
 endif
 let g:coc_snippet_next = '<Tab>'
 let g:coc_snippet_prev = '<S-Tab>'
@@ -1262,22 +1154,20 @@ let g:UltiSnipsSnippetDirectories = [$VIMHOME . '/ultisnips']
 " ============================================= "
 " Welcome
 func! <SID>Welcome()
-    echo 'Hello, ' . $USER . '~    '
+    echo '☯  Hello, ' . $USER . '~  '
         \. (has('win32') ? 'Win32' : (has('win64') ? 'Win64' : 'Linux'))
         \. '(' . (has('gui_running') ? 'GUI)  ' : 'Term)  ')
-        \. (has('nvim') ? '*Neovim ' : 'Vim8 ')
-        \. (g:plugtype ? 'Full ver.  ' : 'Simple ver.  ')
-        \. toupper(g:colors_name) . '('.&background.')'
-        \. '  ' . strftime('%Y-%m-%d %T')
+        \. (has('nvim') ? 'Neovim  ' : 'Vim8  ')
+        \. (g:plugtype ? '' : 'Simple ver.  ')
+        \. toupper(g:colors_name) . '(' .&background. ')'
+        \. (has('gui_running') ? '  ' . strftime('%Y-%m-%d %T') : '')
 endfunc
 auto VimEnter * call <SID>Welcome()
-" exec 'so ' . $VIMHOME .'/autoload/rinz.vim'
-" call <SID>Welcome()
 " ============================================= "
-finish     " Last Change: 2021.02.25 08:55:20   "
+finish          "  Yesterday You Said Tomorrow  "
 "  _____ _          _____           _           "
-" |_   _| |__   ___| ____|_ __   __| |          "
-"   | | | '_ \ / _ \  _| | '_ \ / _` |          "
-"   | | | | | |  __/ |___| | | | (_| |    2021  "
-"   |_| |_| |_|\___|_____|_| |_|\__,_|  Feb.24  "
+" |_   _| |__   ___| ____|_ __   __| |   Vim    "
+"   | | | '_ \ / _ \  _| | '_ \ / _` |      8.2 "
+"   | | | | | |  __/ |___| | | | (_| |   Neovim "
+"   |_| |_| |_|\___|_____|_| |_|\__,_|    0.5.0 "
 " vim:fenc=utf-8 ff=unix ft=vim

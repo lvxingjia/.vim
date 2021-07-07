@@ -14,75 +14,108 @@ endif
 
 let s:cpo_save = &cpo
 set cpo&vim
-source $VIMHOME/syntax/c.vim
-let s:ft = matchstr(&ft, '^\([^.]\)\+')
+source $VIMHOME/syntax/ansic.vim
 
 " ========================================================================= "
-syn keyword cppStatement    new delete this friend using
-syn keyword cppAccess       public protected private
-syn keyword cppModifier     inline virtual explicit export
-syn keyword cppType         bool wchar_t
-syn keyword cppExceptions   throw try catch
-syn keyword cppOperator     operator typeid
-syn keyword cppOperator     and bitor or xor compl bitand and_eq or_eq xor_eq not not_eq
-syn match   cppCast         "\<\(const\|static\|dynamic\|reinterpret\)_cast\s*<"me=e-1
-syn match   cppCast         "\<\(const\|static\|dynamic\|reinterpret\)_cast\s*$"
-syn keyword cppStorageClass mutable
-syn keyword cppStructure    class typename template namespace
-syn keyword cppBoolean      true false
+syn keyword cppType         auto bool wchar_t char16_t char32_t
+syn keyword cppStatement    co_await co_yield co_return
+syn keyword cppOperator     new delete typeid and or not
+syn keyword cppOperator     bitand bitor xor compl and_eq or_eq xor_eq not_eq
+syn match   cppNormalOper   "\S\@<=&&\|&&\S\@="
+syn match   cppSelfRef      "\*\=\<this\>"
+syn keyword cppInclude      import using
+syn match   cppUsing        "\%(\<using.*\)\@<=;"
+syn keyword cppSpecifier    constexpr constinit consteval __attribute__
+syn keyword cppSpecifier    inline virtual decltype thread_local
+syn keyword cppSpecifier    friend explicit override final noexcept
+syn match   cppSpecifier    "\%(\<virtual.*\)\@<==\s*0\%(;\)\@="
+syn match   cppSpecifier    "=\s*\%(default\|delete\)\>"
+syn keyword cppStorageClass mutable export
+syn keyword cppException    throw try catch
+syn match   cppAccess       "\<\%(public\|protected\|private\)\s*:"
 syn keyword cppConstant     __cplusplus
+syn keyword cppBoolean      true false
+syn keyword cppClass        class
+syn match   cppClass        "\<\u\w*\>"
+syn match   cppOverloadOper "\<operator\>[^(]*(\@="
+syn match   cppOverloadOper "\<operator\>\s*()\s*(\@="
+syn keyword cppTemplate     template
+syn keyword cppTypename     typename
+syn match   cppTypename     "\%(\<template\s*\)\@<=<"
+syn match   cppTypename     "\%(\<template.*\)\@<=>"
+syn match   cppTmplName     "\<\u\d\=\>"
+syn keyword cppConcept      concept
+syn keyword cppRequires     requires
+syn keyword cppNamespace    namespace module
 
-" C++ 11 extensions
-syn keyword cppModifier     override final
-syn keyword cppType         nullptr_t auto
-syn keyword cppExceptions   noexcept
-syn keyword cppStorageClass constexpr decltype thread_local
-syn keyword cppConstant     nullptr
-syn keyword cppConstant     ATOMIC_FLAG_INIT ATOMIC_VAR_INIT
-syn keyword cppConstant     ATOMIC_BOOL_LOCK_FREE ATOMIC_CHAR_LOCK_FREE
-syn keyword cppConstant     ATOMIC_CHAR16_T_LOCK_FREE ATOMIC_CHAR32_T_LOCK_FREE
-syn keyword cppConstant     ATOMIC_WCHAR_T_LOCK_FREE ATOMIC_SHORT_LOCK_FREE
-syn keyword cppConstant     ATOMIC_INT_LOCK_FREE ATOMIC_LONG_LOCK_FREE
-syn keyword cppConstant     ATOMIC_LLONG_LOCK_FREE ATOMIC_POINTER_LOCK_FREE
-syn region  cppRawString    matchgroup=cppDelimiter start=+\%(u8\|[uLU]\)\=R"\z([[:alnum:]_{}[\]#<>%:;.?*\+\-/\^&|~!=,"']\{,16}\)(+ end=+)\z1"+ contains=@Spell
+syn match   cppNumber       "\<\d\+\%(sz\|zu\)\>"
+syn region  cppString       start=+"+ end=+"s\=+
+syn region  cppString       start=+\%(u8\|u\|U\|L\)"+ end=+"s\=+
+syn region  cppRawString    start=+R"+ end=+"s\=+
+syn region  cppCharacter    start=+\%(u\|U\|L\)'+ end=+'+
 
-" C++ 14 extensions
-syn case  ignore
-syn match cppNumbe          display "\<0b[01]\('\=[01]\+\)*\(u\=l\{0,2}\|ll\=u\)\>"
-syn match cppNumber         display "\<[1-9]\('\=\d\+\)*\(u\=l\{0,2}\|ll\=u\)\>" contains=cFloat
-syn match cppNumber         display "\<0x\x\('\=\x\+\)*\(u\=l\{0,2}\|ll\=u\)\>"
-syn case  match
+syn keyword cppCasting      const_cast static_cast dynamic_cast reinterpret_cast
+syn keyword cppAssert       static_assert
+" ========================================================================= "
+syn match   cppSTDnamespace "\<std::\|\<std\>"
+syn match   cppIOstream     "\<\%(std::\)\=\%(cout\|cin\|cerr\|clog\|endl\)\>"
 
-" C++ 14 extensions
-syn keyword cppCoroutines   co_wait co_return co_yield co_await
-syn keyword cppImport       import module
-syn keyword cppConcepts     concept
-syn match   cppOperator     "<=>"
-" GNU C++
-syn match cppMinMax         "[<>]?"
+syn match   cppSTLcontainer "\<\%(std::\)\=\%(vector\|deque\|list\|forward_list\|array\|string\)\>"
+syn match   cppSTLcontainer "\<\%(std::\)\=\%(map\|set\|multimap\|multiset\)\>"
+syn match   cppSTLcontainer "\<\%(std::\)\=\%(unordered_map\|unordered_set\|unordered_multimap\|unordered_multiset\)\>"
+syn match   cppSTLadaptor   "\<\%(std::\)\=\%(stack\|queue\|priority_queue\)\>"
+syn match   cppSTLspecial   "\<\%(std::\)\=\%(pair\|tuple\|bitset\|initializer_list\)\>"
+
+syn match   cppSTLalgorithm "\<\%(std::\)\=\%(sort\)("me=e-1
+
+syn keyword cppSTLtype      size_type
+syn keyword cppSTLiterator  iterator const_iterator
+syn keyword cppLibClass     ostream regex
+syn keyword cppSmartPtr     auto_ptr shared_ptr unique_ptr weak_ptr
+syn match   cppSmartPtr     "\<\%(std::\)\=\%(make_shared\|make_weak_ptr\|make_unique\)\>"
+syn match   cppConstant     "\<\%(std::\)\=nullptr\>"
+syn match   cppPtrType      "\<\%(std::\)\=nullptr_t\>"
 
 " ========================================================================= "
-" iostream
-syn match   cppNamespaceOpr "::"
-syn match   cppSTD          "\%(\<\)\@<=\%(std::\)\=\%(cout\|cin\|cerr\|clog\|endl\)"
-hi def link cppSTD          Builtin
-
-" ========================================================================= "
-hi def link csSpecialType   SpecialItalic
-hi def link cppAccess       cppStatement
-hi def link cppCast         cppStatement
-hi def link cppExceptions   Exception
-hi def link cppOperator     Operator
-hi def link cppStatement    Statement
-hi def link cppModifier     Type
 hi def link cppType         Type
+hi def link cppStatement    Statement
+hi def link cppOperator     Operator
+hi def link cppNormalOper   Normal
+hi def link cppSelfRef      SelfRef
+hi def link cppInclude      Include
+hi def link cppUsing        Typedef
+hi def link cppSpecifier    Specifier
 hi def link cppStorageClass StorageClass
-hi def link cppStructure    Structure
-hi def link cppBoolean      Boolean
+hi def link cppException    Goto
+hi def link cppAccess       Modifier
 hi def link cppConstant     Constant
-hi def link cppDelimiter    Delimiter
-hi def link cppRawString    String
+hi def link cppClass        Class
+hi def link cppOverloadOper RegExpr
+hi def link cppTemplate     Process
+hi def link cppTypename     Parameter
+hi def link cppTmplName     Special
+hi def link cppConcept      RegExpr
+hi def link cppRequires     SelfRef
+hi def link cppNamespace    Method
 hi def link cppNumber       Number
+hi def link cppCharacter    Character
+hi def link cppString       String
+hi def link cppRawString    String
+hi def link cppCasting      Special
+hi def link cppAssert       Macro
+
+hi def link cppSTDnamespace Function
+hi def link cppIOstream     Function
+hi def link cppSTLcontainer Type
+hi def link cppSTLadaptor   Unique
+hi def link cppSTLspecial   Parameter
+
+hi def link cppSTLiterator  Variable
+hi def link cppSTLalgorithm Function
+hi def link cppLibClass     Class
+hi def link cppLibType      Type
+hi def link cppPtrType      Type
+hi def link cppSmartPtr     SelfRef
 
 " ========================================================================= "
 let b:current_syntax = 'cpp'

@@ -110,7 +110,7 @@ hi def link ssRational      Number
 hi def link ssReal          Number
 hi def link ssComplex       Number
 hi def link ssCharacter     Character
-hi def link ssEscape        SpecialChar
+hi def link ssEscape        Escape
 hi def link ssString        String
 hi def link ssSymbol        Variable
 hi def link ssVector        Special

@@ -44,9 +44,32 @@ var ${1:func} = function(${2:args}) {
 	${0}
 };
 endsnippet
-snippet cf "func expr"
+snippet fn "func expr"
 const ${1:func} = function(${2:args}) {
 	${0}
+};
+endsnippet
+snippet cf "constructor func"
+const ${1:CtorName} = function(spec,genl) {
+	const me = ${2:\{\}};
+	const my = genl || {};
+	${0}
+	$1.prototype = {
+	};
+
+	me.__proto__ = $1.prototype;
+	me.__proto__.constructor = $1;
+	return me;
+};
+endsnippet
+snippet fr "constructor func"
+const ${1:CtorName} = function(${2:spec}) {
+	return {
+		${0}
+		$1.prototype = {};
+		__proto__: $1.prototype,
+		[__proto__.constructor]: $1,
+	};
 };
 endsnippet
 snippet ca "arrow func expr"
@@ -80,7 +103,7 @@ endsnippet
 
 snippet class "ES6 class" b
 class ${1:ClassName} {
-	constructor(){
+	constructor() {
 	}
 	${0}
 }

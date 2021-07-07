@@ -16,12 +16,11 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 " ========================================================================= "
-syn match   pyIdentifier    "\$\=\w\+"
-syn match   pySymbol        "\%(!\|@\|#\|$\|%\|^\|&\|\*\|(\|)\)"
-syn match   pySymbol        "\%(`\|\~\|+\|-\|=\|{\|}\|\[\|\]\|\\\||\)"
-syn match   pySymbol        +\%(;\|:\|'\|"\|.\|,\|<\|>\|\/\|?\)+
+syn match   pySymbol        "."
+syn match   pyIdentifier    "\<\w\+\>"
 
 syn match   pyComment       "#.*$"
+syn match   pyVimCmd        "#.*\%(ex\|vi\|vim\)\s*:.*$" contained
 
 syn keyword pyConstant      NotImplemented Ellipsis __debug__
 syn match   pyConstant      "\.\.\."
@@ -52,14 +51,18 @@ syn keyword pyType          bytes bytearray memoryview set frozenset dict
 syn keyword pyType          types enumerate Enum property
 syn match   pyType          "\<\%(id\|type\)\s*("me=e-1
 
+syn match   pyStatement     "\%(^\s*\%(if\|else\|elif\|for\|while\)\>.*\)\@<=:"
 syn keyword pyStatement     as break continue del exec global
 syn keyword pyStatement     nonlocal pass return with yield
 syn keyword pyStatement     __new__ __init__ super all any
-syn keyword pyConditional   if else elif
-syn keyword pyRepeat        for while
-syn keyword pyOperator      and in is not or
+syn match   pyConditional   "\<\%(if\|else\|elif\)\>"
+syn match   pyRepeat        "\<\%(for\|while\)\>"
+syn keyword pyOperator      and not or is
+syn match   pySpecOper      "\%(^\s*\)\@<!\%(\<\%(if\|else\|for\|in\)\>\)"
+syn match   pyOperator      "\%(for\>.*\)\@<=\<in\>"
 syn keyword pyAsync         async await
 
+syn match   pyDeclare       "\%(^\s*\%(def\|class\|cdef\|cpdef\)\>.*\)\@<=:"
 syn keyword pyDeclare       def class lambda cdef cpdef
 syn keyword pySelfRef       self other
 syn match   pySelfRef       "cls\%(()\)\="
@@ -182,21 +185,23 @@ syn match   pyFunctions     "\%(functools\.reduce\|reduce\)\s*("me=e-1
 hi def link pyIdentifier    Identifier
 hi def link pySymbol        Symbol
 hi def link pyComment       Comment
+hi def link pyVimCmd        VimCmd
 hi def link pyConstant      Constant
 hi def link pyBoolean       Boolean
 hi def link pyNumber        Number
-hi def link pyEscape        SpecialChar
+hi def link pyEscape        Escape
 hi def link pyString        String
-hi def link pyDocString     String
+hi def link pyDocString     DocComment
 hi def link pyDocTest       String
 hi def link pyType          Type
 hi def link pyStatement     Statement
 hi def link pyConditional   Conditional
 hi def link pyRepeat        Repeat
 hi def link pyOperator      Operator
+hi def link pySpecOper      Branch
 hi def link pyAsync         Statement
 hi def link pyDeclare       Type
-hi def link pySelfRef       SelfRef
+hi def link pySelfRef       Parameter
 hi def link pyBaseObject    Constant
 hi def link pyVarArgs       Argument
 hi def link pyArgDemlim     Argument
@@ -208,7 +213,7 @@ hi def link pyMagic         Tag
 hi def link pyInclude       Include
 hi def link pyModule        Module
 hi def link pyBuiltin       Function
-hi def link pyException     Cyan
+hi def link pyException     Goto
 hi def link pyExceptName    Exception
 hi def link pyExceptions    Exception
 

@@ -17,14 +17,13 @@ set cpo&vim
 
 " ========================================================================= "
 if main_syntax == "javascript"
-syn match   jsSymbol        "\%(!\|@\|#\|$\|%\|^\|&\|\*\|(\|)\)"
-syn match   jsSymbol        "\%(`\|\~\|+\|-\|=\|{\|}\|\[\|\]\|\\\||\)"
-syn match   jsSymbol        +\%(;\|:\|'\|"\|.\|,\|<\|>\|\/\|?\)+
+syn match   jsSymbol        "."
 syn match   jsIdentifier    "\<\w\+\>"
 endif
 
 syn region  jsComment       start="/\*"  end="\*/" keepend
 syn match   jsComment       "\/\/.*$"
+syn match   jsVimCmd        "^//.*\%(ex\|vi\|vim\)\s*:.*$" contained
 syn match   jsNumber        "-\=\<\d\+L\=\>\|0[xX][0-9a-fA-F]\+\>"
 syn match   jsNumber        "-\=\<\d\+\.\d\+\%([eE][+-]\=\d\+\)"
 syn match   jsNumber        "-\=\<\d\+\.\d\+"
@@ -42,38 +41,45 @@ syn match   jsStatement     "\<yield\>\*\="
 syn keyword jsConditional   if else switch
 syn keyword jsRepeat        while for do in of
 syn keyword jsOperator      new delete instanceof typeof
-syn match   jsOperator      "\%(!\|&&\|||\|?\|:\|>=\|<=\|<\|>\)"
+syn match   jsOperator      "\%(!\|&&\|||\|>=\|<=\|<\|>\)"
+syn match   jsCondOper      ":\|?"
 if main_syntax == "javascript"
 syn match   jsError         "\%(=\)\@<!\%(==\|!=\)\%(=\)\@!"
 else
 syn match   jsOperator      "\%(==\|!=\)"
 endif
 syn match   jsOperator      "\%(===\|!==\)"
-syn match   jsParens        "\%(\%(for\|while\|switch\)\s*\)\@<=("
-syn match   jsParens        "\%(\%(for\|while\|switch\).*\)\@<=)\%(\%(\s*{\)\=\s*$\)\@="
-syn match   jsSemicolon     "\%(\%(for\|while\|switch\).*\)\@<=;"
+syn match   jsParens        "\%(\<\%(if\|for\|while\|switch\)\s*\)\@<=("
+syn match   jsParens        "\%(\<\%(if\|for\|while\|switch\)\>.*\)\@<=)\%(\%(\s*{\|\s*return;\)\=\s*$\)\@="
+syn match   jsSemicolon     "\%(\<\%(if\|for\|while\|switch\)\>.*\)\@<=;"
+syn match   jsSemicolon     "\%(\<\%(continue\|break\|return\)\)\@<=;"
 syn match   jsBraces        "^{$"
 syn match   jsBraces        "\%(^\S.*\)\@<={$"
-syn match   jsBraces        "^};\=$"
+syn match   jsBraces        "^}\%()()\|())\)\=;\=$"
+syn match   jsBraces        "\%(=\s*\)\@<=(\%(function\s*(\)\@="
 syn match   jsLabel         "\%(^\s*\)\@<=\w\+:\%(\s*$\)\@="
 syn match   jsLabel         "\%(\%(break\|continue\)\s\+\)\@<=\w\+\%(\s*;\=\s*$\)\@="
 
 syn keyword jsDeclare       var let const
 syn match   jsType          "\%(:\s*\)\@<=\%(Array\|Boolean\|Date\|Function\|Null\|Number\|Object\|String\|Symbol\|RegExp\|Undefined\)\>"
 syn match   jsType          "\<\%(Array\|Boolean\|Date\|Function\|Null\|Number\|Object\|String\|Symbol\|RegExp\|Undefined\)\%(\.\)\@="
-syn match   jsTypeCasting   "\%(\%(Array\|Boolean\|Date\|Function\|Null\|Number\|Object\|String\|Symbol\|RegExp\|Undefined\)\s*\)\@<=(\%(\w\)\@="
-syn match   jsTypeCasting   "\%(\%(Array\|Boolean\|Date\|Function\|Null\|Number\|Object\|String\|Symbol\|RegExp\|Undefined\)\s*([^()]\+\)\@<=)"
+syn match   jsTypeCasting   "\%(\<\%(Array\|Boolean\|Date\|Function\|Null\|Number\|Object\|String\|Symbol\|RegExp\|Undefined\)\s*\)\@<=(\%(\w\)\@="
+syn match   jsTypeCasting   "\%(\<\%(Array\|Boolean\|Date\|Function\|Null\|Number\|Object\|String\|Symbol\|RegExp\|Undefined\)\s*([^()]\+\)\@<=)"
 syn match   jsFuncDec       "\<function\>\*\="
 syn match   jsFuncDec       "=>"
 syn match   jsVaArg         "\.\.\.\w\+\>"
 syn match   jsFuncArg       "\<arguments\>\|\.\.\.args\>"
-syn keyword jsSelfRef       this that other me my
+syn keyword jsSelfRef       this
+syn keyword jsStrcRef       that other me my
+syn match   jsSpecSelfRef   "\%(\w\)\@<!$\%(\w\)\@!"
 syn match   jsCtorArg       "\%(spec\|genl\)\%(\.\w\+\>\)\="
 syn match   jsSuperMethod   "super\w\+\>"
 
-syn match   jsAttribute     "\%({.*\|^\s*\)\@<=\w\+\s*:"
-syn match   jsAttribute     "\%({.*\|^\s*\)\@<=\[.\+\]\s*:"
+syn match   jsAttribute     "\%({.*\|^\s*\)\@<=\%(\w\+\|\[.\+\]\)\s*:"
+syn match   jsAttribute     "\%(^\s*\)\@<=\%(\w\+\|\[.\+\]\)\%(\s*,\s*$\)\@="
 syn match   jsMethod        "\%(^\s*\%(\%(static\|async\|get\|set\)\=\s*\*\=\s*\)\=\)\@<=\w\+\%(([^()]*)\s*{\s*$\)\@="
+syn match   jsPrivate       "#\w\+"
+
 syn keyword jsMessage       alert confirm prompt status
 syn keyword jsGlobal        self window top parent
 syn keyword jsMember        document event location console
@@ -90,9 +96,9 @@ syn match   jsObjAttr       "\.\%(length\)\>"
 syn match   jsArgAttr       "\%(arguments\)\@<=\.\%(length\)\>"
 syn match   jsGlblFunc      "\%(decodeURI\|decodeURIComponent\|encodeURI\|encodeURIComponent\|escape\|eval\|isFinite\|isNaN\|parseFloat\|parseInt\|unescape\)("me=e-1
 
-syn match   jsPrototype     "\.prototype\>"
-syn match   jsPrototype     "\.prototype\.\%(\w\)\@="
-syn match   jsPrototype     "\.prototype\.constructor\>"
+syn match   jsPrototype     "\.\%(prototype\|__proto__\)\>"
+syn match   jsPrototype     "\.\%(prototype\|__proto__\)\.\%(\w\)\@="
+syn match   jsPrototype     "\.\%(prototype\|__proto__\)\.constructor\>"
 syn match   jsPrototype     "\<Object.prototype\%(\.\)\="
 syn match   jsPrototype     "\<Function.prototype\%(\.\)\="
 syn match   jsFuncApply     "\.\%(apply\|call\|bind\)("me=e-1
@@ -103,16 +109,19 @@ syn match   jsCreate        "\<Object\.create("me=e-1
 syn match   jsObject        "\%(\<Object\.create(\s*\)\@<=\%(\w\+\)\%(\s*)\)\@="
 syn match   jsConstructor   "\%(\<\%(new\|var\|let\)\s\+\)\@<=\<[A-Z]\w*\>"
 syn match   jsConstructor   "\<[A-Z]\w*("me=e-1
-syn match   jsClassName     "\%(\%(class\|extends\)\s\+\)\@<=\w\+\%(\s*{\)\@="
-syn match   jsClassName     "\%(const\s\+\)\@<=\w\+\%(\s*=\s*\%(class\|function(\%(spec\|genl\)\)\)\@="
+syn match   jsClassName     "\%(\%(class\|extends\)\s\+\)\@<=\w\+\%(\s*\%({\|extends\>\)\)\@="
+syn match   jsClassName     "\%(const\s\+\)\@<=\w\+\%(\s*=\s*\%(class\|function\s*(\%(spec\|genl\)\)\)\@="
+syn match   jsClassName     "\%(__proto__\%(\.constructor\)\=\s*=\s*\)\@<=\w\+"
 syn match   jsClassCtor     "\%(^\s*\)\@<=constructor\%(\s*(\)\@="
+syn match   jsClassCtor     "\<\w\+\%(\.prototype\s*=\)\@="
 " ========================================================================= "
 hi def link jsIdentifier    Identifier
 hi def link jsSymbol        Symbol
 hi def link jsComment       Comment
+hi def link jsVimCmd        VimCmd
 hi def link jsNumber        Number
-hi def link jsEscape        SpecialChar
-hi def link jsInlineExpr    SpecialChar
+hi def link jsEscape        Escape
+hi def link jsInlineExpr    Escape
 hi def link jsString        String
 hi def link jsRegExpr       String
 hi def link jsBoolean       Boolean
@@ -121,6 +130,7 @@ hi def link jsStatement     Statement
 hi def link jsConditional   Conditional
 hi def link jsRepeat        Repeat
 hi def link jsOperator      Operator
+hi def link jsCondOper      Branch
 hi def link jsParens        Operator
 hi def link jsSemicolon     Operator
 hi def link jsBraces        Function
@@ -133,9 +143,12 @@ hi def link jsVaArg         Special
 hi def link jsFuncArg       Parameter
 hi def link jsArgAttr       Parameter
 hi def link jsSelfRef       SelfRef
-hi def link jsCtorArg       Structure
+hi def link jsStrcRef       Parameter
+hi def link jsSpecSelfRef   Method
+hi def link jsCtorArg       Special
 hi def link jsSuperMethod   Statement
 hi def link jsAttribute     Label
+hi def link jsPrivate       PrvtAttr
 hi def link jsMethod        Method
 hi def link jsMessage       Function
 hi def link jsMember        Function
@@ -145,7 +158,7 @@ hi def link jsDeprecated    Specifier
 hi def link jsReserved      Tag
 hi def link jsES6Class      Type
 hi def link jsES6Modifier   Process
-hi def link jsES6Super      Statement
+hi def link jsES6Super      Attribute
 hi def link jsException     Exception
 hi def link jsInHTML        Error
 hi def link jsError         Error

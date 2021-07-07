@@ -59,7 +59,7 @@ hi def link pcParens        Structure
 hi def link pcBracks        Variable
 hi def link pcBraces        Function
 hi def link pcComment       Comment
-hi def link pcVimCmd        SpecialComment
+hi def link pcVimCmd        VimCmd
 hi def link pcBoolean       Boolean
 hi def link pcNumber        Number
 hi def link pcString        String
