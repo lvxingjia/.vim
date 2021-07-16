@@ -1,0 +1,125 @@
+priority 99
+# JavaScript
+# vim:ft=snippets
+
+snippet cmt "comment"
+/* ${0} */
+endsnippet
+
+snippet wa "window.alert" b
+window.alert(${0});
+endsnippet
+snippet dw "document.write" b
+document.write(${0});
+endsnippet
+snippet .ih "innerHTML"
+innerHTML = ${0}
+endsnippet
+snippet cl "console.log" b
+console.log(${0});
+endsnippet
+
+snippet gid "get by id"
+document.getElementById("${0}")
+endsnippet
+snippet inh "innerHTML"
+innerHTML = ${0}
+endsnippet
+snippet wrt "write"
+document.write(${0})
+endsnippet
+
+snippet f "func expr"
+function(${1}) {
+	${0}
+};
+endsnippet
+snippet a "arrow func"
+(${1}) => {
+	${0}
+};
+endsnippet
+snippet vf "func expr"
+var ${1:func} = function(${2:args}) {
+	${0}
+};
+endsnippet
+snippet fn "func expr"
+const ${1:func} = function(${2:args}) {
+	${0}
+};
+endsnippet
+snippet cf "constructor func"
+const ${1:CtorName} = function(spec,genl) {
+	const me = ${2:\{\}};
+	const my = genl || {};
+	${0}
+	$1.prototype = {
+	};
+
+	me.__proto__ = $1.prototype;
+	me.__proto__.constructor = $1;
+	return me;
+};
+endsnippet
+snippet fr "constructor func"
+const ${1:CtorName} = function(${2:spec}) {
+	return {
+		${0}
+		$1.prototype = {};
+		__proto__: $1.prototype,
+		[__proto__.constructor]: $1,
+	};
+};
+endsnippet
+snippet ca "arrow func expr"
+const ${1:func} = (${2:args}) => {
+	${0}
+};
+endsnippet
+snippet ii "iife"
+(function(${1}) {
+	${0}
+})();
+endsnippet
+snippet iife "iife"
+(function(${1}) {
+	${0}
+}());
+endsnippet
+
+snippet while "while" Ab
+while (${0})
+endsnippet
+snippet if "if then" Ab
+if (${0})
+endsnippet
+snippet elif "else if" Ab
+else if (${0})
+endsnippet
+snippet for "for" Ab
+for (${0})
+endsnippet
+
+snippet class "ES6 class" b
+class ${1:ClassName} {
+	constructor() {
+	}
+	${0}
+}
+endsnippet
+snippet cc "ES6 class expr" b
+const ${1:ClassName} = class {
+	constructor(){
+	}
+	${0}
+};
+endsnippet
+
+snippet skl "data.js" i
+<span style="color: #6464c8">[${0}]</span>
+endsnippet
+snippet br "data.js" i
+<br/>\
+${0}
+endsnippet

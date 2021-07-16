@@ -1,0 +1,9 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    auto a = "hi, world"sv;
+    std::cout << a << std::endl;
+    return 0;
+}

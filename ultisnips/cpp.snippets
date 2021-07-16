@@ -1,0 +1,148 @@
+priority 99
+# cpp
+# vim:ft=snippets
+
+extends c
+
+snippet std "std::" i
+std::
+endsnippet
+
+# PreProc
+snippet ifc "c" b
+#ifdef __cplusplus
+extern "c" {
+#endif
+${0:${VISUAL}}
+#ifdef __cplusplus
+}
+#endif
+endsnippet
+
+# ForLoop(C++11)
+snippet fori "for loop(C++11)" b
+for(auto &${1:i}: iterable)
+{
+	${0:${VISUAL}}
+}
+endsnippet
+
+# I/O
+snippet cout "std:cout"
+std::cout << ${0} << std::endl;
+endsnippet
+snippet cin "std:cin"
+std::cin >> ${0};
+endsnippet
+
+# Class
+snippet c "class" b
+class ${1:ClassName}
+{
+public:
+	${0}
+};
+endsnippet
+
+snippet cl "def class" b
+class ${1:ClassName} {
+public:
+	$1(${2})
+		: `!p
+snip.rv = ''
+ctor_init(2, snip)
+`{}
+private:`!p
+snip.rv = ''
+snip >> 2
+ctor_attrs(2, snip)
+`
+};
+endsnippet
+
+# Template
+snippet tp "template"
+template <typename T>
+${0}
+endsnippet
+
+# Operator
+snippet oper "operator"
+operator${1}(${0})
+endsnippet
+
+#============================================================#
+
+global !p
+
+last_type = 'int'
+
+class CppArg(object):
+	def __init__(self, arg):
+		global last_type
+		self.type = self.spec = self.name = ''
+		lyst = arg.strip().split('=')[0].split(' ')
+		size = len(lyst)
+		if size > 1:
+			for i, c in enumerate(lyst[-2]):
+				if c == '*' or c == '&':
+					break
+			else:
+				i += 1
+			for j, c in enumerate(lyst[-1]):
+				if c != '*' and c != '&':
+					break
+			if size == 2:
+				self.type = lyst[-2][:i]
+			elif size == 3:
+				self.type = lyst[-3] + ' ' + lyst[-2][:i] if i else lyst[-2][:i]
+			else:
+				self.type = ' '.join(lyst[:-2]) + ' ' + lyst[-2][:i] if i else lyst[-2][:i]
+			self.spec = lyst[-2][i:] + lyst[-1][:j]
+			self.name = lyst[-1][j:]
+		elif size == 1:
+			for i, c in enumerate(lyst[0]):
+				if c == '*' or c == '&':
+					break
+			else:
+				i = 0
+			for j, c in enumerate(lyst[0][i:], start=i):
+				if c != '*' and c != '&':
+					break
+			self.type = lyst[0][:i] if i else last_type
+			self.spec = lyst[0][i:j]
+			self.name = lyst[0][j:]
+		else:
+			return
+		last_type = self.type
+
+
+def ctor_init(pos, snip):
+	global last_type
+	last_type = 'int'
+	args_lyst = t[pos].split(',')
+	args_lyst = [a.strip() for a in args_lyst]
+	args_lyst = [CppArg(a) for a in args_lyst if a]
+	length = len(args_lyst)
+	while length:
+		snip.rv += '{0}{{{0}}}'.format(args_lyst.pop(0).name)
+		length -= 1
+		if length:
+			snip.rv += ', '
+		else:
+			snip.rv += ' '
+
+def ctor_attrs(pos, snip):
+	global last_type
+	last_type = 'int'
+	args_lyst = t[pos].strip().split(',')
+	args_lyst = [a.strip() for a in args_lyst]
+	args_lyst = [CppArg(a) for a in args_lyst if a]
+	for a in args_lyst:
+		snip += '{} {};'.format(a.type + a.spec, a.name)
+
+
+
+
+
+endglobal

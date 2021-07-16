@@ -1,0 +1,403 @@
+priority 99
+# python
+# vim:ft=snippets
+
+# Header
+snippet im "import" b
+import ${0:module}
+endsnippet
+snippet ia "import as" b
+import ${1:module} as ${0:def_name}
+endsnippet
+snippet fi "from import" b
+from ${1:package} import ${0:module}
+endsnippet
+snippet fia "from import as" b
+from ${1:package} import ${2:module} as ${0:def_name}
+endsnippet
+
+snippet ifm "if main" b
+if __name__ == '__main__':
+	${0:main()}
+endsnippet
+
+# Comment
+snippet cm "comment line"
+# ${0}
+endsnippet
+snippet cmt "comment" b
+""" ${0}."""
+endsnippet
+
+# Branch
+snippet i "if"
+if ${1:condition}:
+endsnippet
+snippet if "if then" b
+if ${1:condition}:
+	${0:${VISUAL:pass}}
+endsnippet
+snippet ie "if else" b
+if ${1:condition}:
+	${2:${VISUAL:pass}}
+else:
+	${0:pass}
+endsnippet
+snippet el "else" b
+else:
+	${0:${VISUAL:pass}}
+endsnippet
+snippet ei "elif" b
+elif:
+	${0:${VISUAL:pass}}
+endsnippet
+
+snippet = "val1 or val2" b
+= ${1:value1} if ${2:condition} else ${0:value2}
+endsnippet
+
+snippet ao "and or" b
+${1:condition} and ${2:expression1} or ${0:expression2}
+endsnippet
+
+
+# Loop
+snippet f "for" b
+for ${1:itme} in ${2:iterable}:
+	${0:${VISUAL}}
+endsnippet
+snippet for "for loop" b
+for ${1:itme} in ${2:iterable}:
+	${0:${VISUAL:pass}}
+endsnippet
+
+snippet fi "for in" b
+[for ${1:itme} in ${0:iterable}]
+endsnippet
+snippet fii "for in if" b
+[for ${1:itme} in ${2:iterable} if ${0:condition}]
+endsnippet
+
+snippet w "while loop" b
+while ${1:condition}:
+	${0:${VISUAL:pass}}
+endsnippet
+snippet do "do loop" b
+while 1:
+	${1:${VISUAL:pass}}
+if ${0:condition}:
+	break
+endsnippet
+
+
+# Def
+snippet d "def func" b
+def ${1:func_name}(${2:*args}):
+	${0:pass}
+endsnippet
+snippet de "def func" b
+def ${1:func_name}(${2:*args}) -> ${3:type}:
+	${0:pass}
+endsnippet
+snippet def "func with docstring" b
+def ${1:func_name}(${2:*args}) -> ${3:None}:
+	"""${4:function $1}.
+
+	Args:`!p
+snip.rv = ""
+snip >> 2
+write_args(2,snip)
+`
+	Returns: $3
+	Raises: Todo
+	"""
+	${0:pass}
+endsnippet
+
+snippet di "def __init__" b
+def __init__(self${1}):`!p
+snip.rv = ""
+snip >> 1
+write_attrs(1,snip)
+`
+	${0:pass}
+endsnippet
+snippet dm "def method" b
+def ${1:method_name}(self${2}):
+	${0:pass}
+endsnippet
+snippet dem "def method" b
+def ${1:method_name}(self${2}) -> ${3:type}:
+	${0:pass}
+endsnippet
+snippet defm "method with docstring" b
+def ${1:func_name}(self, ${2:*args}) -> ${3:None}:
+	"""${4:method $1}.
+
+	Args:`!p
+snip.rv = ""
+snip >> 2
+write_args(2,snip)
+`
+	Returns: $3
+	Raises: Todo
+	"""
+	${0:pass}
+endsnippet
+
+snippet ds "def staticmethod" b
+@staticmethod
+def ${1:method_name}(${2:*args}):
+	${0:pass}
+endsnippet
+snippet des "def staticmethod" b
+@staticmethod
+def ${1:method_name}(${2:*args}) -> ${3:type}:
+	${0:pass}
+endsnippet
+snippet dc "def classmethod" b
+@classmethod
+def ${1:method_name}(cls, ${2:*args}):
+	${0:pass}
+endsnippet
+snippet dp "def propertymethod" b
+@property
+def ${1:method_name}(self, ${2:*args}):
+	${0:pass}
+endsnippet
+
+snippet ad "async func" b
+async def ${1:func_name}(${2:*args}):
+	${0:pass}
+endsnippet
+snippet adm "async method" b
+async def ${1:method_name}(self, ${2:*args}):
+	${0:pass}
+endsnippet
+
+
+# Class
+snippet c "def class" b
+class ${1:ClassName}(object):
+	
+	def __init__(self${2}):`!p
+snip.rv = ""
+snip >> 2
+write_attrs(2,snip)
+`
+		${0:pass}
+endsnippet
+snippet cl "def class" b
+class ${1:ClassName}(${2:object}):
+	
+	def __init__(self${3}):`!p
+snip.rv = ""
+snip >> 2
+write_attrs(3,snip)
+`
+		${0:pass}
+endsnippet
+snippet class "class with docstring" b
+class ${1:MyClass}(${2:object}):
+	"""${3:class $1}.
+
+	Attributes:`!p
+snip.rv = ""
+snip >> 2
+write_args(4,snip)
+`
+	Methods:
+	`!p
+snip.rv = ""
+snip >> 2
+write_parents(2,snip)
+`
+	"""
+	def __init__(self${4}):`!p
+snip.rv = ""
+snip >>2
+write_supers(2,snip)
+``!p
+snip.rv = ""
+snip >> 2
+write_attrs(4,snip)
+`
+		${0:pass}
+endsnippet
+
+
+# Keywords
+snippet r "return" b
+return ${0:None}
+endsnippet
+snippet rt "return" b
+return ${0:None}
+endsnippet
+snippet y "yield" b
+yield ${0:0}
+endsnippet
+snippet yd "yield" b
+yield ${0:0}
+endsnippet
+
+
+# Symbols
+snippet _ "__magic__" b
+__${0:magic}__
+endsnippet
+snippet . "self." b
+self.${1:attr} = ${0:value}
+endsnippet
+snippet s "self."
+self.
+endsnippet
+
+
+# Functions
+snippet p "print" b
+print(${0})
+endsnippet
+snippet print "print" b
+print(${0},step=' ',end='\n')
+endsnippet
+snippet .f ".format"
+.format(${0})
+endsnippet
+snippet enum "enumerate"
+enumerate(${0})
+endsnippet
+snippet l "lambda"
+lambda ${1:vars} : ${0:action}
+endsnippet
+snippet ld "lambda"
+${1:func} = lambda ${2:vars} : ${0:action}
+endsnippet
+snippet open "" b
+open('${1:file}',mode='${0:r}')
+endsnippet
+snippet with "with open" b
+with open('${1:file}',mode='${2:r}') as ${3:filename}:
+	${0:pass}
+endsnippet
+snippet awith "async with" b
+async with ${1:expr} as ${2:var}:
+	${0:${VISUAL}}
+endsnippet
+snippet jd "json.dumps" b
+json.dumps(${0:info},indent=4,ensure_ascii=False)
+endsnippet
+
+
+# Decorator
+snippet dd "decorator" b
+def ${0:decorator}(func):
+	def wrapper(*args,**kwargs):
+		res=func(*args,**kwargs)
+		return res
+	return wrapper
+endsnippet
+
+
+# Excpetions
+snippet te "try except" b
+try:
+	${1:${VISUAL:pass}}
+except ${2:Exception} as ${3:e}:
+	${0:raise $3}
+endsnippet
+
+snippet tee "try except else" b
+try:
+	${1:${VISUAL:pass}}
+except ${2:Exception} as ${3:e}:
+	${4:raise $3}
+else:
+	${0:pass}
+endsnippet
+
+snippet tef "try except finally" b
+try:
+	${1:${VISUAL:pass}}
+except ${2:Exception} as ${3:e}:
+	${4:raise $3}
+finally:
+	${0:pass}
+endsnippet
+
+snippet teef "try except else finally" b
+try:
+	${1:${VISUAL:pass}}
+except${2: ${3:Exception} as ${4:e}}:
+	${5:raise}
+else:
+	${6:pass}
+finally:
+	${0:pass}
+endsnippet
+
+#============================================================#
+
+global !p
+
+
+class Arg(object):
+	def __init__(self, arg):
+		self.arg = arg
+		name_and_type = arg.split('=')[0].split(':')
+		self.name = name_and_type[0].strip()
+		self.type = name_and_type[1].strip() if len(name_and_type) == 2 else None
+
+	def __str__(self):
+		return self.name
+
+	def __unicode__(self):
+		return self.name
+
+	def is_kwarg(self):
+		return '=' in self.arg
+
+	def is_vararg(self):
+		return '*' in self.name
+
+	def is_arg(self):
+		return self.name != "self" and self.name != '*' and self.name != '/'
+
+
+
+def get_args(arglist):
+	args = [Arg(arg) for arg in arglist.split(',') if arg]
+	args = [arg for arg in args if arg.name != 'self']
+	return args
+
+def write_attrs(x,snip):
+	arglist = t[x]
+	args = [Arg(arg) for arg in arglist.split(',') if arg]
+	args = [arg for arg in args if arg.is_arg() and not arg.is_vararg()]
+	for arg in args:
+		snip += "self._{0} = {0}".format(arg)
+
+def write_args(x,snip):
+	arglyst = t[x]
+	args = [Arg(arg) for arg in arglyst.split(',') if arg]
+	args = [arg for arg in args if arg.is_arg()]
+	for arg in args:
+		snip += "{0}: {0}.".format(arg)
+
+def write_parents(x,snip):
+	parents = [p.strip() for p in t[x].split(",")]
+	parents = [p for p in parents if p != 'object']
+	if parents:
+		snip.rv = "Parents:"
+	for p in parents:
+		snip.rv += " " + p
+
+def write_supers(x,snip):
+	supers = [s.strip() for s in t[x].split(",")]
+	supers = [s for s in supers if s != 'object']
+	if supers:
+		supers.reverse()
+		for s in supers:
+			snip += "super({0}, self).__init__()".format(s)
+
+endglobal
+

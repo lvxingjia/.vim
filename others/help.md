@@ -1,0 +1,54 @@
+## SyntaxGroup
+* Group1
+    - Comment
+* Group2
+    - Constant
+    - Charracter
+    - Boolean
+    - String
+    - Number
+    - Float
+* Group3
+    - Identifier
+    - Function
+    - Symbol*
+    - Variable*
+    - Argument*
+    - Attribute*
+    - Methond*
+* Group4
+    - Statement
+    - Conditional
+    - Repeat
+    - Label
+    - Operator
+    - Keyword
+    - Exception
+* Group5
+    - PreProc
+    - Include
+    - Define
+    - Macro
+    - PreCondit
+    - Package*
+* Group6
+    - Type
+    - StorageClass
+    - Structure
+    - Typedef
+    - Class*
+    - Modifier*
+* Group7
+    - Special
+    - SpecialTag*
+    - SpecialChar
+    - SpecialString*
+    - SpecialComment
+    - Tag
+    - Delimiter
+    - Debug
+* OtherGroup
+    - Underlined
+    - Ignore
+    - Error
+    - Todo

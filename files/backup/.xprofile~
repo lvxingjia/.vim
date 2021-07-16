@@ -1,0 +1,4 @@
+export LANG=zh_CN.UTF-8
+export LANGGUAGE=zh_CN:en_US
+export LC_ALL=zh_CN:en_US
+
