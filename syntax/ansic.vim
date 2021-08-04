@@ -17,16 +17,14 @@ set cpo&vim
 " ========================================================================= "
 syn region  cComment        start="//" end="$" skip="\\$" keepend contains=cVimCmd,cCommentTitle
 syn region  cComment        start="/\*" end="\*/" contains=cVimCmd,cCommentTitle
-syn region  cComment        start="/\*" end="\*/" contains=cVimCmd,cCommentTitle
 syn match   cVimCmd         "\%(ex\|vi\|vim\)\s*:.*$" contained
 
 syn match   cNumber         "\c\<\d\+u\=l\{,2}\>"
 syn match   cNumber         "\c\<0b[01]\+\>"
 syn match   cNumber         "\<0\o\+\>"
-syn match   cNumber         "\c\<0x\x*\>"
-syn match   cFloat          "\c\<\.\=\d\+f\=\>"
-syn match   cFloat          "\c\<\.\d\+e[+-]\=\d\+f\=\>"
-syn match   cFloat          "\c\<\.\=\x*p[+-]\=\d\+f\=\>"
+syn match   cNumber         "\c\<0x\x\+\>"
+syn match   cFloat          "\c\%(\d\|\s\)\@<=\.\d\+\%(e[+-]\=\d\+\)\=f\=\>"
+syn match   cFloat          "\c\%(\d\|\s\)\@<=\.\x\+\%(p[+-]\=\d\+\)\=f\=\>"
 syn region  cCharacter      start=+'+ end=+'+ skip=+\\'+ contains=cEscape oneline
 syn region  cString         start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=cEscape,cFormat extend
 syn match   cFormat         display "%\%(\d\+\$\)\=[-+' #0*]*\%(\d*\|\*\|\*\d\+\$\)\%(\.\%(\d*\|\*\|\*\d\+\$\)\)\=\%([hlLjzt]\|ll\|hh\)\=\%([aAbdiuoxXDOUfFeEgGcCsSpn]\|\[\^\=.[^]]*\]\)" contained
@@ -39,24 +37,29 @@ syn match   cSpecifier      "\*\=\<\%(const\|volatile\)\>"
 syn keyword cType           int char float double void
 syn keyword cType           long short signed unsigned
 syn keyword cTypeDef        typedef
-syn match   cTypedef        "\%(\<typedef.*\)\@<=;"
+syn match   cBraces         "\%(\<typedef.*\)\@<=;"
 
 syn keyword cOperator       sizeof typeof
 syn match   cOperator       "\%(==\|!=\|&&\|||\|!\)"
+syn region  cOperand        start="\%(\<sizeof\)\@<=(" end=")" oneline
+syn region  cOperand        start="\%(\<sizeof\)\@<=\s" end="\s" skip="+\|-" oneline
 syn match   cCondOper       "?"
 syn match   cCondOper       "\%(:\)\@<!:\%(:\)\@!"
 
-syn keyword cStatement      break case continue default goto return
-syn match   cStatement      "\%(^\%(case\|default\)\)\@<=:\s*$"
+syn keyword cReturn         return
 syn keyword cConditonal     if else switch
 syn keyword cRepeat         do for while
 syn match   cRepeatDelim    "\%(^\%(for\|while\)\>.*\)\@<=;"
+syn keyword cLabel          break case continue default
+syn match   cLabel          "\%(^\%(case\|default\)\)\@<=:\s*$"
+syn match   cLabel          "\%(break\|continue\)\@<=;"
+syn keyword cGoto           goto
 syn match   cLabel          "^\<\w\+\>\s*:\s*$"
-syn match   cLabel          "\%(goto\s\+\)\@<=\<\w\+\>"
+syn match   cLabel          "\%(goto\s\+\)\@<=\<\w\+\s*;"
 
-syn match   cParens         "\%(^\s*\<\%(if\|for\|while\|switch\)\s*\)\@<=("
-syn match   cParens         "\%(^\s*\<\%(if\|for\|while\|switch\)\>.*\)\@<=)\%(\%(\s*{\|;\)\=\s*$\)\@="
-syn match   cSemicolon      "\%(^\s*\<\%(if\|for\|while\|switch\)\>.*\)\@<=;"
+syn match   cParens         "\%(\<\%(if\|for\|while\|switch\)\s*\)\@<=("
+syn match   cParens         "\%(\<\%(if\|for\|while\|switch\)\>.*\)\@<=)\%(\%(\s*{\|;\|\\\)\=\s*\\\=$\)\@="
+syn match   cSemicolon      "\%(\<\%(if\|for\|while\|switch\)\>.*\)\@<=;"
 syn match   cSemicolon      "^\s*;$"
 syn match   cBraces         "^{$"
 syn match   cBraces         "\%(^\S.*\)\@<={$"
@@ -79,7 +82,7 @@ syn keyword cStruct         struct
 syn match   cStruct         "\%(\<struct\s\+\)\@<=\w\+\>"
 syn keyword cUnion          union
 syn match   cUnion          "\%(\<union\s\+\)\@<=\w\+\>"
-syn keyword cEnum           enum
+syn match   cEnum           "\<enum\>"
 syn match   cEnum           "\%(\<enum\s\+\)\@<=\w\+\>"
 
 syn match   cMain           "\<main("me=e-1
@@ -176,17 +179,20 @@ hi def link cStorageClass   StorageClass
 hi def link cSpecifier      Specifier
 hi def link cTypeDef        Typedef
 hi def link cStatement      Statement
+hi def link cReturn         Return
 hi def link cConditonal     Conditional
 hi def link cRepeat         Repeat
 hi def link cLabel          Label
+hi def link cGoto           Goto
 hi def link cOperator       Operator
+hi def link cOperand        Special
 hi def link cCondOper       Branch
-hi def link cParens         Operator
-hi def link cSemicolon      Operator
+hi def link cParens         Statement
+hi def link cSemicolon      Statement
 hi def link cBraces         Function
 hi def link cStructure      Structure
-hi def link cStruct         Structure
-hi def link cUnion          Function
+hi def link cStruct         Struct
+hi def link cUnion          Variable
 hi def link cEnum           Number
 hi def link cPreProc        PreProc
 hi def link cInclude        Include

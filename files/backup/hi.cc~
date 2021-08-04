@@ -1,9 +1,11 @@
-#include <bits/stdc++.h>
+#include <vector>
+
 using namespace std;
 
 int main()
 {
-    auto a = "hi, world"sv;
-    std::cout << a << std::endl;
+    vector<int> a;
+    a.push_back(3);
+    std::cout << a.at(0) << std::endl;
     return 0;
 }

@@ -94,7 +94,11 @@ set swapfile
 set directory=$VIMHOME/files/swap/
 set updatecount=100
 set undofile
-set undodir=$VIMHOME/files/undo/
+if has('nvim')
+    set viminfo+=n$VIMHOME/files/undo/
+else
+    set viminfo+=n$VIMHOME/files/undo/gvim/
+endif
 if has('nvim')
     set viminfo+=n$VIMHOME/files/info/nviminfo
 else
@@ -715,6 +719,7 @@ nmap <F6> :call <SID>RunByConfigs()<CR>
 imap <F6> <Esc>:call <SID>RunByConfigs()<CR>
 vmap <F6> <Esc>:call <SID>RunByConfigs()<CR>
 func! <SID>RunByConfigs() abort
+    exec 'wa'
     exec '!sh d.sh'
 endfunc
 " nmap <F6> :call <SID>RunOnNeovimTerminal()<CR>

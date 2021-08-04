@@ -51,15 +51,18 @@ syn keyword pyType          bytes bytearray memoryview set frozenset dict
 syn keyword pyType          types enumerate Enum property
 syn match   pyType          "\<\%(id\|type\)\s*("me=e-1
 
-syn match   pyStatement     "\%(^\s*\%(if\|else\|elif\|for\|while\)\>.*\)\@<=:"
-syn keyword pyStatement     as break continue del exec global
-syn keyword pyStatement     nonlocal pass return with yield
+syn match   pyStatement     "\%(^\s*\%(if\|else\|elif\|for\|while\)\>.*\)\@<=:$"
+syn keyword pyStatement     as del exec global nonlocal with
 syn keyword pyStatement     __new__ __init__ super all any
 syn match   pyConditional   "\<\%(if\|else\|elif\)\>"
 syn match   pyRepeat        "\<\%(for\|while\)\>"
+syn keyword pyControl       break continue pass
+syn keyword pyReturn        return yield
+
 syn keyword pyOperator      and not or is
-syn match   pySpecOper      "\%(^\s*\)\@<!\%(\<\%(if\|else\|for\|in\)\>\)"
+syn match   pyOperator      "==\|!="
 syn match   pyOperator      "\%(for\>.*\)\@<=\<in\>"
+syn match   pySpecOper      "\%(^\s*\)\@<!\%(\<\%(if\|else\|for\|in\)\>\)"
 syn keyword pyAsync         async await
 
 syn match   pyDeclare       "\%(^\s*\%(def\|class\|cdef\|cpdef\)\>.*\)\@<=:"
@@ -197,6 +200,8 @@ hi def link pyType          Type
 hi def link pyStatement     Statement
 hi def link pyConditional   Conditional
 hi def link pyRepeat        Repeat
+hi def link pyControl       Label
+hi def link pyReturn        Return
 hi def link pyOperator      Operator
 hi def link pySpecOper      Branch
 hi def link pyAsync         Statement
@@ -206,8 +211,8 @@ hi def link pyBaseObject    Constant
 hi def link pyVarArgs       Argument
 hi def link pyArgDemlim     Argument
 hi def link pyFuncArgs      Parameter
-hi def link pyDecorator     Statement
-hi def link pyDecoratorName Statement
+hi def link pyDecorator     Others
+hi def link pyDecoratorName Others
 hi def link pyClass         Class
 hi def link pyMagic         Tag
 hi def link pyInclude       Include

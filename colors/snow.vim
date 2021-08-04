@@ -35,8 +35,8 @@ let s:palette.gui.violet     = {'dark': "#af87ff", 'light': "#6464c8"}
 let s:palette.gui.unique     = {'dark': "#8a7b66", 'light': "#8a7b66"}
 
 let s:palette.cterm.foreg    = {'dark': "159", 'light': "233"}
-let s:palette.cterm.backg    = {'dark':"NONE", 'light':"NONE"}
-" let s:palette.cterm.backg    = {'dark': "232", 'light': "230"}
+" let s:palette.cterm.backg    = {'dark':"NONE", 'light':"NONE"}
+let s:palette.cterm.backg    = {'dark': "232", 'light': "230"}
 let s:palette.cterm.selec    = {'dark': "139", 'light': "195"}
 let s:palette.cterm.white    = {'dark': "255", 'light': "195"}
 let s:palette.cterm.lgrey    = {'dark': "251", 'light': "251"}
@@ -146,20 +146,21 @@ exe "hi! Float"             .s:fg_blue       .s:bg_none       .s:fmt_n
 exe "hi! Character"         .s:fg_magenta    .s:bg_none       .s:fmt_n
 exe "hi! Escape"            .s:fg_violet     .s:bg_none       .s:fmt_n
 exe "hi! String"            .s:fg_green      .s:bg_none       .s:fmt_n
-exe "hi! RegExpr"           .s:fg_teal       .s:bg_none       .s:fmt_n
 exe "hi! Boolean"           .s:fg_pink       .s:bg_none       .s:fmt_n
 " Type
 exe "hi! Type"              .s:fg_blue       .s:bg_none       .s:fmt_n
 exe "hi! UserType"          .s:fg_violet     .s:bg_none       .s:fmt_i
 exe "hi! Specifier"         .s:fg_purple     .s:bg_none       .s:fmt_n
 exe "hi! Modifier"          .s:fg_orange     .s:bg_none       .s:fmt_n
-exe "hi! StorageClass"      .s:fg_blue       .s:bg_none       .s:fmt_n
-exe "hi! Typedef"           .s:fg_purple     .s:bg_none       .s:fmt_n
+exe "hi! StorageClass"      .s:fg_blue       .s:bg_none       .s:fmt_i
+exe "hi! Typedef"           .s:fg_purple     .s:bg_none       .s:fmt_i
+exe "hi! Using"             .s:fg_orange     .s:bg_none       .s:fmt_i
 " Statement
 exe "hi! Statement"         .s:fg_orange     .s:bg_none       .s:fmt_n
 exe "hi! Conditional"       .s:fg_orange     .s:bg_none       .s:fmt_i
 exe "hi! Repeat"            .s:fg_orange     .s:bg_none       .s:fmt_i
-exe "hi! Label"             .s:fg_magenta    .s:bg_none       .s:fmt_n
+exe "hi! Return"            .s:fg_orange     .s:bg_none       .s:fmt_n
+exe "hi! Label"             .s:fg_crimson    .s:bg_none       .s:fmt_i
 exe "hi! Operator"          .s:fg_orange     .s:bg_none       .s:fmt_n
 exe "hi! Branch"            .s:fg_crimson    .s:bg_none       .s:fmt_n
 exe "hi! Goto"              .s:fg_cyan       .s:bg_none       .s:fmt_n
@@ -173,23 +174,24 @@ exe "hi! Argument"          .s:fg_magenta    .s:bg_none       .s:fmt_n
 exe "hi! Parameter"         .s:fg_magenta    .s:bg_none       .s:fmt_i
 " Structure
 exe "hi! Structure"         .s:fg_teal       .s:bg_none       .s:fmt_b
+exe "hi! Struct"            .s:fg_teal       .s:bg_none       .s:fmt_n
 exe "hi! Class"             .s:fg_crimson    .s:bg_none       .s:fmt_b
 exe "hi! SelfRef"           .s:fg_teal       .s:bg_none       .s:fmt_i
 exe "hi! Attribute"         .s:fg_crimson    .s:bg_none       .s:fmt_bi
 " PreProc
-exe "hi! PreProc"           .s:fg_magenta    .s:bg_none       .s:fmt_i
+exe "hi! PreProc"           .s:fg_magenta    .s:bg_none       .s:fmt_n
 exe "hi! Macro"             .s:fg_magenta    .s:bg_none       .s:fmt_n
 exe "hi! Include"           .s:fg_orange     .s:bg_none       .s:fmt_n
 exe "hi! Define"            .s:fg_orange     .s:bg_none       .s:fmt_n
-exe "hi! PreCondit"         .s:fg_orange     .s:bg_none       .s:fmt_n
+exe "hi! PreCondit"         .s:fg_orange     .s:bg_none       .s:fmt_i
 exe "hi! Module"            .s:fg_green      .s:bg_none       .s:fmt_n
 " Error
 exe "hi! Error"             .s:fg_red        .s:bg_none       .s:fmt_b
-exe "hi! Exception"         .s:fg_red        .s:bg_none       .s:fmt_n
+exe "hi! Exception"         .s:fg_red        .s:bg_none       .s:fmt_bi
 exe "hi! Debug"             .s:fg_white      .s:bg_violet     .s:fmt_n
 exe "hi! Todo"              .s:fg_white      .s:bg_yellow     .s:fmt_n
 exe "hi! Ignore"            .s:fg_lgrey      .s:bg_none       .s:fmt_n
-exe "hi! Continued"         .s:fg_white      .s:bg_unique     .s:fmt_n
+exe "hi! Continued"         .s:fg_white      .s:bg_unique     .s:fmt_b
 " Format
 exe "hi! Underlined"        .s:fg_violet     .s:bg_none       .s:fmt_u
 exe "hi! NormalBold"        .s:fg_foreg      .s:bg_none       .s:fmt_b
@@ -220,11 +222,11 @@ exe "hi! OrangeBold"        .s:fg_orange     .s:bg_none       .s:fmt_b
 exe "hi! OrangeItalic"      .s:fg_orange     .s:bg_none       .s:fmt_i
 exe "hi! OrangeBoldItalic"  .s:fg_orange     .s:bg_none       .s:fmt_bi
 exe "hi! OrangeUnderlined"  .s:fg_orange     .s:bg_none       .s:fmt_u
-exe "hi! Yellow"            .s:fg_purple     .s:bg_none       .s:fmt_n
-exe "hi! YellowBold"        .s:fg_purple     .s:bg_none       .s:fmt_b
-exe "hi! YellowItalic"      .s:fg_purple     .s:bg_none       .s:fmt_i
-exe "hi! YellowBoldItalic"  .s:fg_purple     .s:bg_none       .s:fmt_bi
-exe "hi! YellowUnderlined"  .s:fg_purple     .s:bg_none       .s:fmt_u
+exe "hi! Yellow"            .s:fg_yellow     .s:bg_none       .s:fmt_n
+exe "hi! YellowBold"        .s:fg_yellow     .s:bg_none       .s:fmt_b
+exe "hi! YellowItalic"      .s:fg_yellow     .s:bg_none       .s:fmt_i
+exe "hi! YellowBoldItalic"  .s:fg_yellow     .s:bg_none       .s:fmt_bi
+exe "hi! YellowUnderlined"  .s:fg_yellow     .s:bg_none       .s:fmt_u
 exe "hi! Cyan"              .s:fg_cyan       .s:bg_none       .s:fmt_n
 exe "hi! CyanBold"          .s:fg_cyan       .s:bg_none       .s:fmt_b
 exe "hi! CyanItalic"        .s:fg_cyan       .s:bg_none       .s:fmt_i

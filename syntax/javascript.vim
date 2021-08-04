@@ -36,9 +36,10 @@ syn region  jsRegExpr       start=+/[^/*]+me=e-1 skip=+\\\\\|\\/+ end=+/[gimuys]
 syn keyword jsBoolean       true false
 syn keyword jsNull          null undefined NaN Infinity
 
-syn keyword jsStatement     return with case default
+syn keyword jsStatement     with case default
 syn keyword jsConditional   if else switch
 syn keyword jsRepeat        while for do in of
+syn keyword jsReturn        return
 syn match   jsYield         "\<yield\>\*\="
 syn keyword jsGoto          break continue
 syn keyword jsProcess       new delete
@@ -132,8 +133,9 @@ hi def link jsNull          Boolean
 hi def link jsStatement     Statement
 hi def link jsConditional   Conditional
 hi def link jsRepeat        Repeat
-hi def link jsYield         Goto
-hi def link jsGoto          Goto
+hi def link jsReturn        Return
+hi def link jsYield         Return
+hi def link jsGoto          Label
 hi def link jsProcess       Goto
 hi def link jsOperator      Operator
 hi def link jsCondOper      Branch

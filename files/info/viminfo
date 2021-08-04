@@ -11,7 +11,7 @@
 # hlsearch on (H) or off (h):
 ~h
 # Last Search Pattern:
-~MSle0~/coc
+~MSle0~/undo
 
 # Last Substitute Search Pattern:
 ~MSle0&vars.
@@ -20,6 +20,12 @@
 $&
 
 # Command Line History (newest to oldest):
+:xa
+|2,0,1626841813,,"xa"
+:colorscheme snow
+|2,0,1626841705,,"colorscheme snow"
+:wq
+|2,0,1626440693,,"wq"
 :x
 |2,0,1626435067,,"x"
 :PlugInstall
@@ -28,10 +34,6 @@ $&
 |2,0,1626419714,,"h undo"
 :h nudof
 |2,0,1626419708,,"h nudof"
-:colorscheme snow
-|2,0,1626418057,,"colorscheme snow"
-:xa
-|2,0,1626186974,,"xa"
 :echo &background
 |2,0,1626185360,,"echo &background"
 :colorscheme night
@@ -212,8 +214,6 @@ $&
 |2,0,1612683206,,"vs ~/.vim/colors/winter.vim"
 :vs ~/.vim/colors/snow.vim
 |2,0,1612683085,,"vs ~/.vim/colors/snow.vim"
-:wq
-|2,0,1612678766,,"wq"
 :vs ~/.vim/colors/old.vim
 |2,0,1612502181,,"vs ~/.vim/colors/old.vim"
 :tabnew TEST.html
@@ -328,12 +328,12 @@ $&
 |2,0,1611308775,,"h indent"
 
 # Search String History (newest to oldest):
+?/undo
+|2,1,1626841722,47,"undo"
 ?/coc
 |2,1,1626420103,47,"coc"
 ?/undofile
 |2,1,1626419732,47,"undofile"
-?/undo
-|2,1,1626419650,47,"undo"
 ? [\u4E00-\u9FCC]
 |2,1,1625615076,,"[\\u4E00-\\u9FCC]"
 ?/\$
@@ -1722,69 +1722,86 @@ $&
 # Debug Line History (newest to oldest):
 
 # 寄存器:
-""0	CHAR	0
-	562
-<ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDERw0mp67r/QIP+AM2MPVqkvWMu7WPueBznCwsfZy40wCJwnlUcRZy6c+BTxLhZrLSdO5t6jgyMqIvdjol+jzJvXRNdMsH0TYdah7d1T2lKgcgGz/yU6PwjZYvMP6GDXkIJ1yAvQdSXIXxQR0r761blSSYamYl0/eNaMh+SNNC0gY9ctZoLQmztgSMetMcDNCjIWlH7DwzxA85J63N3P1dR6qzs7TrGQb0Wa9KWEM4WSjX3M5YjCcNcSwSLe0wO7vl6LI+wiMHXy5gGcXG/AkGb4sMtb9lCKdLTeKyb5ipKwld99YX6vd1w5TRXV8iPJx8JhYCHbyd2+oIsrqMh6bX6pBpX7sZ184xWxLmbWT8yk8tQVDEG+cbTlcUw87yQDGQFSTnizlqrm3Qf9rii4cFzTKjXNHyruVIdcl9jimD2UeDmxjo/e2oc0QF+44oLC61B2nOxgnW4PzVFs+X+JGs8WwDXWYOkAsVrGdtiYG5AgAH/nBH8QgKFhOLqBsXFi0= github
-|3,1,0,0,1,0,1626435025,>561
-|<"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDERw0mp67r/QIP+AM2MPVqkvWMu7WPueBznCwsfZy40wCJwnlUcRZy6c+BTxLhZrLSdO5t6jgyMqIvdjol+jzJvXRNdMsH0TYdah7d1T2lKgcgGz/yU6PwjZYvMP6GDXkIJ1yAvQdSXIXxQR0r761blSSYamYl0/eNaMh+SNNC0gY9ctZoLQmztgSMetMcDNCjIWlH7DwzxA85J63N3P1dR6qzs7TrGQb0Wa9KWEM4WSjX3M5YjCcNcSwSLe0wO7vl6LI+wiMHXy5gGcXG/AkGb4sMtb9lCKdLTeKyb5ipKwld99YX6vd1w5TRXV8iPJx8JhYCHbyd2+oIsrqMh6bX6pBpX7sZ184xWxLmbWT8yk8tQVDEG+cbTlcUw87yQDGQFSTnizlqrm3Qf9rii4cFzTKjXNHyruVIdcl9jimD2UeDmxjo/e2oc0QF+44oLC61B2
-|<nOxgnW4PzVFs+X+JGs8WwDXWYOkAsVrGdtiYG5AgAH/nBH8QgKFhOLqBsXFi0= github"
-"1	LINE	0
-	
-|3,0,1,1,1,0,1625582106,""
+"0	LINE	0
+	if has('nvim')
+	    set viminfo+=n$VIMHOME/files/info/nviminfo
+	else
+	    set viminfo+=n$VIMHOME/files/info/viminfo
+	endif
+|3,0,0,1,5,0,1626841771,"if has('nvim')","    set viminfo+=n$VIMHOME/files/info/nviminfo","else","    set viminfo+=n$VIMHOME/files/info/viminfo","endif"
+""1	LINE	0
+	set undodir=$VIMHOME/files/undo/
+|3,1,1,1,1,0,1626841808,"set undodir=$VIMHOME/files/undo/"
 "2	LINE	0
 	
-|3,0,2,1,1,0,1625582104,""
+|3,0,2,1,1,0,1625582106,""
 "3	LINE	0
 	
-|3,0,3,1,1,0,1625582103,""
+|3,0,3,1,1,0,1625582104,""
 "4	LINE	0
-	3.处理整合
-|3,0,4,1,1,0,1625582101,"3.处理整合"
-"5	LINE	0
-	$$ y = f(x) $$
-|3,0,5,1,1,0,1625364825,"$$ y = f(x) $$"
-"6	LINE	0
 	
-|3,0,6,1,1,0,1625364824,""
+|3,0,4,1,1,0,1625582103,""
+"5	LINE	0
+	3.处理整合
+|3,0,5,1,1,0,1625582101,"3.处理整合"
+"6	LINE	0
+	$$ y = f(x) $$
+|3,0,6,1,1,0,1625364825,"$$ y = f(x) $$"
 "7	LINE	0
 	
 |3,0,7,1,1,0,1625364824,""
 "8	LINE	0
-	$\tan$
-|3,0,8,1,1,0,1625364823,"$\\tan$"
-"9	LINE	0
 	
-|3,0,9,1,1,0,1625364823,""
+|3,0,8,1,1,0,1625364824,""
+"9	LINE	0
+	$\tan$
+|3,0,9,1,1,0,1625364823,"$\\tan$"
 "j	CHAR	0
 	jjjjjjjjjjjjjjjjllllllllllllllllllllllllllllllllllllllllllsffffff\\rkkkjjjjkkk�F2�F2
 |3,0,19,0,1,0,1612254940,"jjjjjjjjjjjjjjjjllllllllllllllllllllllllllllllllllllllllllsffffff\\\\rkkkjjjjkkk�F2�F2"
 "-	CHAR	0
-	ANGGUAGE
-|3,0,36,0,1,0,1626186965,"ANGGUAGE"
+	viminfo
+|3,0,36,0,1,0,1626841802,"viminfo"
 
 # 文件标记:
-'0  1  0  ~/.ssh/id_rsa.pub
-|4,48,1,0,1626435067,"~/.ssh/id_rsa.pub"
-'1  1  0  ~/cppcode/hi.cc
-|4,49,1,0,1626420185,"~/cppcode/hi.cc"
-'2  1  0  ~/cppcode/hi.cc
-|4,50,1,0,1626420170,"~/cppcode/hi.cc"
+'0  102  0  ~/.vim/.vimrc
+|4,48,102,0,1626841813,"~/.vim/.vimrc"
+'1  1  7  ~/.vim/.gitignore
+|4,49,1,7,1626440693,"~/.vim/.gitignore"
+'2  1  0  ~/.ssh/id_rsa.pub
+|4,50,1,0,1626435067,"~/.ssh/id_rsa.pub"
 '3  1  0  ~/cppcode/hi.cc
-|4,51,1,0,1626419640,"~/cppcode/hi.cc"
+|4,51,1,0,1626420185,"~/cppcode/hi.cc"
 '4  1  0  ~/cppcode/hi.cc
-|4,52,1,0,1626419640,"~/cppcode/hi.cc"
-'5  1  0  /etc/lightdm/
-|4,53,1,0,1626418285,"/etc/lightdm/"
-'6  3  12  ~/.xprofile
-|4,54,3,12,1626186974,"~/.xprofile"
-'7  1  0  ~/.xprofile
-|4,55,1,0,1626186910,"~/.xprofile"
-'8  1  0  ~/.xprofile
-|4,56,1,0,1626186910,"~/.xprofile"
-'9  18  61  ~/.vim/colors/snow.vim
-|4,57,18,61,1626186335,"~/.vim/colors/snow.vim"
+|4,52,1,0,1626420170,"~/cppcode/hi.cc"
+'5  1  0  ~/cppcode/hi.cc
+|4,53,1,0,1626419640,"~/cppcode/hi.cc"
+'6  1  0  ~/cppcode/hi.cc
+|4,54,1,0,1626419640,"~/cppcode/hi.cc"
+'7  1  0  /etc/lightdm/
+|4,55,1,0,1626418285,"/etc/lightdm/"
+'8  3  12  ~/.xprofile
+|4,56,3,12,1626186974,"~/.xprofile"
+'9  1  0  ~/.xprofile
+|4,57,1,0,1626186910,"~/.xprofile"
 
 # 跳转列表 (从新到旧):
+-'  102  0  ~/.vim/.vimrc
+|4,39,102,0,1626841813,"~/.vim/.vimrc"
+-'  1082  0  ~/.vim/.vimrc
+|4,39,1082,0,1626841722,"~/.vim/.vimrc"
+-'  1  0  ~/tcpl/istc.c
+|4,39,1,0,1626841714,"~/tcpl/istc.c"
+-'  1  7  ~/.vim/.gitignore
+|4,39,1,7,1626440693,"~/.vim/.gitignore"
+-'  1  7  ~/.vim/.gitignore
+|4,39,1,7,1626440693,"~/.vim/.gitignore"
+-'  1  0  ~/.ssh/id_rsa.pub
+|4,39,1,0,1626435067,"~/.ssh/id_rsa.pub"
+-'  1  0  ~/.ssh/id_rsa.pub
+|4,39,1,0,1626435067,"~/.ssh/id_rsa.pub"
+-'  1  0  ~/.ssh/id_rsa.pub
+|4,39,1,0,1626435067,"~/.ssh/id_rsa.pub"
 -'  1  0  ~/.ssh/id_rsa.pub
 |4,39,1,0,1626435067,"~/.ssh/id_rsa.pub"
 -'  1  0  ~/cppcode/hi.cc
@@ -1852,141 +1869,242 @@ $&
 -'  1  0  ~/cppcode/hi.cc
 |4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626420170,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 -'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
--'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
--'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
--'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
--'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
--'  1  0  ~/cppcode/hi.cc
-|4,39,1,0,1626419640,"~/cppcode/hi.cc"
--'  1  0  /etc/lightdm/
-|4,39,1,0,1626418285,"/etc/lightdm/"
--'  1  0  /etc/lightdm/
-|4,39,1,0,1626418285,"/etc/lightdm/"
--'  1  0  /etc/lightdm/
-|4,39,1,0,1626418285,"/etc/lightdm/"
+|4,39,1,0,1626420185,"~/cppcode/hi.cc"
 
 # 文件内的标记历史记录 (从新到旧):
+
+> ~/.vim/.vimrc
+	*	1626841808	0
+	"	102	0
+	^	100	43
+	.	102	0
+	+	1074	11
+	+	1072	0
+	+	1079	1
+	+	1079	0
+	+	1085	44
+	+	1085	21
+	+	1085	0
+	+	1085	43
+	+	1085	1
+	+	1085	0
+	+	1075	0
+	+	1079	0
+	+	1076	33
+	+	1079	0
+	+	1077	0
+	+	1085	0
+	+	1075	0
+	+	1081	0
+	+	1080	0
+	+	1081	42
+	+	1082	21
+	+	1083	10
+	+	1084	6
+	+	1083	32
+	+	1086	0
+	+	1179	50
+	+	655	11
+	+	656	0
+	+	654	31
+	+	648	19
+	+	655	0
+	+	663	0
+	+	644	29
+	+	673	26
+	+	1263	19
+	+	1263	6
+	+	1263	18
+	+	1263	0
+	+	1263	11
+	+	1263	4
+	+	1263	0
+	+	1263	11
+	+	1262	41
+	+	1263	0
+	+	1274	0
+	+	1274	1
+	+	1271	1
+	+	1270	1
+	+	1262	1
+	+	1271	0
+	+	1	0
+	+	241	1
+	+	1263	14
+	+	110	0
+	+	109	1
+	+	110	0
+	+	109	0
+	+	1263	0
+	+	143	1
+	+	144	1
+	+	143	1
+	+	143	0
+	+	144	0
+	+	143	40
+	+	143	21
+	+	143	24
+	+	143	0
+	+	144	0
+	+	143	0
+	+	1073	0
+	+	1271	0
+	+	1274	0
+	+	1272	0
+	+	1273	0
+	+	1271	1
+	+	1193	22
+	+	1195	0
+	+	1193	0
+	+	1195	0
+	+	919	14
+	+	919	51
+	+	920	1
+	+	919	36
+	+	920	1
+	+	921	0
+	+	919	40
+	+	920	0
+	+	921	1
+	+	920	0
+	+	921	0
+	+	154	20
+	+	164	20
+	+	1077	1
+	+	1078	9
+	+	97	0
+	+	98	36
+	+	100	36
+	+	98	38
+	+	100	42
+	+	102	0
+
+> ~/tcpl/istc.c
+	*	1626841711	0
+	"	1	0
+
+> ~/.vim/.gitignore
+	*	1626440691	0
+	"	1	7
+	^	1	8
+	.	1	7
+	+	1	7
 
 > ~/.ssh/id_rsa.pub
 	*	1626435063	0
@@ -1995,112 +2113,6 @@ $&
 > ~/cppcode/hi.cc
 	*	1626420183	0
 	"	1	0
-
-> ~/.vim/.vimrc
-	*	1626420128	0
-	"	1078	15
-	^	1074	10
-	.	1074	9
-	+	1075	29
-	+	1075	30
-	+	1075	26
-	+	1075	1
-	+	1075	0
-	+	1068	11
-	+	1070	11
-	+	1068	0
-	+	1075	1
-	+	1075	0
-	+	1081	44
-	+	1081	21
-	+	1081	0
-	+	1081	43
-	+	1081	1
-	+	1081	0
-	+	1071	0
-	+	1075	0
-	+	1072	33
-	+	1075	0
-	+	1073	0
-	+	1081	0
-	+	1071	0
-	+	1077	0
-	+	1076	0
-	+	1077	42
-	+	1078	21
-	+	1079	10
-	+	1080	6
-	+	1079	32
-	+	1082	0
-	+	1175	50
-	+	651	11
-	+	652	0
-	+	650	31
-	+	644	19
-	+	651	0
-	+	659	0
-	+	640	29
-	+	669	26
-	+	1259	19
-	+	1259	6
-	+	1259	18
-	+	1259	0
-	+	1259	11
-	+	1259	4
-	+	1259	0
-	+	1259	11
-	+	1258	41
-	+	1259	0
-	+	1270	0
-	+	1270	1
-	+	1267	1
-	+	1266	1
-	+	1258	1
-	+	1267	0
-	+	1	0
-	+	237	1
-	+	1259	14
-	+	106	0
-	+	105	1
-	+	106	0
-	+	105	0
-	+	1259	0
-	+	139	1
-	+	140	1
-	+	139	1
-	+	139	0
-	+	140	0
-	+	139	40
-	+	139	21
-	+	139	24
-	+	139	0
-	+	140	0
-	+	139	0
-	+	1069	0
-	+	1267	0
-	+	1270	0
-	+	1268	0
-	+	1269	0
-	+	1267	1
-	+	1189	22
-	+	1191	0
-	+	1189	0
-	+	1191	0
-	+	915	14
-	+	915	51
-	+	916	1
-	+	915	36
-	+	916	1
-	+	917	0
-	+	915	40
-	+	916	0
-	+	917	1
-	+	916	0
-	+	917	0
-	+	150	20
-	+	160	20
-	+	1073	1
-	+	1074	9
 
 > /usr/share/vim/vim82/doc/undo.txt
 	*	1626419758	0
@@ -4257,16 +4269,3 @@ $&
 	.	4	0
 	+	3	0
 	+	4	0
-
-> ~/.vim/syntax/json.vim
-	*	1611696271	0
-	"	1	0
-
-> ~/.vim/syntax/c.vim
-	*	1611696108	0
-	"	352	0
-	^	4	13
-	.	5	0
-	+	3	0
-	+	4	0
-	+	5	0

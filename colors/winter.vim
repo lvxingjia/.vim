@@ -131,6 +131,7 @@ exe "hi! PrvtAttr"          .s:fg_green      .s:bg_backg      .s:fmt_n
 exe "hi! Statement"         .s:fg_yellow     .s:bg_backg      .s:fmt_n
 exe "hi! Conditional"       .s:fg_yellow     .s:bg_backg      .s:fmt_i
 exe "hi! Repeat"            .s:fg_yellow     .s:bg_backg      .s:fmt_i
+exe "hi! Return"            .s:fg_yellow     .s:bg_backg      .s:fmt_n
 exe "hi! Label"             .s:fg_magenta    .s:bg_backg      .s:fmt_n
 exe "hi! Operator"          .s:fg_brown      .s:bg_backg      .s:fmt_n
 exe "hi! Branch"            .s:fg_brown      .s:bg_backg      .s:fmt_n
@@ -148,8 +149,10 @@ exe "hi! Module"            .s:fg_green      .s:bg_backg      .s:fmt_n
 exe "hi! Type"              .s:fg_blue       .s:bg_backg      .s:fmt_n
 exe "hi! Declare"           .s:fg_blue       .s:bg_backg      .s:fmt_n
 exe "hi! Structure"         .s:fg_cyan       .s:bg_backg      .s:fmt_n
+exe "hi! Struct"            .s:fg_cyan       .s:bg_backg      .s:fmt_n
 exe "hi! Class"             .s:fg_red        .s:bg_backg      .s:fmt_n
 exe "hi! Typedef"           .s:fg_purple     .s:bg_backg      .s:fmt_n
+exe "hi! Using"             .s:fg_yellow     .s:bg_backg      .s:fmt_n
 exe "hi! StorageClass"      .s:fg_blue       .s:bg_backg      .s:fmt_n
 exe "hi! Specifier"         .s:fg_purple     .s:bg_backg      .s:fmt_n
 exe "hi! Modifier"          .s:fg_brown      .s:bg_backg      .s:fmt_n
@@ -157,7 +160,6 @@ exe "hi! Modifier"          .s:fg_brown      .s:bg_backg      .s:fmt_n
 exe "hi! Special"           .s:fg_cyan       .s:bg_backg      .s:fmt_n
 exe "hi! UserType"          .s:fg_cyan       .s:bg_backg      .s:fmt_i
 exe "hi! Escape"            .s:fg_cyan       .s:bg_backg      .s:fmt_n
-exe "hi! RegExpr"           .s:fg_cyan       .s:bg_backg      .s:fmt_n
 exe "hi! VimCmd"            .s:fg_dgrey      .s:bg_backg      .s:fmt_n
 exe "hi! Unique"            .s:fg_brown      .s:bg_backg      .s:fmt_n
 exe "hi! Tag"               .s:fg_blue       .s:bg_backg      .s:fmt_n
